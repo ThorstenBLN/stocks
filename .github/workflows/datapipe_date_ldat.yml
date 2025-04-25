@@ -1,0 +1,74 @@
+name: data-pipeline-dates-ldat
+
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: 15 0 * * 1,2,3,4,5 # every day at 01:15 except saturdays and sundays- crontab guru for more info
+
+jobs:
+  run-dates-data_1:
+    runs-on: ubuntu-latest # 1. create an ubuntu instance
+    steps:
+      - name: Checkout repo content # 2. pull all code from github repo
+        uses: actions/checkout@v4 
+        with: 
+          token: ${{ secrets.ACCESS_TOKEN }} # give workflow read and write access  to repo 18:36
+      - name: setup python # 3. create a python env
+        uses: actions/setup-python@v5 
+        with:
+          python-version: '3.9'
+          cache: 'pip' # pip libraries can be called from cache and don't have to be installed only once
+      - name: install dependencies # 4. install the necessary libraries
+        run: pip install -r requirements.txt
+      - name: run data and recent dates script # 5. run the python script
+        run: python extract_data_1.py
+      - name: check repo for changes # checking difference between staged changes and öast commits quiet: 0 when no changes true when changes
+        id: git-check
+        run: |           # checking difference between staged changes and öast commits quiet: 0 when no changes true when changes and set it as environmental variable (changes())
+          git config user.name 'github-actions'
+          git config user.email 'github-actions@gibthub.com'
+          git add .
+          git diff --staged --quiet || echo "changes=true" >> $GITHUB_ENV 
+      - name: commit and push if changes
+        if: env.changes == 'true'
+        run: |
+          git commit -m "updated dates and ldata 1"
+          git push
+  run-data_2:
+    needs: run-dates-data_1
+    runs-on: ubuntu-latest # 1. create an ubuntu instance
+    steps:
+      - name: Sleep for 60 seconds
+        run: sleep 60s
+        shell: bash
+      - name: Checkout repo content # 2. pull all code from github repo
+        uses: actions/checkout@v4 
+        with: 
+          token: ${{ secrets.ACCESS_TOKEN }} # give workflow read and write access  to repo 18:36
+      - name: pull ldata part 1
+        id: git-check-1
+        run: |           # checking difference between staged changes and öast commits quiet: 0 when no changes true when changes and set it as environmental variable (changes())
+          git config user.name 'github-actions'
+          git config user.email 'github-actions@gibthub.com'
+          git pull
+      - name: setup python # 3. create a python env
+        uses: actions/setup-python@v5 
+        with:
+          python-version: '3.9'
+          cache: 'pip' # pip libraries can be called from cache and don't have to be installed only once
+      - name: install dependencies # 4. install the necessary libraries
+        run: pip install -r requirements.txt
+      - name: run data and recent dates script # 5. run the python script
+        run: python extract_data_2.py
+      - name: check repo for changes # checking difference between staged changes and öast commits quiet: 0 when no changes true when changes
+        id: git-check
+        run: |           # checking difference between staged changes and öast commits quiet: 0 when no changes true when changes and set it as environmental variable (changes())
+          git config user.name 'github-actions'
+          git config user.email 'github-actions@gibthub.com'
+          git add .
+          git diff --staged --quiet || echo "changes=true" >> $GITHUB_ENV 
+      - name: commit and push if changes
+        if: env.changes == 'true'
+        run: |
+          git commit -m "updated ldata"
+          git push

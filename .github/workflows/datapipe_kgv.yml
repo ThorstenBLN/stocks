@@ -1,0 +1,74 @@
+name: dp_kgvs
+
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: 15 14 * * 0 # every sunday at 15:15 - crontab guru for more info
+
+jobs:
+  run-kgv_real:
+    runs-on: ubuntu-latest # 1. create an ubuntu instance
+    steps:
+      - name: Checkout repo content # 2. pull all code from github repo
+        uses: actions/checkout@v4 
+        with: 
+          token: ${{ secrets.ACCESS_TOKEN }} # give workflow read and write access  to repo 18:36
+      - name: setup python # 3. create a python env
+        uses: actions/setup-python@v5 
+        with:
+          python-version: '3.9'
+          cache: 'pip' # pip libraries can be called from cache and don't have to be installed only once
+      - name: install dependencies # 4. install the necessary libraries
+        run: pip install -r requirements.txt
+      - name: run dates and kgv script # 5. run the python script
+        run: python extract_kgv_real.py
+      - name: check repo for changes # checking difference between staged changes and öast commits quiet: 0 when no changes true when changes
+        id: git-check
+        run: |           # checking difference between staged changes and öast commits quiet: 0 when no changes true when changes and set it as environmental variable (changes())
+          git config user.name 'github-actions'
+          git config user.email 'github-actions@gibthub.com'
+          git add .
+          git diff --staged --quiet || echo "changes=true" >> $GITHUB_ENV 
+      - name: commit and push if changes
+        if: env.changes == 'true'
+        run: |
+          git commit -m "updated kgv_real"
+          git push
+  run-kgv_est:
+    needs: run-kgv_real # start when the worklow kgv_real has ended
+    runs-on: ubuntu-latest # 1. create an ubuntu instance
+    steps:
+      - name: Sleep for 60 seconds
+        run: sleep 60s
+        shell: bash
+      - name: Checkout repo content # 2. pull all code from github repo
+        uses: actions/checkout@v4 
+        with: 
+          token: ${{ secrets.ACCESS_TOKEN }} # give workflow read and write access  to repo 18:36
+      - name: pull the kgv_real data
+        id: git-check-1
+        run: |           # checking difference between staged changes and öast commits quiet: 0 when no changes true when changes and set it as environmental variable (changes())
+          git config user.name 'github-actions'
+          git config user.email 'github-actions@gibthub.com'
+          git pull
+      - name: setup python # 3. create a python env
+        uses: actions/setup-python@v5 
+        with:
+          python-version: '3.9'
+          cache: 'pip' # pip libraries can be called from cache and don't have to be installed only once
+      - name: install dependencies # 4. install the necessary libraries
+        run: pip install -r requirements.txt
+      - name: run kgv est and combine kgv # 5. run the python script
+        run: python extract_kgv_est.py
+      - name: check repo for changes # checking difference between staged changes and öast commits quiet: 0 when no changes true when changes
+        id: git-check-2
+        run: |           # checking difference between staged changes and öast commits quiet: 0 when no changes true when changes and set it as environmental variable (changes())
+          git config user.name 'github-actions'
+          git config user.email 'github-actions@gibthub.com'
+          git add .
+          git diff --staged --quiet || echo "changes=true" >> $GITHUB_ENV 
+      - name: commit and push if changes
+        if: env.changes == 'true'
+        run: |
+          git commit -m "updated kgv_est"
+          git push

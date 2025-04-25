@@ -1,0 +1,74 @@
+name: data-pipeline-isin_dates
+
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: 15 23 * * 6 # every saturday at 1:15 Berlinian time
+
+jobs:
+  run-data-pipeline-isin:
+    runs-on: ubuntu-latest # 1. create an ubuntu instance
+    steps:
+      - name: Checkout repo content # 2. pull all code from github repo
+        uses: actions/checkout@v4 
+        with: 
+          token: ${{ secrets.ACCESS_TOKEN }} # give workflow read and write access  to repo 18:36
+      - name: setup python # 3. create a python env
+        uses: actions/setup-python@v5 
+        with:
+          python-version: '3.9'
+          cache: 'pip' # pip libraries can be called from cache and don't have to be installed only once
+      - name: install dependencies # 4. install the necessary libraries
+        run: pip install -r requirements.txt
+      - name: run download and check isin # 5. run the python script
+        run: python extract_isin.py
+      - name: check repo for changes # checking difference between staged changes and öast commits quiet: 0 when no changes true when changes
+        id: git-check
+        run: |           # checking difference between staged changes and öast commits quiet: 0 when no changes true when changes and set it as environmental variable (changes())
+          git config user.name 'github-actions'
+          git config user.email 'github-actions@gibthub.com'
+          git add .
+          git diff --staged --quiet || echo "changes=true" >> $GITHUB_ENV 
+      - name: commit and push if changes
+        if: env.changes == 'true'
+        run: |
+          git commit -m "updated isins"
+          git push
+  run-dates:
+    needs: run-data-pipeline-isin # start when the worklow kgv_real has ended
+    runs-on: ubuntu-latest # 1. create an ubuntu instance
+    steps:
+      - name: Sleep for 60 seconds
+        run: sleep 60s
+        shell: bash
+      - name: Checkout repo content # 2. pull all code from github repo
+        uses: actions/checkout@v4 
+        with: 
+          token: ${{ secrets.ACCESS_TOKEN }} # give workflow read and write access  to repo 18:36
+      - name: pull isin
+        id: git-check-1
+        run: |           # checking difference between staged changes and öast commits quiet: 0 when no changes true when changes and set it as environmental variable (changes())
+          git config user.name 'github-actions'
+          git config user.email 'github-actions@gibthub.com'
+          git pull
+      - name: setup python # 3. create a python env
+        uses: actions/setup-python@v5 
+        with:
+          python-version: '3.9'
+          cache: 'pip' # pip libraries can be called from cache and don't have to be installed only once
+      - name: install dependencies # 4. install the necessary libraries
+        run: pip install -r requirements.txt
+      - name: run extract dates # 5. run the python script
+        run: python extract_dates.py
+      - name: check repo for changes # checking difference between staged changes and öast commits quiet: 0 when no changes true when changes
+        id: git-check-2
+        run: |           # checking difference between staged changes and öast commits quiet: 0 when no changes true when changes and set it as environmental variable (changes())
+          git config user.name 'github-actions'
+          git config user.email 'github-actions@gibthub.com'
+          git add .
+          git diff --staged --quiet || echo "changes=true" >> $GITHUB_ENV 
+      - name: commit and push if changes
+        if: env.changes == 'true'
+        run: |
+          git commit -m "updated dates"
+          git push
