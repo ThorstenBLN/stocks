@@ -9,10 +9,6 @@ import re
 import janitor
 import os
 
-FMP_KEY = os.getenv("FMP_KEY")
-if FMP_KEY is None:
-    from credentials import FMP_KEY
-
 user_agent_list = [
         "Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.1 (KHTML, like Gecko) Chrome/22.0.1207.1 Safari/537.1",
         "Mozilla/5.0 (X11; CrOS i686 2268.111.0) AppleWebKit/536.11 (KHTML, like Gecko) Chrome/20.0.1132.57 Safari/536.11",
@@ -110,38 +106,6 @@ def get_hist_prices(data: pd.DataFrame, dates:dict):
                 continue
             # price = df_hist.loc[df_hist['Date'] == date]['Close'].values[0]
     return df_prices
-
-def get_fmp_symbols(exchange_names:list=None, sym_type=None):
-    '''get list of dictionaries of all stocks of the chosen trade exchange with symbol and name info'''
-    url = f"https://financialmodelingprep.com/api/v3/stock/list?apikey={FMP_KEY}"
-    response = requests.get(url)
-    if response.status_code == 200:
-        symbols = response.json()
-        if exchange_names is None:
-            return pd.DataFrame([symbol for symbol in symbols if symbol['type'] == sym_type])
-        return pd.DataFrame([symbol for symbol in symbols if symbol['exchangeShortName'] in exchange_names and symbol['type'] == sym_type])
-    else:
-        print(response.content)
-    return pd.DataFrame()
-    
-
-def add_isin(df_symb:pd.DataFrame):
-    '''add isin to the list of symbols and returns a dataframe with company info'''
-    df_symb['isin'] = np.nan
-    for i, row in df_symb.iterrows():
-        print(i)
-        url = f"https://financialmodelingprep.com/api/v3/profile/{row['symbol']}?apikey={FMP_KEY}"
-        response = requests.get(url)
-        if response.status_code == 200:
-            response = response.json()
-            try: 
-                df_symb.at[i]['isin'] = response[0]['isin']
-            except:
-                continue
-        else:
-            print(response.content)
-        return df_symb
-    return None
 
 def yf_data_available(symbol):
     '''checks data availability of a certain symbol in yfinance'''
