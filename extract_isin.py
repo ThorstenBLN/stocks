@@ -102,7 +102,7 @@ for row in df_xetra_check.loc[df_xetra_check['data_yf'] == 1].iloc[:].itertuples
         print(row.Index, row.isin)
     # fin_links.append(f.get_url_finanzen(row.isin, row.name, "XFRA"))
     fin_links.append(f.get_url_finanzen_xetra(row.isin, row.name))
-    time.sleep(np.random.uniform(0.2, 0.5))
+    time.sleep(np.random.uniform(0.2, 0.6))
 df_fin_links = pd.DataFrame(fin_links)
 df_fin_links.rename(columns={'symbol':'isin'}, inplace=True)
 # add links and check if symbols are identical 
@@ -110,7 +110,7 @@ df_fin_links['kgv_old_url'] = BASE_URL + "bilanz_guv/" + df_fin_links['name_fina
 df_fin_links['kgv_est_url'] = BASE_URL + "schaetzungen/" + df_fin_links['name_finanzen']
 
 # 4. merge all data and save final list
-df_check_final = df_xetra_check.merge(df_fin_links[['isin', 'name_finanzen', 'stock_url', 'termine_url', 'kgv_old_url', 'kgv_est_url']], on='isin', how='left')
+df_check_final = df_xetra_check.merge(df_fin_links[['isin', 'name_finanzen', 'symbol_finanzen', 'stock_url', 'termine_url', 'kgv_old_url', 'kgv_est_url']], on='isin', how='left')
 mask = (df_check_final['data_yf'] == 1) & (~df_check_final['name_finanzen'].isna())
 df_check_final['data_all'] = np.where(mask, 1, 0)
 # save final files (updated symbol file and deleted file)

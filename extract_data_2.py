@@ -14,10 +14,10 @@ PATH = "./data/"
 FILE_SYMBOLS = "symbols.xlsx"
 FILE_DATES = "dates.xlsx"
 FILE_KGV = "kgv_5y.xlsx"
-FILE_RESULT = "result.xlsx"
+FILE_RESULT = "result_hist.csv"
 FILE_DATA = "data_all.xlsx"
 FILE_DATA_1 = "data_all_1.xlsx"
-FILE_RESULT_DAY  = "result_last_download.xlsx"
+FILE_RESULT_DAY  = "result.xlsx"
 
 INDEX_SYMBOL = "^990100-USD-STRD" #"^GDAXI"
 NA_PENALTY = -0.333
@@ -26,8 +26,10 @@ DAYS_THRES = 85
 # 1. load base data ####################################################################
 if not os.path.exists(PATH + FILE_RESULT_DAY): # for the first time there is no result file
     df_result_cur = pd.DataFrame()
+    df_result_hist = pd.DataFrame()
 else:
     df_result_cur = pd.read_excel(PATH + FILE_RESULT_DAY)
+    df_result_hist = pd.read_csv(PATH + FILE_RESULT)
 df_base_orig = pd.read_excel(PATH + FILE_SYMBOLS)
 mask = (df_base_orig['data_all'] == 1) & (df_base_orig['isin'].notna())
 df_base = df_base_orig.loc[mask].copy()
@@ -81,12 +83,12 @@ print("code data levermann finished successfully")
 df_kgv = pd.read_excel(PATH + FILE_KGV)
 # df_data = pd.read_excel(PATH + FILE_DATA)
 df_data['forward_kgv'] = np.where(df_data['forward_kgv'] == "Infinity", np.inf, df_data['forward_kgv']).astype('float')
-df_data_complete = df_data.merge(df_kgv, on='symbol', how='left')
+df_data_complete = df_data.merge(df_kgv, on='isin', how='left')
 
 df_result = f.add_levermann_score(df_data_complete, NA_PENALTY)
-df_result_tot = pd.concat([df_result_cur, df_result], axis=0).reset_index(drop=True)
 df_result.to_excel(PATH + FILE_RESULT_DAY, index=False)
-df_result_tot.to_excel(PATH + FILE_RESULT, index=False)
+df_result_tot = pd.concat([df_result_hist, df_result], axis=0).reset_index(drop=True)
+df_result_tot.to_csv(PATH + FILE_RESULT, index=False)
 
 
 

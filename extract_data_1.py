@@ -14,9 +14,10 @@ PATH = "./data/"
 FILE_SYMBOLS = "symbols.xlsx"
 FILE_DATES = "dates.xlsx"
 FILE_KGV = "kgv_5y.xlsx"
-FILE_RESULT = "result.xlsx"
-FILE_DATA = "data_all_1.xlsx"
-FILE_RESULT_DAY  = "result_last_download.xlsx"
+FILE_RESULT = "result_hist.csv"
+FILE_DATA = "data_all.xlsx"
+FILE_DATA_1 = "data_all_1.xlsx"
+FILE_RESULT_DAY  = "result.xlsx"
 
 INDEX_SYMBOL = "^990100-USD-STRD" #"^GDAXI"
 NA_PENALTY = -0.333
@@ -86,7 +87,7 @@ for row in df_base.iloc[:end].itertuples():
 df_data = pd.DataFrame(data)
 df_data['data_date'] = pd.to_datetime(df_data['data_date']).dt.date
 # save first part of data to file
-df_data.to_excel(PATH + FILE_DATA, index=False)
+df_data.to_excel(PATH + FILE_DATA_1, index=False)
 print("code data levermann finished successfully")
 
 
