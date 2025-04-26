@@ -124,7 +124,7 @@ def get_levermann_data(row, df_dax_hist, df_dax_prices, dates, qrt_date, jv_date
     FIELDS = ['data_date', 'industry', 'finance', 'cap_size', 'market_cap', 'eigenkapital_rendite', 'ebit_marge', 'ek_quote', 'forward_kgv','reaktion_qrt', 'gewinnrevision', 
               'up_6m', 'up_12m', 'kursmomentum', 'up_vs_dax_3m', 'up_vs_dax_6m', 'cur_gewinnwachstum', 'strongBuy', 'buy', 'hold', 'sell', 'strongSell']
     # predefine results dict
-    result_temp = {'symbol':row.symbol, 'name':row.name, 'download_date':time.strftime("%Y%m%d")}
+    result_temp = {'isin':row.isin, 'symbol':row.symbol, 'symbol_finanzen':row.symbol_finanzen, 'name':row.name, 'download_date':time.strftime("%Y%m%d")}
     # add dates and timediff and check which data is relevant for reaktion auf geschäftszahlen
     result_temp['rel_financials_date'] = None
     if jv_date.empty:

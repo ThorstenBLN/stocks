@@ -10,16 +10,16 @@ import functions as f
 warnings.simplefilter('ignore', 'FutureWarning')
 
 PATH = "./data/"
-FILE_RESULT_DAY  = "result_last_download.xlsx"
+FILE_RESULT_DAY  = "result.xlsx"
 FILE_DEPOT = "depot.xlsx"
 FILE_DEPOT_HIST = "depot_hist.xlsx"
 FILE_TRANSACTIONS = "transactions.xlsx"
 
 L_SCORE_BUY = 9
 MIN_L_SCORE = 7
-STOP_LOSS_PC = 0.9
+STOP_LOSS_PC = 0.85
 THRES_LEV_BETTER = 3
-INVEST_VALUE = 2000
+INVEST_VALUE = 1500
 MIN_INVEST_VALUE = 1000
 
 
@@ -27,7 +27,7 @@ MIN_INVEST_VALUE = 1000
 df_result = pd.read_excel(PATH + FILE_RESULT_DAY)
 if not os.path.exists(PATH + FILE_DEPOT):
     # initialize bank account
-    df_depot = pd.DataFrame({'isin':'bank', "symbol":'bank', 'name':'account', 'buy_date':'2025-03-16',
+    df_depot = pd.DataFrame({'isin':'bank', "symbol":'bank', 'symbol_finanzen':'bank','name':'account', 'buy_date':'2025-03-16',
                              'price_buy':1.00, 'cur':'EUR', 'exr_hist':1, 'price_buy_eur':1, 'amount':1,
                                'cur_date':'2025-03-17', 'price_cur':1.00, 'cur2':'EUR', 'exr_cur':1, 
                                "price_cur_eur":1, 'value_org':0, 'value_eur':10000, 'stop_loss_eur':0.00,
@@ -106,7 +106,7 @@ for row in df_buy_opt.itertuples():
         cur_cur = cur_info['currency']
         cur_exr = f.update_exr(cur_exr, cur_cur)
         amount = VALUE // (cur_price / cur_exr[cur_cur])
-        df_temp = pd.DataFrame({"type":"buy", 'isin':row.isin, "symbol":row.symbol, 'name': row.name,'buy_date':cur_time, 
+        df_temp = pd.DataFrame({"type":"buy", 'isin':row.isin, "symbol":row.symbol, 'symbol_finanzen':row.symbol_finanzen, 'name': row.name,'buy_date':cur_time, 
                                 'price_buy':cur_price, 'cur':cur_cur, 'exr_hist':cur_exr[cur_cur], 
                                 'price_buy_eur':cur_price / cur_exr[cur_cur], 'amount':amount, 
                                 'cur_date':cur_time, 'price_cur':cur_price, 'cur2':cur_cur, 
@@ -155,7 +155,7 @@ for row in df_sales.itertuples():
             cur_exr = f.update_exr(cur_exr, cur_cur)
             amount = VALUE // (cur_price / cur_exr[cur_cur])
             df_temp = pd.DataFrame({"type":"buy", 'isin':df_buy_opt.at[row.Index, 'isin'], "symbol":df_buy_opt.at[row.Index, 'symbol'],
-                                     'name': df_buy_opt.at[row.Index, 'name'],'buy_date':cur_time, 
+                                     'symbol_finanzen':df_buy_opt.at[row.Index, "symbol_finanzen"], 'name': df_buy_opt.at[row.Index, 'name'],'buy_date':cur_time, 
                                      'price_buy':cur_price, 'cur':cur_cur, 'exr_hist':cur_exr[cur_cur],
                                       'price_buy_eur':cur_price / cur_exr[cur_cur], 'amount':amount, 
                                       'cur_date':cur_time, 'price_cur':cur_price, 'cur2':cur_cur, 
