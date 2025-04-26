@@ -3,7 +3,7 @@ name: dp_kgvs
 on:
   workflow_dispatch:
   schedule:
-    - cron: 15 11 * * 6 # every sunday at 15:15 - crontab guru for more info
+    - cron: 15 9 * * 6 # every sunday at 15:15 - crontab guru for more info
 
 jobs:
   run-kgv_real:
