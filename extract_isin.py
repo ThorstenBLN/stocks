@@ -88,7 +88,7 @@ for row in df_xetra_check.iloc[:].itertuples(): #6109: 10005
     if row.Index % 100 == 0:
         print((row.Index, row.isin))
     symbols_yf.append(f.yf_xetra_data_available(row.Index, row.isin, session))
-    time.sleep(np.random.uniform(0.2, 0.6))
+    time.sleep(np.random.uniform(0.3, 0.8))
 print("all data collected")
 df_xetra_check['symbol'] = symbols_yf
 df_xetra_check['data_yf'] = np.where(df_xetra_check['symbol'].isna(), 0, 1)
@@ -102,7 +102,7 @@ for row in df_xetra_check.loc[df_xetra_check['data_yf'] == 1].iloc[:].itertuples
         print(row.Index, row.isin)
     # fin_links.append(f.get_url_finanzen(row.isin, row.name, "XFRA"))
     fin_links.append(f.get_url_finanzen_xetra(row.isin, row.name))
-    time.sleep(np.random.uniform(0.2, 0.6))
+    time.sleep(np.random.uniform(0.3, 0.8))
 df_fin_links = pd.DataFrame(fin_links)
 df_fin_links.rename(columns={'symbol':'isin'}, inplace=True)
 # add links and check if symbols are identical 
