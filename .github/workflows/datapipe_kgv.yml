@@ -1,4 +1,4 @@
-name: dp_kgvs
+name: data-pipeline-kgvs
 
 on:
   workflow_dispatch:
