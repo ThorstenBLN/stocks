@@ -70,9 +70,9 @@ df_dates = pd.read_excel(PATH + FILE_DATES)
 df_dates['time_delta'] = (df_dates['date'] - pd.to_datetime('today')).dt.days
 df_dates['date'] = df_dates['date'].dt.date
 df_dates_qrt = df_dates.loc[(df_dates['type'] == 'Quartalszahlen') & (df_dates['time_delta'] <= 0)].copy() 
-df_dates_qrt_rel = df_dates_qrt.sort_values(['time_delta'], ascending=False).groupby(['symbol']).head(1).reset_index()
+df_dates_qrt_rel = df_dates_qrt.sort_values(['time_delta'], ascending=False).groupby(['isin']).head(1).reset_index()
 df_dates_jv = df_dates.loc[(df_dates['type'] == 'Hauptversammlung') & (df_dates['time_delta'] <= 0)].copy() 
-df_dates_jv_rel = df_dates_jv.sort_values(['time_delta'], ascending=False).groupby(['symbol']).head(1).reset_index()
+df_dates_jv_rel = df_dates_jv.sort_values(['time_delta'], ascending=False).groupby(['isin']).head(1).reset_index()
 # download data
 data = []
 DATA_PC = 0.4
