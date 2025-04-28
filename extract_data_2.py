@@ -62,11 +62,10 @@ df_dates_qrt_rel = df_dates_qrt.sort_values(['time_delta'], ascending=False).gro
 df_dates_jv = df_dates.loc[(df_dates['type'] == 'Hauptversammlung') & (df_dates['time_delta'] <= 0)].copy() 
 df_dates_jv_rel = df_dates_jv.sort_values(['time_delta'], ascending=False).groupby(['isin']).head(1).reset_index()
 # download data
-DATA_PC = 0.4
+DATA_PC = 0.5
 end = int(df_base.shape[0] * DATA_PC)
-end = 10000
 data = []
-for row in df_base.iloc[end:end + 1000].itertuples():
+for row in df_base.iloc[-10:].itertuples():
     if row.Index % 100 == 0:
         print(row.Index, row.symbol)
     qrt_date = df_dates_qrt_rel.loc[df_dates_qrt_rel['isin'] == row.isin]['date']
