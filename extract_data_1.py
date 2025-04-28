@@ -77,6 +77,7 @@ df_dates_jv_rel = df_dates_jv.sort_values(['time_delta'], ascending=False).group
 data = []
 DATA_PC = 0.4
 end = int(df_base.shape[0] * DATA_PC)
+end = 10
 for row in df_base.iloc[:end].itertuples():
     if row.Index % 100 == 0:
         print(row.Index, row.symbol)
