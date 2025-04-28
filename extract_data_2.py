@@ -64,9 +64,9 @@ df_dates_jv_rel = df_dates_jv.sort_values(['time_delta'], ascending=False).group
 # download data
 DATA_PC = 0.4
 end = int(df_base.shape[0] * DATA_PC)
-end = 500
+end = 10000
 data = []
-for row in df_base.iloc[end:end + 500].itertuples():
+for row in df_base.iloc[end:end + 1000].itertuples():
     if row.Index % 100 == 0:
         print(row.Index, row.symbol)
     qrt_date = df_dates_qrt_rel.loc[df_dates_qrt_rel['isin'] == row.isin]['date']
@@ -74,18 +74,18 @@ for row in df_base.iloc[end:end + 500].itertuples():
     data.append(f.get_levermann_data(row, df_index_hist, df_index_prices, DATES, qrt_date, jv_date))
     time.sleep(np.random.uniform(1, 1.5))
 df_data = pd.DataFrame(data)
+print("code data levermann finished successfully")
 df_data['data_date'] = pd.to_datetime(df_data['data_date']).dt.date
 df_data_1 = pd.read_excel(PATH + FILE_DATA_1 )
 df_data = pd.concat([df_data_1, df_data])
 df_data.to_excel(PATH + FILE_DATA, index=False)
-print("code data levermann finished successfully")
 
 # 4. calculate levermann score #############################################################
 df_kgv = pd.read_excel(PATH + FILE_KGV)
 # df_data = pd.read_excel(PATH + FILE_DATA)
 df_data['forward_kgv'] = np.where(df_data['forward_kgv'] == "Infinity", np.inf, df_data['forward_kgv']).astype('float')
 df_data_complete = df_data.merge(df_kgv, on='isin', how='left')
-
+print("data merge finished successfully")
 df_result = f.add_levermann_score(df_data_complete, NA_PENALTY)
 df_result.to_excel(PATH + FILE_RESULT_DAY, index=False)
 df_result_tot = pd.concat([df_result_hist, df_result], axis=0).reset_index(drop=True)
