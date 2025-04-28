@@ -3,7 +3,7 @@ name: data-pipeline-depot-manager
 on:
   workflow_dispatch:
   schedule:
-    - cron: 15 7,8,9,10,11,12,13,14,15,16,17,18,19,20,21 * * 1,2,3,4,5 # every day every hour from 10 to 22, not on sunday as other runs run - crontab guru for more info
+    - cron: 15 7,8,9,10,11,12,13,14,15,16,17,18,19,20,21 * * 2,3,4,5 # every day every hour from 10 to 22, not on sunday as other runs run - crontab guru for more info
 
 jobs:
   run-depot-manager:
