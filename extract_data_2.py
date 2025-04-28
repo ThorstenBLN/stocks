@@ -32,7 +32,7 @@ else:
     df_result_hist = pd.read_csv(PATH + FILE_RESULT)
 df_base_orig = pd.read_excel(PATH + FILE_SYMBOLS)
 mask = (df_base_orig['data_all'] == 1) & (df_base_orig['isin'].notna())
-df_base = df_base_orig.loc[mask].copy()
+df_base = df_base_orig.loc[mask].copy().reset_index()
 df_dates = pd.read_excel(PATH + FILE_DATES)
 
 # 3. load data for levermann formual part 2
@@ -64,8 +64,9 @@ df_dates_jv_rel = df_dates_jv.sort_values(['time_delta'], ascending=False).group
 # download data
 DATA_PC = 0.4
 end = int(df_base.shape[0] * DATA_PC)
+end = 500
 data = []
-for row in df_base.iloc[end:end + 10].itertuples():
+for row in df_base.iloc[end:end + 500].itertuples():
     if row.Index % 100 == 0:
         print(row.Index, row.symbol)
     qrt_date = df_dates_qrt_rel.loc[df_dates_qrt_rel['isin'] == row.isin]['date']

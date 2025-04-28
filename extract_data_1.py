@@ -30,7 +30,7 @@ else:
     df_result_cur = pd.read_excel(PATH + FILE_RESULT_DAY)
 df_base_orig = pd.read_excel(PATH + FILE_SYMBOLS)
 mask = (df_base_orig['data_all'] == 1) & (df_base_orig['isin'].notna())
-df_base = df_base_orig.loc[mask].copy()
+df_base = df_base_orig.loc[mask].copy().reset_index()
 df_dates = pd.read_excel(PATH + FILE_DATES)
 
 # 2. refresh financial dates ###########################################################
@@ -77,7 +77,7 @@ df_dates_jv_rel = df_dates_jv.sort_values(['time_delta'], ascending=False).group
 data = []
 DATA_PC = 0.4
 end = int(df_base.shape[0] * DATA_PC)
-end = 10
+end = 500
 for row in df_base.iloc[:end].itertuples():
     if row.Index % 100 == 0:
         print(row.Index, row.symbol)
