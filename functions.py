@@ -72,7 +72,7 @@ def scrape_finanzen_url(url):
     "Sec-Fetch-Mode": "cors",
     "Sec-Fetch-Site": "same-origin",    
     "User-Agent": random.choice(user_agent_list),
-    # "Referer": referer
+    # "Referer": "https://www.finanzen.net/"
     }
     num_retries = 16
     for x in range(0, num_retries):
