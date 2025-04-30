@@ -64,8 +64,10 @@ df_dates_jv_rel = df_dates_jv.sort_values(['time_delta'], ascending=False).group
 # download data
 DATA_PC = 0.5
 end = int(df_base.shape[0] * DATA_PC)
+end = -303
 data = []
 for row in df_base.iloc[end:].itertuples():
+    print(row.Index, row.symbol)
     if row.Index % 100 == 0:
         print(row.Index, row.symbol)
     qrt_date = df_dates_qrt_rel.loc[df_dates_qrt_rel['isin'] == row.isin]['date']
@@ -75,7 +77,7 @@ for row in df_base.iloc[end:].itertuples():
 df_data = pd.DataFrame(data)
 print("code data levermann finished successfully")
 df_data['data_date'] = pd.to_datetime(df_data['data_date']).dt.date
-df_data_1 = pd.read_excel(PATH + FILE_DATA_1 )
+df_data_1 = pd.read_excel(PATH + FILE_DATA_1)
 df_data = pd.concat([df_data_1, df_data])
 df_data.to_excel(PATH + FILE_DATA, index=False)
 

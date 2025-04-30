@@ -218,15 +218,18 @@ def get_levermann_data(row, df_dax_hist, df_dax_prices, dates, qrt_date, jv_date
         print("no_qrt_date")
         result_temp['reaktion_qrt'] = np.nan
         result_temp['rel_financials_date'] = np.nan
-    # calculate the time difference in order to chose day before and after or pass if wrt_Date too much in the past
+    # calculate the time difference in order to chose day before and after
+    # +1 means 1 day after the event -1 one day before event, 0 = event day
     else:
         df_hist['date_diff'] = (pd.to_datetime(df_hist['Date']) - pd.to_datetime(result_temp['rel_financials_date'])).dt.days
         df_dax_hist['date_diff'] = (pd.to_datetime(df_dax_hist['Date']) - pd.to_datetime(result_temp['rel_financials_date'])).dt.days
-        # check if there is a the window of +/- 1 day in the data (1. qrt date too old, 2. all data newer than wrt date, 3. qrt date newer than any data 
-        if df_hist['date_diff'].max() > MAX_QRT_DAY_DISTANCE or df_hist['date_diff'].min() > 0 or df_hist['date_diff'].max() < 0:
+        # check if there is a the window of +/- 1 day in the data 
+        # (1. qrt date way too old, 2. all data newer or same day as qrt date (so no day before), 3. qrt date newer than any data or same day
+        if df_hist['date_diff'].max() > MAX_QRT_DAY_DISTANCE or df_hist['date_diff'].min() >= 0 or df_hist['date_diff'].max() < 0:
             result_temp['reaktion_qrt'] = np.nan
-            print("no valid qrt_date")
+            print("no valid qrt_date / or data before the qrt date")
         else:
+            print(df_hist['date_diff'].max())
             # calculate the values for dax
             min_later_dax = df_dax_hist.loc[df_dax_hist['date_diff'] > 0]['date_diff'].min()
             if df_dax_hist['date_diff'].max() == 0: # on the day of the qrt release, take this day
