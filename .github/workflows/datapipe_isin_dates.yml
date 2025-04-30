@@ -3,7 +3,7 @@ name: data-pipeline-isin_dates
 on:
   workflow_dispatch:
   schedule:
-    - cron: 35 23 * * 5 # every saturday at 1:15 Berlinian time
+    - cron: 0 22 * * 6 # every sunday at 0:00 (approx. 5h)
 
 jobs:
   run-data-pipeline-isin:

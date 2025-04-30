@@ -74,7 +74,8 @@ df_depot.at[0, 'lev_score'] = 100
 df_pur_opt = df_result.loc[df_result['lev_score'] >= L_SCORE_BUY].sort_values(['lev_score', 'market_cap'], ascending=[False, False]).copy()
 df_pur_opt['in_dpt'] = np.where(df_pur_opt['isin'].isin(df_depot['isin'].unique()), 1, 0)
 df_pur_opt['sold'] = 0
-# 2.1 sell based on fixed values
+
+# 2.2 sell based on fixed values
 mask_1 = df_depot['lev_score'] <= MIN_L_SCORE
 mask_2 = df_depot['price_cur_eur'] <= df_depot['stop_loss_eur']
 df_sales = df_depot.loc[mask_1 | mask_2].copy().reset_index()
@@ -107,7 +108,7 @@ for row in df_sales.itertuples():
     # delete stocks from depot
     df_depot = df_depot.loc[df_depot['isin'] != row.isin].reset_index(drop=True)
 
-# 2.2 buy with bank money
+# 2.3 buy with bank money
 # buy the best stocks from bank
 mask_not_in_depot = df_pur_opt['in_dpt'] == 0
 for row in df_pur_opt.loc[mask_not_in_depot].itertuples():
@@ -126,7 +127,8 @@ for row in df_pur_opt.loc[mask_not_in_depot].itertuples():
         cur_cur = cur_info['currency']
         cur_exr = f.update_exr(cur_exr, cur_cur)
         amount = VALUE // (cur_price / cur_exr[cur_cur])
-        df_temp = pd.DataFrame({"type":"buy", 'isin':row.isin, "symbol":row.symbol, 'symbol_finanzen':row.symbol_finanzen, 'name': row.name,'buy_date':cur_time, 
+        df_temp = pd.DataFrame({"type":"buy", 'isin':row.isin, "symbol":row.symbol, 'symbol_finanzen':row.symbol_finanzen, 
+                                'name': row.name,'buy_date':cur_time, 
                                 'price_buy':cur_price, 'cur':cur_cur, 'exr_hist':cur_exr[cur_cur], 
                                 'price_buy_eur':cur_price / cur_exr[cur_cur], 'amount':amount, 
                                 'cur_date':cur_time, 'price_cur':cur_price, 'cur2':cur_cur, 
@@ -144,7 +146,7 @@ for row in df_pur_opt.loc[mask_not_in_depot].itertuples():
     except Exception as err:
         print("1", row.symbol, err)
     
-# 2.3. shift stocks to better options
+# 2.4. shift stocks to better options
 # get possible stocks
 mask_cur = df_result['isin'].isin(df_depot['isin'].unique())
 mask_shift_stocks = df_result['lev_score'] >= df_depot['lev_score'].min() + THRES_LEV_BETTER
@@ -177,7 +179,8 @@ for row in df_sales.itertuples():
             cur_exr = f.update_exr(cur_exr, cur_cur)
             amount = VALUE // (cur_price / cur_exr[cur_cur])
             df_temp = pd.DataFrame({"type":"buy", 'isin':df_buy_opt.at[row.Index, 'isin'], "symbol":df_buy_opt.at[row.Index, 'symbol'],
-                                     'symbol_finanzen':df_buy_opt.at[row.Index, "symbol_finanzen"], 'name': df_buy_opt.at[row.Index, 'name'],'buy_date':cur_time, 
+                                     'symbol_finanzen':df_buy_opt.at[row.Index, "symbol_finanzen"], 
+                                     'name': df_buy_opt.at[row.Index, 'name'],'buy_date':cur_time, 
                                      'price_buy':cur_price, 'cur':cur_cur, 'exr_hist':cur_exr[cur_cur],
                                       'price_buy_eur':cur_price / cur_exr[cur_cur], 'amount':amount, 
                                       'cur_date':cur_time, 'price_cur':cur_price, 'cur2':cur_cur, 

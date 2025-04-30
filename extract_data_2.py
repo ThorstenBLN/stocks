@@ -66,7 +66,6 @@ DATA_PC = 0.5
 end = int(df_base.shape[0] * DATA_PC)
 data = []
 for row in df_base.iloc[end:].itertuples():
-    print(row.Index, row.symbol)
     if row.Index % 100 == 0:
         print(row.Index, row.symbol)
     qrt_date = df_dates_qrt_rel.loc[df_dates_qrt_rel['isin'] == row.isin]['date']
