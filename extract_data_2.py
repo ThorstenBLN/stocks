@@ -64,7 +64,6 @@ df_dates_jv_rel = df_dates_jv.sort_values(['time_delta'], ascending=False).group
 # download data
 DATA_PC = 0.5
 end = int(df_base.shape[0] * DATA_PC)
-end = -303
 data = []
 for row in df_base.iloc[end:].itertuples():
     print(row.Index, row.symbol)
