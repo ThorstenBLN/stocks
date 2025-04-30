@@ -174,4 +174,4 @@ cython_debug/
 .pypirc
 
 # project ignores
-symbols_xetra_backup.csv
+backup*.*
