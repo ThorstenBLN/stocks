@@ -3,7 +3,7 @@ name: data-pipeline-kgvs
 on:
   workflow_dispatch:
   schedule:
-    - cron: 0 6 * * 6 # every sunday at 8:00 (approx 9h)
+    - cron: 0 6 * * 0 # every sunday at 8:00 (approx 9h)
 
 jobs:
   run-kgv_real:
