@@ -78,12 +78,13 @@ df_pur_opt['sold'] = 0
 # 2.2 sell based on fixed values
 mask_1 = df_depot['lev_score'] <= MIN_L_SCORE
 mask_2 = df_depot['price_cur_eur'] <= df_depot['stop_loss_eur']
-df_sales = df_depot.loc[mask_1 | mask_2].copy().reset_index()
+df_sales = df_depot.loc[mask_1 | mask_2].copy().reset_index(drop=True)
 for row in df_sales.itertuples():
     # do not sales a stock you would directly rebuy:
-    df_pur_opt.at[df_pur_opt['isin'] == row.isin, 'in_dpt'] = 0
-    if df_pur_opt.loc[df_pur_opt['in_dpt'] == 0].head(1)['isin'] == row.isin:
-        df_pur_opt.at[df_pur_opt['isin'] == row.isin, 'in_dpt'] = 1
+    if row.isin in df_pur_opt['isin'].unique():
+        df_pur_opt.at[df_pur_opt.loc[df_pur_opt['isin'] == row.isin].index, 'in_dpt'] = 0
+    if df_pur_opt.loc[df_pur_opt['in_dpt'] == 0].head(1)['isin'].values[0] == row.isin:
+        df_pur_opt.at[df_pur_opt.loc[df_pur_opt['isin'] == row.isin].index, 'in_dpt'] = 1
         print("no rebuy sales!")
         continue
     # else sell the stock and add money to bank (consider taxes at rendite_eur column of bank)
@@ -100,7 +101,7 @@ for row in df_sales.itertuples():
         df_depot.at[0, "rendite_eur"] = taxes_cum
 
     # add values to transitions
-    df_temp = df_sales.iloc[row.index]
+    df_temp = df_sales.loc[df_sales['isin'] == row.isin]
     cols = list(df_temp.columns)
     df_temp["type"] = "sell"
     df_temp["taxes_paid"] = max(0, taxes_cum)
@@ -153,12 +154,12 @@ mask_shift_stocks = df_result['lev_score'] >= df_depot['lev_score'].min() + THRE
 df_buy_opt = df_result.loc[mask_shift_stocks & ~mask_cur].sort_values(['lev_score', 'market_cap'], ascending=[False, False]).reset_index(drop=True)
 # prepare depot dataframe
 mask_bank = df_depot['isin'] == 'bank'
-df_sales = df_depot.loc[~mask_bank].sort_values('lev_score').copy().reset_index(drop=True)
+df_sales = df_depot.loc[~mask_bank].sort_values(['lev_score', 'rendite_eur']).copy().reset_index(drop=True)
 isin_sold = []
-for row in df_sales.itertuples():
-    if df_buy_opt.shape[0]  < row.Index + 1:
+for i, row in enumerate(df_sales.itertuples()):
+    if df_buy_opt.shape[0]  < i + 1:
         break
-    if row.lev_score + THRES_LEV_BETTER < df_buy_opt.at[row.Index, 'lev_score']: 
+    if row.lev_score + THRES_LEV_BETTER < df_buy_opt.at[i, 'lev_score']: 
         try: 
             # add sale value to bank
             df_depot.at[0, "value_eur"] = df_depot.at[0, "value_eur"] + df_sales.iloc[row.Index]['value_eur']
@@ -169,7 +170,7 @@ for row in df_sales.itertuples():
             df_transact = pd.concat([df_transact, df_temp[['type'] + cols]])
             isin_sold.append(row.isin)
             # buy other article
-            cur_info = yf.Ticker(df_buy_opt.at[row.Index, 'symbol']).info
+            cur_info = yf.Ticker(df_buy_opt.at[i, 'symbol']).info
             cur_price = cur_info['regularMarketPrice']
             cur_cur = cur_info['currency']
             if df_depot.loc[mask_bank]['value_eur'].values[0] >= INVEST_VALUE:
@@ -178,9 +179,9 @@ for row in df_sales.itertuples():
                 VALUE = df_depot.loc[mask_bank]['value_eur'].values[0]
             cur_exr = f.update_exr(cur_exr, cur_cur)
             amount = VALUE // (cur_price / cur_exr[cur_cur])
-            df_temp = pd.DataFrame({"type":"buy", 'isin':df_buy_opt.at[row.Index, 'isin'], "symbol":df_buy_opt.at[row.Index, 'symbol'],
-                                     'symbol_finanzen':df_buy_opt.at[row.Index, "symbol_finanzen"], 
-                                     'name': df_buy_opt.at[row.Index, 'name'],'buy_date':cur_time, 
+            df_temp = pd.DataFrame({"type":"buy", 'isin':df_buy_opt.at[i, 'isin'], "symbol":df_buy_opt.at[i, 'symbol'],
+                                     'symbol_finanzen':df_buy_opt.at[i, "symbol_finanzen"], 
+                                     'name': df_buy_opt.at[i, 'name'],'buy_date':cur_time, 
                                      'price_buy':cur_price, 'cur':cur_cur, 'exr_hist':cur_exr[cur_cur],
                                       'price_buy_eur':cur_price / cur_exr[cur_cur], 'amount':amount, 
                                       'cur_date':cur_time, 'price_cur':cur_price, 'cur2':cur_cur, 
@@ -188,7 +189,7 @@ for row in df_sales.itertuples():
                                     'value_org':cur_price * amount, 'value_eur':cur_price / cur_exr[cur_cur] * amount, 
                                     'stop_loss_eur':cur_price / cur_exr[cur_cur] * STOP_LOSS_PC, 
                                     'rendite_org':0.0, 'rendite_eur':0.0, 
-                                    'lev_score': df_buy_opt.at[row.Index, 'lev_score']}, index=[0]) 
+                                    'lev_score': df_buy_opt.at[i, 'lev_score']}, index=[0]) 
             df_transact = pd.concat([df_transact, df_temp]).reset_index(drop=True)
             df_depot = pd.concat([df_depot, df_temp.drop(columns=['type'])]).reset_index(drop=True)
             # reduce bank account value by purchase volume
@@ -199,7 +200,8 @@ for row in df_sales.itertuples():
 df_depot = df_depot.loc[~df_depot['isin'].isin(isin_sold)].reset_index(drop=True)
 
 # 3. set new stop loss
-df_depot['stop_loss_eur'] = np.where(df_depot['price_cur_eur'] * STOP_LOSS_PC > df_depot['stop_loss_eur'], df_depot['price_cur_eur'] * STOP_LOSS_PC, df_depot['stop_loss_eur']) 
+df_depot['stop_loss_eur'] = np.where(df_depot['price_cur_eur'] * STOP_LOSS_PC > df_depot['stop_loss_eur'], 
+                                     df_depot['price_cur_eur'] * STOP_LOSS_PC, df_depot['stop_loss_eur']) 
 
 # 4. add depot to depot historic
 df_depot_hist = pd.concat([df_depot_hist, df_depot], axis=0).reset_index(drop=True)
