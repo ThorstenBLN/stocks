@@ -498,3 +498,47 @@ def get_url_finanzen_xetra(isin_code, name):
     except:
         return {'isin': isin_code, 'name': name, 'symbol_finanzen':np.nan, 'name_finanzen':name_finanzen, 'stock_url':stock_url, 'termine_url':termine_url}
     return {'isin': isin_code, 'name': name, 'symbol_finanzen':symbol_finanzen, 'name_finanzen':name_finanzen, 'stock_url':stock_url, 'termine_url':termine_url}
+
+def update_bank_and_taxes(df_depot, row, tax_rate, fee):
+    '''calculates tax of sales and deducts it from account or adds it to tax_cum (taxshield for losses)'''
+    gain = (row.price_cur_eur - row.price_buy_eur) * row.amount
+    taxes_cum = df_depot.at[0, 'tax_cum'] + gain * tax_rate
+    # if cumultative taxes < 0: pay taxes and set them back to 0
+    if taxes_cum > 0:
+        # else add sales value to bank account
+        df_depot.at[0, "value_eur"] += row.value_eur - taxes_cum - fee
+        df_depot['tax_cum'] = 0
+    # if sold with loss add to taxes as taxshield
+    else:
+        df_depot.at[0, "value_eur"] += row.value_eur - fee
+        df_depot['tax_cum'] = taxes_cum
+    return df_depot, taxes_cum
+
+def create_sales_info(df_sales, row, taxes_cum, fee):
+    '''create a dataframe row with all important sales info'''
+    df_temp = df_sales.loc[df_sales['isin'] == row.isin].copy()
+    cols = list(df_temp.columns)
+    df_temp["type"] = "sell"   
+    df_temp["taxes_paid"] = max(0, taxes_cum)
+    df_temp["fee"] = fee
+    df_temp[['type'] + cols + ['taxes_paid', 'fee']]
+    return df_temp
+
+def buy_stock(row, value, cur_time, cur_exr, tax_cum, stop_loss_pc, fee):
+    cur_info = yf.Ticker(row.symbol).info
+    cur_price = cur_info['regularMarketPrice']
+    cur_cur = cur_info['currency']
+    cur_exr = update_exr(cur_exr, cur_cur)
+    amount = value // (cur_price / cur_exr[cur_cur])
+    df_temp = pd.DataFrame({"type":"buy", 'isin':row.isin, "symbol":row.symbol, 'symbol_finanzen':row.symbol_finanzen, 
+                            'name': row.name,'buy_date':cur_time, 
+                            'price_buy':cur_price, 'cur':cur_cur, 'exr_hist':cur_exr[cur_cur], 
+                            'price_buy_eur':cur_price / cur_exr[cur_cur], 'amount':amount, 
+                            'cur_date':cur_time, 'price_cur':cur_price, 'cur2':cur_cur, 
+                            'exr_cur':cur_exr[cur_cur], "price_cur_eur":cur_price/cur_exr[cur_cur], 
+                            'value_org':cur_price * amount, 
+                            'value_eur':cur_price / cur_exr[cur_cur] * amount , 
+                            'stop_loss_eur':cur_price / cur_exr[cur_cur] * stop_loss_pc, 
+                            'rendite_org':0.0, 'rendite_eur':0.0, 'lev_score': row.lev_score,
+                            'tax_cum':tax_cum, 'fee':fee}, index=[0]) 
+    return df_temp
