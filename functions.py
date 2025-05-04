@@ -542,3 +542,6 @@ def buy_stock(row, value, cur_time, cur_exr, tax_cum, stop_loss_pc, fee):
                             'rendite_org':0.0, 'rendite_eur':0.0, 'lev_score': row.lev_score,
                             'tax_cum':tax_cum, 'fee':fee}, index=[0]) 
     return df_temp
+
+def add_to_message(text, df_temp):
+    return f"{text}:\nISIN: {df_temp['isin'].values[0]}\n{df_temp['name'].values[0]}\nValue: {np.round(df_temp['value_eur'].values[0], 2)} EUR\n\n"

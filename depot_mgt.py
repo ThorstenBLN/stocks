@@ -6,6 +6,7 @@ import warnings
 import os
 import time
 import functions as f
+import requests
 
 warnings.simplefilter('ignore', 'FutureWarning')
 
@@ -24,6 +25,13 @@ MIN_INVEST_VALUE = 1000
 TAX = 0.25
 TRADING_FEE = 3
 GOOD_WEEKLY_PERFORMANCE = 0.01
+
+# instantiate message for telegram
+TELEGRAM_TOKEN = os.getenv("TELEGRAM_TOKEN")
+CHAT_ID = os.getenv("CHAT_ID")
+if not all([TELEGRAM_TOKEN, CHAT_ID]):
+    from credentials import TELEGRAM_TOKEN, CHAT_ID
+message = ""
 
 # 0. load relevant files
 df_result = pd.read_excel(PATH + FILE_RESULT_DAY)
@@ -93,6 +101,8 @@ for row in df_sales.itertuples():
     df_depot, taxes_cum = f.update_bank_and_taxes(df_depot, row, TAX, TRADING_FEE) # TODO check if df_depot get's changed
     df_temp = f.create_sales_info(df_sales, row, taxes_cum, TRADING_FEE)
     df_transact = pd.concat([df_transact, df_temp])
+    # add to telegram message
+    message += f.add_to_message("sell", df_temp)
     # delete stocks from depot
     df_depot = df_depot.loc[df_depot['isin'] != row.isin].reset_index(drop=True)
 
@@ -117,6 +127,8 @@ for row in df_pur_opt.loc[mask_not_in_depot].itertuples():
         df_depot.at[0, 'value_eur'] -= (df_temp['value_eur'].values[0] + TRADING_FEE)
         # set in depot variable to 1
         df_pur_opt.at[row.Index, 'in_dpt'] = 1
+        # add to telegram message
+        message += f.add_to_message("buy", df_temp)
     except Exception as err:
         print("1", row.symbol, err)
     
@@ -155,7 +167,8 @@ for i, row in enumerate(df_sales.itertuples()):
             df_transact = pd.concat([df_transact, df_temp])
             # delete stocks from depot
             df_depot = df_depot.loc[df_depot['isin'] != row.isin].reset_index(drop=True)
-
+            # add to telegram message
+            message += f.add_to_message("sell opt", df_temp)
             # buy new stock
             if df_depot.at[0, 'value_eur'] >= INVEST_VALUE:
                 VALUE = INVEST_VALUE - TRADING_FEE
@@ -171,6 +184,8 @@ for i, row in enumerate(df_sales.itertuples()):
             # update depot
             df_depot = pd.concat([df_depot, df_temp.drop(columns=['type', 'fee'])]).reset_index(drop=True)
             df_depot.at[0, 'value_eur'] -= (df_temp['value_eur'].values[0] + TRADING_FEE)
+            # add to telegram message
+            message += f.add_to_message("buy opt", df_temp)
         except Exception as err:
             print("error handler", row.symbol, err)
 
@@ -185,3 +200,15 @@ df_depot_hist = pd.concat([df_depot_hist, df_depot], axis=0).reset_index(drop=Tr
 df_depot_hist.to_excel(PATH + FILE_DEPOT_HIST, index=False)
 df_depot.to_excel(PATH + FILE_DEPOT, index=False)
 df_transact.to_excel(PATH + FILE_TRANSACTIONS, index=False)
+
+# 6. send message to telegram
+url_send = f'https://api.telegram.org/bot{TELEGRAM_TOKEN}/sendMessage'
+payload = {
+    'chat_id': CHAT_ID,
+    'text': message
+}
+response = requests.post(url_send, data=payload)
+if response.status_code == 200:
+    print('Message sent successfully!')
+else:
+    print('Message not sent!')
