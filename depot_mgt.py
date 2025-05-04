@@ -203,6 +203,9 @@ df_transact.to_excel(PATH + FILE_TRANSACTIONS, index=False)
 
 # 6. send message to telegram
 url_send = f'https://api.telegram.org/bot{TELEGRAM_TOKEN}/sendMessage'
+if message == "":
+    message = "no trades made"
+
 payload = {
     'chat_id': CHAT_ID,
     'text': message
