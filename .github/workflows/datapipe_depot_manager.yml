@@ -21,6 +21,9 @@ jobs:
       - name: install dependencies # 4. install the necessary libraries
         run: pip install -r requirements.txt
       - name: run depot manager # 5. run the python script
+        env: 
+          TELEGRAM_TOKEN: ${{ secrets.TELEGRAM_TOKEN }}
+          CHAT_ID: ${{ secrets.CHAT_ID }}
         run: python depot_mgt.py
       - name: check repo for changes # checking difference between staged changes and öast commits quiet: 0 when no changes true when changes
         id: git-check

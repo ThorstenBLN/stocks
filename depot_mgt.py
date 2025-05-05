@@ -29,8 +29,6 @@ GOOD_WEEKLY_PERFORMANCE = 0.01
 # instantiate message for telegram
 TELEGRAM_TOKEN = os.getenv("TELEGRAM_TOKEN")
 CHAT_ID = os.getenv("CHAT_ID")
-print(all([TELEGRAM_TOKEN]))
-print(all([CHAT_ID]))
 if not all([TELEGRAM_TOKEN, CHAT_ID]):
     from credentials import TELEGRAM_TOKEN, CHAT_ID
 message = ""
