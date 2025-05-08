@@ -212,19 +212,8 @@ def main():
     df_transact.to_excel(PATH + FILE_TRANSACTIONS, index=False)
 
     # 6. send message to telegram
-    url_send = f'https://api.telegram.org/bot{TELEGRAM_TOKEN}/sendMessage'
-    if message == "":
-        message = "no trades made"
-
-    payload = {
-        'chat_id': CHAT_ID,
-        'text': message
-    }
-    response = requests.post(url_send, data=payload)
-    if response.status_code == 200:
-        print('Message sent successfully!')
-    else:
-        print('Message not sent!')
+    status = f.send_telegram_msg(message, TELEGRAM_TOKEN, CHAT_ID)
+    print(status)
 
 if __name__ == "__main__":
     try:

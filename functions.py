@@ -525,6 +525,7 @@ def create_sales_info(df_sales, row, taxes_cum, fee):
     return df_temp
 
 def buy_stock(row, value, cur_time, cur_exr, tax_cum, stop_loss_pc, fee):
+    '''create a dataframe row with all important pruchase info'''
     cur_info = yf.Ticker(row.symbol).info
     cur_price = cur_info['regularMarketPrice']
     cur_cur = cur_info['currency']
@@ -545,3 +546,18 @@ def buy_stock(row, value, cur_time, cur_exr, tax_cum, stop_loss_pc, fee):
 
 def add_to_message(text, df_temp):
     return f"{text}:\nISIN: {df_temp['isin'].values[0]}\n{df_temp['name'].values[0]}\nValue: {np.round(df_temp['value_eur'].values[0], 2)} EUR\n\n"
+
+def send_telegram_msg(msg, TELEGRAM_TOKEN, CHAT_ID):
+    url_send = f'https://api.telegram.org/bot{TELEGRAM_TOKEN}/sendMessage'
+    if msg == "":
+        msg = "no trades"
+
+    payload = {
+        'chat_id': CHAT_ID,
+        'text': msg
+    }
+    response = requests.post(url_send, data=payload)
+    if response.status_code == 200:
+        return 'Message sent successfully!'
+    else:
+        return 'Message not sent!'
