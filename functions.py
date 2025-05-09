@@ -585,7 +585,7 @@ def update_depot(df_depot, row, cur_time):
     df_depot.at[row.Index, "cur_date"] = cur_time # pd.time.strftime("%Y-%m-%d")
     df_depot.at[row.Index, "price_cur"] = cur_price
     df_depot.at[row.Index, "cur2"] = cur_currency
-    cur_exr = f.update_exr(cur_exr, cur_currency)
+    cur_exr = update_exr(cur_exr, cur_currency)
     df_depot.at[row.Index, "exr_cur"] = cur_exr[cur_currency]
     df_depot.at[row.Index, "price_cur_eur"] = cur_price / cur_exr[cur_currency]
     df_depot.at[row.Index, "value_org"] = cur_price * row.amount
