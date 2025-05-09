@@ -59,3 +59,94 @@ Stack (most recent call last):
 ERROR:yfinance:$C79.AX: possibly delisted; no price data found  (period=2y)
 ERROR:yfinance:Failed to get ticker 'CNE1000029Z6.SG' reason: Failed to perform, curl: (16) . See https://curl.se/libcurl/c/libcurl-errors.html first for more details.
 ERROR:yfinance:$ERG.MI: possibly delisted; no price data found  (period=2y)
+INFO:root:Exception depot manager update data: 1 YALA
+ERROR:root:local variable 'cur_exr' referenced before assignment
+Traceback (most recent call last):
+  File "/home/runner/work/stocks/stocks/depot_mgt.py", line 66, in main
+    f.update_depot(df_depot, row, cur_time)
+  File "/home/runner/work/stocks/stocks/functions.py", line 588, in update_depot
+    cur_exr = update_exr(cur_exr, cur_currency)
+UnboundLocalError: local variable 'cur_exr' referenced before assignment
+Stack (most recent call last):
+  File "/home/runner/work/stocks/stocks/depot_mgt.py", line 202, in <module>
+    main()
+  File "/home/runner/work/stocks/stocks/depot_mgt.py", line 70, in main
+    logging.error(err, stack_info=True, exc_info=True)
+INFO:root:Exception depot manager update data: 2 MUR.WA
+ERROR:root:local variable 'cur_exr' referenced before assignment
+Traceback (most recent call last):
+  File "/home/runner/work/stocks/stocks/depot_mgt.py", line 66, in main
+    f.update_depot(df_depot, row, cur_time)
+  File "/home/runner/work/stocks/stocks/functions.py", line 588, in update_depot
+    cur_exr = update_exr(cur_exr, cur_currency)
+UnboundLocalError: local variable 'cur_exr' referenced before assignment
+Stack (most recent call last):
+  File "/home/runner/work/stocks/stocks/depot_mgt.py", line 202, in <module>
+    main()
+  File "/home/runner/work/stocks/stocks/depot_mgt.py", line 70, in main
+    logging.error(err, stack_info=True, exc_info=True)
+INFO:root:Exception depot manager update data: 3 SSAB-B.ST
+ERROR:root:local variable 'cur_exr' referenced before assignment
+Traceback (most recent call last):
+  File "/home/runner/work/stocks/stocks/depot_mgt.py", line 66, in main
+    f.update_depot(df_depot, row, cur_time)
+  File "/home/runner/work/stocks/stocks/functions.py", line 588, in update_depot
+    cur_exr = update_exr(cur_exr, cur_currency)
+UnboundLocalError: local variable 'cur_exr' referenced before assignment
+Stack (most recent call last):
+  File "/home/runner/work/stocks/stocks/depot_mgt.py", line 202, in <module>
+    main()
+  File "/home/runner/work/stocks/stocks/depot_mgt.py", line 70, in main
+    logging.error(err, stack_info=True, exc_info=True)
+INFO:root:Exception depot manager update data: 4 SEM.LS
+ERROR:root:local variable 'cur_exr' referenced before assignment
+Traceback (most recent call last):
+  File "/home/runner/work/stocks/stocks/depot_mgt.py", line 66, in main
+    f.update_depot(df_depot, row, cur_time)
+  File "/home/runner/work/stocks/stocks/functions.py", line 588, in update_depot
+    cur_exr = update_exr(cur_exr, cur_currency)
+UnboundLocalError: local variable 'cur_exr' referenced before assignment
+Stack (most recent call last):
+  File "/home/runner/work/stocks/stocks/depot_mgt.py", line 202, in <module>
+    main()
+  File "/home/runner/work/stocks/stocks/depot_mgt.py", line 70, in main
+    logging.error(err, stack_info=True, exc_info=True)
+INFO:root:Exception depot manager update data: 5 EVS.BR
+ERROR:root:local variable 'cur_exr' referenced before assignment
+Traceback (most recent call last):
+  File "/home/runner/work/stocks/stocks/depot_mgt.py", line 66, in main
+    f.update_depot(df_depot, row, cur_time)
+  File "/home/runner/work/stocks/stocks/functions.py", line 588, in update_depot
+    cur_exr = update_exr(cur_exr, cur_currency)
+UnboundLocalError: local variable 'cur_exr' referenced before assignment
+Stack (most recent call last):
+  File "/home/runner/work/stocks/stocks/depot_mgt.py", line 202, in <module>
+    main()
+  File "/home/runner/work/stocks/stocks/depot_mgt.py", line 70, in main
+    logging.error(err, stack_info=True, exc_info=True)
+INFO:root:Exception depot manager update data: 6 ALK.AX
+ERROR:root:local variable 'cur_exr' referenced before assignment
+Traceback (most recent call last):
+  File "/home/runner/work/stocks/stocks/depot_mgt.py", line 66, in main
+    f.update_depot(df_depot, row, cur_time)
+  File "/home/runner/work/stocks/stocks/functions.py", line 588, in update_depot
+    cur_exr = update_exr(cur_exr, cur_currency)
+UnboundLocalError: local variable 'cur_exr' referenced before assignment
+Stack (most recent call last):
+  File "/home/runner/work/stocks/stocks/depot_mgt.py", line 202, in <module>
+    main()
+  File "/home/runner/work/stocks/stocks/depot_mgt.py", line 70, in main
+    logging.error(err, stack_info=True, exc_info=True)
+INFO:root:Exception depot manager update data: 7 GF.MI
+ERROR:root:local variable 'cur_exr' referenced before assignment
+Traceback (most recent call last):
+  File "/home/runner/work/stocks/stocks/depot_mgt.py", line 66, in main
+    f.update_depot(df_depot, row, cur_time)
+  File "/home/runner/work/stocks/stocks/functions.py", line 588, in update_depot
+    cur_exr = update_exr(cur_exr, cur_currency)
+UnboundLocalError: local variable 'cur_exr' referenced before assignment
+Stack (most recent call last):
+  File "/home/runner/work/stocks/stocks/depot_mgt.py", line 202, in <module>
+    main()
+  File "/home/runner/work/stocks/stocks/depot_mgt.py", line 70, in main
+    logging.error(err, stack_info=True, exc_info=True)
