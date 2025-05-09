@@ -1,0 +1,29 @@
+INFO:root:Exception extract_data_1 main
+ERROR:root:HTTP Error 404: 
+Traceback (most recent call last):
+  File "/home/runner/work/stocks/stocks/extract_data_1.py", line 99, in <module>
+    main()
+  File "/home/runner/work/stocks/stocks/extract_data_1.py", line 89, in main
+    data.append(f.get_levermann_data(row, df_index_hist, df_index_prices, DATES, qrt_date, jv_date))
+  File "/home/runner/work/stocks/stocks/functions.py", line 169, in get_levermann_data
+    df_eps = dat.eps_trend
+  File "/opt/hostedtoolcache/Python/3.9.22/x64/lib/python3.9/site-packages/yfinance/ticker.py", line 290, in eps_trend
+    return self.get_eps_trend()
+  File "/opt/hostedtoolcache/Python/3.9.22/x64/lib/python3.9/site-packages/yfinance/base.py", line 372, in get_eps_trend
+    data = self._analysis.eps_trend
+  File "/opt/hostedtoolcache/Python/3.9.22/x64/lib/python3.9/site-packages/yfinance/scrapers/analysis.py", line 67, in eps_trend
+    self._eps_trend = self._get_periodic_df('epsTrend')
+  File "/opt/hostedtoolcache/Python/3.9.22/x64/lib/python3.9/site-packages/yfinance/scrapers/analysis.py", line 35, in _get_periodic_df
+    self._fetch_earnings_trend()
+  File "/opt/hostedtoolcache/Python/3.9.22/x64/lib/python3.9/site-packages/yfinance/scrapers/analysis.py", line 188, in _fetch_earnings_trend
+    data = self._fetch(['earningsTrend'])
+  File "/opt/hostedtoolcache/Python/3.9.22/x64/lib/python3.9/site-packages/yfinance/scrapers/analysis.py", line 180, in _fetch
+    result = self._data.get_raw_json(_QUOTE_SUMMARY_URL_ + f"/{self._symbol}", user_agent_headers=self._data.user_agent_headers, params=params_dict)
+  File "/opt/hostedtoolcache/Python/3.9.22/x64/lib/python3.9/site-packages/yfinance/data.py", line 405, in get_raw_json
+    response.raise_for_status()
+  File "/opt/hostedtoolcache/Python/3.9.22/x64/lib/python3.9/site-packages/curl_cffi/requests/models.py", line 155, in raise_for_status
+    raise HTTPError(f"HTTP Error {self.status_code}: {self.reason}", 0, self)
+curl_cffi.requests.exceptions.HTTPError: HTTP Error 404: 
+Stack (most recent call last):
+  File "/home/runner/work/stocks/stocks/extract_data_1.py", line 102, in <module>
+    logging.error(err, stack_info=True, exc_info=True)
