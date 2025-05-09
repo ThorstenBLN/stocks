@@ -238,7 +238,7 @@ def get_levermann_data(row, df_dax_hist, df_dax_prices, dates, qrt_date, jv_date
             result_temp['reaktion_qrt'] = np.nan
             print("no valid qrt_date / or data before the qrt date")
         else:
-            print(df_hist['date_diff'].max())
+            # print(df_hist['date_diff'].max())
             # calculate the values for dax
             min_later_dax = df_dax_hist.loc[df_dax_hist['date_diff'] > 0]['date_diff'].min()
             if df_dax_hist['date_diff'].max() == 0: # on the day of the qrt release, take this day
