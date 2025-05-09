@@ -577,7 +577,7 @@ def send_telegram_msg(msg):
     else:
         return 'Message not sent!'
     
-def update_depot(df_depot, row, cur_time):
+def update_depot(df_depot, row, cur_time, cur_exr):
     '''updates the depot stocks with current values'''
     cur_info = yf.Ticker(row.symbol).info
     cur_price = cur_info['regularMarketPrice']

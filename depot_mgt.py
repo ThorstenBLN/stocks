@@ -63,7 +63,7 @@ def main():
     mask_bank = df_depot['isin'] == 'bank'
     for row in df_depot.loc[~mask_bank].itertuples():
         try:
-            f.update_depot(df_depot, row, cur_time)
+            f.update_depot(df_depot, row, cur_time, cur_exr)
         except Exception as err:
             print("0", row.symbol, err)
             logging.info(f"Exception depot manager update data: {row.Index} {row.symbol}")
