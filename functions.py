@@ -164,9 +164,18 @@ def get_levermann_data(row, df_dax_hist, df_dax_prices, dates, qrt_date, jv_date
             df_hist = pd.DataFrame()
             df_prices = pd.DataFrame()
             result_temp['data_date'] = np.nan
-    df_bs = dat.balance_sheet
-    df_is = dat.income_stmt
-    df_eps = dat.eps_trend
+    try:
+        df_bs = dat.balance_sheet
+    except:
+        df_bs = pd.DataFrame()
+    try:
+        df_is = dat.income_stmt
+    except: 
+        df_is = pd.DataFrame()
+    try:
+        df_eps = dat.eps_trend
+    except:
+        df_eps = pd.DataFrame()
     # error handling
     if any([df.empty or df is None for df in [df_hist, df_prices, df_bs, df_is, df_eps]]): 
         print("no valid data -> skipping")
