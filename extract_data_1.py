@@ -79,7 +79,7 @@ def main():
     df_dates_jv_rel = df_dates_jv.sort_values(['time_delta'], ascending=False).groupby(['isin']).head(1).reset_index()
     # download data
     data = []
-    DATA_PC = 0.5
+    DATA_PC = 0.4
     end = int(df_base.shape[0] * DATA_PC)
     for row in df_base.iloc[:end].itertuples():
         if row.Index % 100 == 0:
