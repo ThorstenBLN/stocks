@@ -9,11 +9,6 @@ import re
 import janitor
 import os
 
-# get telegram credentials
-TELEGRAM_TOKEN = os.getenv("TELEGRAM_TOKEN")
-CHAT_ID = os.getenv("CHAT_ID")
-if not all([TELEGRAM_TOKEN, CHAT_ID]):
-    from credentials import TELEGRAM_TOKEN, CHAT_ID
 
 user_agent_list = [
         "Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.1 (KHTML, like Gecko) Chrome/22.0.1207.1 Safari/537.1",
@@ -562,13 +557,13 @@ def buy_stock(row, value, cur_time, cur_exr, tax_cum, stop_loss_pc, fee):
 def add_to_message(text, df_temp):
     return f"{text}:\nISIN: {df_temp['isin'].values[0]}\n{df_temp['name'].values[0]}\nValue: {np.round(df_temp['value_eur'].values[0], 2)} EUR\n\n"
 
-def send_telegram_msg(msg):
-    url_send = f'https://api.telegram.org/bot{TELEGRAM_TOKEN}/sendMessage'
+def send_telegram_msg(msg, token, chat_id):
+    url_send = f'https://api.telegram.org/bot{token}/sendMessage'
     if msg == "":
         msg = "no trades"
 
     payload = {
-        'chat_id': CHAT_ID,
+        'chat_id': chat_id,
         'text': msg
     }
     response = requests.post(url_send, data=payload)

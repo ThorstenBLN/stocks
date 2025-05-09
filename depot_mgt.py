@@ -34,6 +34,10 @@ def main():
     TRADING_FEE = 3
 
     # instantiate message for telegram
+    TELEGRAM_TOKEN = os.getenv("TELEGRAM_TOKEN")
+    CHAT_ID = os.getenv("CHAT_ID")
+    if not all([TELEGRAM_TOKEN, CHAT_ID]):
+        from credentials import TELEGRAM_TOKEN, CHAT_ID
     message = ""
 
     # 0. load relevant files
@@ -194,7 +198,7 @@ def main():
     df_transact.to_excel(PATH + FILE_TRANSACTIONS, index=False)
 
     # 6. send message to telegram
-    status = f.send_telegram_msg(message)
+    status = f.send_telegram_msg(message, TELEGRAM_TOKEN, CHAT_ID)
     print(status)
 
 if __name__ == "__main__":
