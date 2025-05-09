@@ -21,20 +21,19 @@ def main():
     FILE_TRANSACTIONS = "transactions.xlsx"
 
     L_SCORE_BUY = 9
+    
     MIN_L_SCORE = 7
-    STOP_LOSS_PC = 0.85
+    STOP_LOSS_PC = 0.9
     THRES_LEV_BETTER = 3
+    GOOD_WEEKLY_PERFORMANCE = 0.01
+    LEV_LOSS_PC = 0.2
+    
     INVEST_VALUE = 1500
     MIN_INVEST_VALUE = 1000
     TAX = 0.25
     TRADING_FEE = 3
-    GOOD_WEEKLY_PERFORMANCE = 0.01
 
     # instantiate message for telegram
-    TELEGRAM_TOKEN = os.getenv("TELEGRAM_TOKEN")
-    CHAT_ID = os.getenv("CHAT_ID")
-    if not all([TELEGRAM_TOKEN, CHAT_ID]):
-        from credentials import TELEGRAM_TOKEN, CHAT_ID
     message = ""
 
     # 0. load relevant files
@@ -42,7 +41,7 @@ def main():
     if not os.path.exists(PATH + FILE_DEPOT):
         # initialize bank account
         df_depot = pd.DataFrame({'isin':'bank', "symbol":'bank', 'symbol_finanzen':'bank','name':'account', 'buy_date':'2025-03-16',
-                                'price_buy':1.00, 'cur':'EUR', 'exr_hist':1, 'price_buy_eur':1, 'amount':1,
+                                'price_buy':1.00, 'cur':'EUR', 'exr_hist':1, 'price_buy_eur':1,'amount':1, 'lev_buy':100,
                                 'cur_date':'2025-03-17', 'price_cur':1.00, 'cur2':'EUR', 'exr_cur':1, 
                                 "price_cur_eur":1, 'value_org':0, 'value_eur':10000, 'stop_loss_eur':0.00,
                                     'rendite_org':0.00001, 'rendite_eur':0.00001, 'lev_score': 100.00, 'tax_cum':0.00}, index=[0])
@@ -64,19 +63,7 @@ def main():
     mask_bank = df_depot['isin'] == 'bank'
     for row in df_depot.loc[~mask_bank].itertuples():
         try:
-            cur_info = yf.Ticker(row.symbol).info
-            cur_price = cur_info['regularMarketPrice']
-            cur_currency = cur_info['currency']
-            df_depot.at[row.Index, "cur_date"] = cur_time # pd.time.strftime("%Y-%m-%d")
-            df_depot.at[row.Index, "price_cur"] = cur_price
-            df_depot.at[row.Index, "cur2"] = cur_currency
-            cur_exr = f.update_exr(cur_exr, cur_currency)
-            df_depot.at[row.Index, "exr_cur"] = cur_exr[cur_currency]
-            df_depot.at[row.Index, "price_cur_eur"] = cur_price / cur_exr[cur_currency]
-            df_depot.at[row.Index, "value_org"] = cur_price * row.amount
-            df_depot.at[row.Index, "value_eur"] = cur_price * row.amount / cur_exr[cur_currency]
-            df_depot.at[row.Index, "rendite_org"] = cur_price / row.price_buy - 1
-            df_depot.at[row.Index, "rendite_eur"] = (cur_price/cur_exr[cur_currency]) / (row.price_buy/row.exr_hist) - 1
+            f.update_depot(df_depot, row, cur_time)
         except Exception as err:
             print("0", row.symbol, err)
             logging.info(f"Exception depot manager update data: {row.Index} {row.symbol}")
@@ -94,7 +81,8 @@ def main():
     # 2.2 sell based on fixed values
     mask_1 = df_depot['lev_score'] <= MIN_L_SCORE
     mask_2 = df_depot['price_cur_eur'] <= df_depot['stop_loss_eur']
-    df_sales = df_depot.loc[mask_1 | mask_2].copy().reset_index(drop=True)
+    mask_3 = df_depot['lev_score'] <= df_depot['lev_buy'] * (1 - LEV_LOSS_PC)
+    df_sales = df_depot.loc[mask_1 | mask_2 | mask_3].copy().reset_index(drop=True)
     for row in df_sales.itertuples():
         # do not sales a stock you would directly rebuy:
         if row.isin in df_pur_opt['isin'].unique():
@@ -117,15 +105,12 @@ def main():
     mask_not_in_depot = df_pur_opt['in_dpt'] == 0
     for row in df_pur_opt.loc[mask_not_in_depot].itertuples():
         # buy all for invest value and last one for min value
-        if df_depot.at[0, 'value_eur'] >= INVEST_VALUE:
-            VALUE = INVEST_VALUE - TRADING_FEE
-        elif df_depot.at[0, 'value_eur'] >= MIN_INVEST_VALUE:
-            VALUE = df_depot.at[0, 'value_eur'] - TRADING_FEE
-        else:
-            break
+        value = f.define_invest_value(df_depot.at[0, 'value_eur'], INVEST_VALUE, MIN_INVEST_VALUE, TRADING_FEE)
+        if value is None:
+            break 
         try:
             # calculate purchase and all fields
-            df_temp = f.buy_stock(row, VALUE, cur_time, cur_exr, df_depot.at[0, 'tax_cum'], STOP_LOSS_PC, TRADING_FEE)
+            df_temp = f.buy_stock(row, value, cur_time, cur_exr, df_depot.at[0, 'tax_cum'], STOP_LOSS_PC, TRADING_FEE)
             # add it to transactions
             df_transact = pd.concat([df_transact, df_temp]).reset_index(drop=True)
             # update depot
@@ -178,15 +163,12 @@ def main():
                 # add to telegram message
                 message += f.add_to_message("sell opt", df_temp)
                 # buy new stock
-                if df_depot.at[0, 'value_eur'] >= INVEST_VALUE:
-                    VALUE = INVEST_VALUE - TRADING_FEE
-                elif df_depot.at[0, 'value_eur'] >= MIN_INVEST_VALUE:
-                    VALUE = df_depot.at[0, 'value_eur'] - TRADING_FEE
-                else:
-                    break
+                value = f.define_invest_value(df_depot.at[0, 'value_eur'], INVEST_VALUE, MIN_INVEST_VALUE, TRADING_FEE)
+                if value is None:
+                   break 
                 # TODO: no row but different dataframe
                 for row_buy_opt in df_buy_opt.iloc[:1].itertuples():
-                    df_temp = f.buy_stock(row_buy_opt, VALUE, cur_time, cur_exr, df_depot.at[0, 'tax_cum'], STOP_LOSS_PC, TRADING_FEE)
+                    df_temp = f.buy_stock(row_buy_opt, value, cur_time, cur_exr, df_depot.at[0, 'tax_cum'], STOP_LOSS_PC, TRADING_FEE)
                 # add it to transactions
                 df_transact = pd.concat([df_transact, df_temp]).reset_index(drop=True)
                 # update depot
@@ -212,7 +194,7 @@ def main():
     df_transact.to_excel(PATH + FILE_TRANSACTIONS, index=False)
 
     # 6. send message to telegram
-    status = f.send_telegram_msg(message, TELEGRAM_TOKEN, CHAT_ID)
+    status = f.send_telegram_msg(message)
     print(status)
 
 if __name__ == "__main__":

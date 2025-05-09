@@ -56,3 +56,6 @@ curl_cffi.requests.exceptions.HTTPError: HTTP Error 404:
 Stack (most recent call last):
   File "/home/runner/work/stocks/stocks/extract_data_2.py", line 102, in <module>
     logging.error(err, stack_info=True, exc_info=True)
+ERROR:yfinance:$C79.AX: possibly delisted; no price data found  (period=2y)
+ERROR:yfinance:Failed to get ticker 'CNE1000029Z6.SG' reason: Failed to perform, curl: (16) . See https://curl.se/libcurl/c/libcurl-errors.html first for more details.
+ERROR:yfinance:$ERG.MI: possibly delisted; no price data found  (period=2y)

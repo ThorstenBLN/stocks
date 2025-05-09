@@ -9,6 +9,12 @@ import re
 import janitor
 import os
 
+# get telegram credentials
+TELEGRAM_TOKEN = os.getenv("TELEGRAM_TOKEN")
+CHAT_ID = os.getenv("CHAT_ID")
+if not all([TELEGRAM_TOKEN, CHAT_ID]):
+    from credentials import TELEGRAM_TOKEN, CHAT_ID
+
 user_agent_list = [
         "Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.1 (KHTML, like Gecko) Chrome/22.0.1207.1 Safari/537.1",
         "Mozilla/5.0 (X11; CrOS i686 2268.111.0) AppleWebKit/536.11 (KHTML, like Gecko) Chrome/20.0.1132.57 Safari/536.11",
@@ -543,7 +549,7 @@ def buy_stock(row, value, cur_time, cur_exr, tax_cum, stop_loss_pc, fee):
     df_temp = pd.DataFrame({"type":"buy", 'isin':row.isin, "symbol":row.symbol, 'symbol_finanzen':row.symbol_finanzen, 
                             'name': row.name,'buy_date':cur_time, 
                             'price_buy':cur_price, 'cur':cur_cur, 'exr_hist':cur_exr[cur_cur], 
-                            'price_buy_eur':cur_price / cur_exr[cur_cur], 'amount':amount, 
+                            'price_buy_eur':cur_price / cur_exr[cur_cur], 'amount':amount,'lev_buy':row.lev_score, 
                             'cur_date':cur_time, 'price_cur':cur_price, 'cur2':cur_cur, 
                             'exr_cur':cur_exr[cur_cur], "price_cur_eur":cur_price/cur_exr[cur_cur], 
                             'value_org':cur_price * amount, 
@@ -556,7 +562,7 @@ def buy_stock(row, value, cur_time, cur_exr, tax_cum, stop_loss_pc, fee):
 def add_to_message(text, df_temp):
     return f"{text}:\nISIN: {df_temp['isin'].values[0]}\n{df_temp['name'].values[0]}\nValue: {np.round(df_temp['value_eur'].values[0], 2)} EUR\n\n"
 
-def send_telegram_msg(msg, TELEGRAM_TOKEN, CHAT_ID):
+def send_telegram_msg(msg):
     url_send = f'https://api.telegram.org/bot{TELEGRAM_TOKEN}/sendMessage'
     if msg == "":
         msg = "no trades"
@@ -570,3 +576,29 @@ def send_telegram_msg(msg, TELEGRAM_TOKEN, CHAT_ID):
         return 'Message sent successfully!'
     else:
         return 'Message not sent!'
+    
+def update_depot(df_depot, row, cur_time):
+    '''updates the depot stocks with current values'''
+    cur_info = yf.Ticker(row.symbol).info
+    cur_price = cur_info['regularMarketPrice']
+    cur_currency = cur_info['currency']
+    df_depot.at[row.Index, "cur_date"] = cur_time # pd.time.strftime("%Y-%m-%d")
+    df_depot.at[row.Index, "price_cur"] = cur_price
+    df_depot.at[row.Index, "cur2"] = cur_currency
+    cur_exr = f.update_exr(cur_exr, cur_currency)
+    df_depot.at[row.Index, "exr_cur"] = cur_exr[cur_currency]
+    df_depot.at[row.Index, "price_cur_eur"] = cur_price / cur_exr[cur_currency]
+    df_depot.at[row.Index, "value_org"] = cur_price * row.amount
+    df_depot.at[row.Index, "value_eur"] = cur_price * row.amount / cur_exr[cur_currency]
+    df_depot.at[row.Index, "rendite_org"] = cur_price / row.price_buy - 1
+    df_depot.at[row.Index, "rendite_eur"] = (cur_price/cur_exr[cur_currency]) / (row.price_buy/row.exr_hist) - 1
+
+def define_invest_value(bank_funds, INVEST_VALUE, MIN_INVEST_VALUE, TRADING_FEE):
+    '''calculates the investment value or None of not enough funds'''
+    if bank_funds >= INVEST_VALUE:
+        value = INVEST_VALUE - TRADING_FEE
+    elif bank_funds >= MIN_INVEST_VALUE:
+        value = bank_funds - TRADING_FEE
+    else:
+        value = None 
+    return value
