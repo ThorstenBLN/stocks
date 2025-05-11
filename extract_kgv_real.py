@@ -9,6 +9,7 @@ import warnings
 import functions as f
 import logging
 import sys
+import finhandler
 
 def main():
     warnings.simplefilter('ignore', 'FutureWarning')
@@ -23,13 +24,15 @@ def main():
 
     # 2.2 scrape old KGV (ca. 20 min for 1000 symbols)
     kgv_real = []
+    fin_handler = finhandler.Finhandler()
     # relevant years are the last passed 4 years 
     prev_year = dt.datetime.now().year - 1
     REL_YEARS_REAL = [str(year) for year in range(prev_year, prev_year - 4, -1)]
     for row in df_base.loc[df_base['data_all'] == 1].iloc[:].itertuples():
         if row.Index % 100 == 0:
             print(row.Index, row.symbol)
-        kgv_real = kgv_real + f.scrape_finanzen_kgv_real(row.isin, row.kgv_old_url, REL_YEARS_REAL)
+        # kgv_real = kgv_real + f.scrape_finanzen_kgv_real(row.isin, row.kgv_old_url, REL_YEARS_REAL)
+        kgv_real += fin_handler.scrape_kgv_real(row.isin, row.kgv_old_url, REL_YEARS_REAL, row.name_finanzen)
         time.sleep(np.random.uniform(0.3, 0.8))
     df_kgv_real = pd.DataFrame(kgv_real)
     df_kgv_real['kgv'] = np.where(df_kgv_real['kgv'] == '-', np.nan, df_kgv_real['kgv'])

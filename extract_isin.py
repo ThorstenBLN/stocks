@@ -9,6 +9,7 @@ import os
 import requests
 import logging
 import sys
+import finhandler
 
 def main():
     warnings.simplefilter('ignore', 'FutureWarning')
@@ -99,20 +100,24 @@ def main():
     df_xetra_check['data_yf'] = np.where(df_xetra_check['symbol'].isna(), 0, 1)
 
     # 3. check valid symbols at finanzen.net (ca. 1h for each 1000 sybols)
+    fin_handler = finhandler.Finhandler()
     # 3.1 get all relevnt links 
-    BASE_URL = f"https://www.finanzen.net/"
+    # BASE_URL = f"https://www.finanzen.net/"
     fin_links = []
     for row in df_xetra_check.loc[df_xetra_check['data_yf'] == 1].iloc[:].itertuples():
         if row.Index % 100 == 0:
             print(row.Index, row.isin)
         # fin_links.append(f.get_url_finanzen(row.isin, row.name, "XFRA"))
-        fin_links.append(f.get_url_finanzen_xetra(row.isin, row.name))
+        # fin_links.append(f.get_url_finanzen_xetra(row.isin, row.name))
+        fin_links.append(fin_handler.get_links(row.isin, row.name))
         time.sleep(np.random.uniform(0.3, 0.8))
     df_fin_links = pd.DataFrame(fin_links)
     df_fin_links.rename(columns={'symbol':'isin'}, inplace=True)
     # add links and check if symbols are identical 
-    df_fin_links['kgv_old_url'] = BASE_URL + "bilanz_guv/" + df_fin_links['name_finanzen']
-    df_fin_links['kgv_est_url'] = BASE_URL + "schaetzungen/" + df_fin_links['name_finanzen']
+    # df_fin_links['kgv_old_url'] = BASE_URL + "bilanz_guv/" + df_fin_links['name_finanzen']
+    # df_fin_links['kgv_est_url'] = BASE_URL + "schaetzungen/" + df_fin_links['name_finanzen']
+    df_fin_links['kgv_old_url'] = fin_handler.base_url + "bilanz_guv/" + df_fin_links['name_finanzen']
+    df_fin_links['kgv_est_url'] = fin_handler.base_url + "schaetzungen/" + df_fin_links['name_finanzen']
 
     # 4. merge all data and save final list
     df_check_final = df_xetra_check.merge(df_fin_links[['isin', 'name_finanzen', 'symbol_finanzen', 'stock_url', 'termine_url', 'kgv_old_url', 'kgv_est_url']], on='isin', how='left')
