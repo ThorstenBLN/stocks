@@ -8,6 +8,7 @@ import functions as f
 import os
 import requests
 import logging
+import sys
 
 def main():
     warnings.simplefilter('ignore', 'FutureWarning')
@@ -85,13 +86,13 @@ def main():
         df_xetra_check = df_xetra.copy().reset_index(drop=True)
         
     # 1.3. check if xetra data in yfinance (ca. 9 min for 1000 symb) ###########################################
-    session = requests.Session()
-    session.headers.update({'User-Agent': 'stocks_tjo'})
+    # session = requests.Session()
+    # session.headers.update({'User-Agent': 'stocks_tjo'})
     symbols_yf = []
     for row in df_xetra_check.iloc[:].itertuples(): #6109: 10005
         if row.Index % 100 == 0:
             print((row.Index, row.isin))
-        symbols_yf.append(f.yf_xetra_data_available(row.Index, row.isin, session))
+        symbols_yf.append(f.yf_xetra_data_available(row.Index, row.isin))
         time.sleep(np.random.uniform(0.3, 0.8))
     print("all data collected")
     df_xetra_check['symbol'] = symbols_yf
@@ -131,5 +132,6 @@ if __name__ == "__main__":
     try:
         main()
     except Exception as err:
-        logging.info(f"Exception extract_isin main")
+        logging.info(f"{dt.datetime.now().strftime("%d.%m.%Y %H:%M:%S")} Exception extract_isin main")
         logging.error(err, stack_info=True, exc_info=True)
+        sys.exit(1)

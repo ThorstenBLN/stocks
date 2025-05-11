@@ -471,10 +471,10 @@ def update_exr(exr_dict, cur_currency):
         exr_dict[cur_currency] = data_exr['regularMarketPrice']
     return exr_dict
 
-def yf_xetra_data_available(index, isin_code, session):
+def yf_xetra_data_available(index, isin_code):
     '''checks avaiability of isin in yfinance and returns the symbol'''
     try: 
-        data = yf.Ticker(isin_code, session=session)
+        data = yf.Ticker(isin_code)# , session=session)
         return data.info['symbol']    
     except Exception as err:
         print("0", index, isin_code, err)
