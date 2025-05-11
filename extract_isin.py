@@ -132,6 +132,6 @@ if __name__ == "__main__":
     try:
         main()
     except Exception as err:
-        logging.info(f"{dt.datetime.now().strftime("%d.%m.%Y %H:%M:%S")} Exception extract_isin main")
+        logging.info(f"{dt.datetime.now().strftime('%d.%m.%Y %H:%M:%S')} Exception extract_isin main")
         logging.error(err, stack_info=True, exc_info=True)
         sys.exit(1)
