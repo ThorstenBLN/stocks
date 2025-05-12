@@ -200,6 +200,9 @@ def main():
     df_transact.to_excel(PATH + FILE_TRANSACTIONS, index=False)
 
     # 6. send message to telegram
+    if message == "":
+        message = "no trades"
+    message += f"\nreturn: {np.round((df_depot['value_eur'].sum() / 10000 -1) * 100, 2)}%"
     status = f.send_telegram_msg(message, TELEGRAM_TOKEN, CHAT_ID)
     print(status)
 
