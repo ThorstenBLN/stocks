@@ -67,7 +67,7 @@ def main():
     df_dates_jv = df_dates.loc[(df_dates['type'] == 'Hauptversammlung') & (df_dates['time_delta'] <= 0)].copy() 
     df_dates_jv_rel = df_dates_jv.sort_values(['time_delta'], ascending=False).groupby(['isin']).head(1).reset_index()
     # download data
-    DATA_PC = 0.4
+    DATA_PC = 0.5
     end = int(df_base.shape[0] * DATA_PC)
     data = []
     for row in df_base.iloc[end:].itertuples():
@@ -76,7 +76,7 @@ def main():
         qrt_date = df_dates_qrt_rel.loc[df_dates_qrt_rel['isin'] == row.isin]['date']
         jv_date = df_dates_jv_rel.loc[df_dates_jv_rel['isin'] == row.isin]['date']
         data.append(f.get_levermann_data(row, df_index_hist, df_index_prices, DATES, qrt_date, jv_date))
-        time.sleep(np.random.uniform(1, 1.5))
+        time.sleep(np.random.uniform(0.8, 1.2))
     df_data = pd.DataFrame(data)
     print("code data levermann finished successfully")
     df_data['data_date'] = pd.to_datetime(df_data['data_date']).dt.date
