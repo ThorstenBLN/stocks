@@ -180,3 +180,13 @@ KeyError: 'name_finanzen'
 Stack (most recent call last):
   File "/home/runner/work/stocks/stocks/extract_isin.py", line 135, in <module>
     logging.error(err, stack_info=True, exc_info=True)
+ERROR:yfinance:$MTD: possibly delisted; no price data found  (period=2y)
+ERROR:yfinance:$AC: possibly delisted; no price data found  (period=2y)
+ERROR:yfinance:Failed to get ticker 'CA05453A2074.SG' reason: Failed to perform, curl: (28) Operation timed out after 10002 milliseconds with 0 bytes received. See https://curl.se/libcurl/c/libcurl-errors.html first for more details.
+ERROR:yfinance:$SPGI: possibly delisted; no price data found  (period=2y)
+ERROR:yfinance:Failed to get ticker 'WSTEP.OL' reason: Failed to perform, curl: (16) . See https://curl.se/libcurl/c/libcurl-errors.html first for more details.
+ERROR:yfinance:Failed to get ticker 'PGE.V' reason: Failed to perform, curl: (28) Operation timed out after 10002 milliseconds with 0 bytes received. See https://curl.se/libcurl/c/libcurl-errors.html first for more details.
+ERROR:yfinance:$LLYVA: possibly delisted; no price data found  (period=2y)
+ERROR:yfinance:$RCWLY: possibly delisted; no price data found  (period=2y)
+ERROR:yfinance:$RCWLY: possibly delisted; no price data found  (period=5d)
+ERROR:yfinance:$RCWLY: possibly delisted; no price data found  (1d 1926-06-06 -> 2025-05-12)
