@@ -128,7 +128,7 @@ def main():
             message += f.add_to_message("buy", df_temp)
         except Exception as err:
             print("1", row.symbol, err)
-            logging.info(f"{dt.datetime.now().strftime("%d.%m.%Y %H:%M:%S")} Exception depot manager purchase normal: {row.Index} {row.symbol}")
+            logging.info(f"{dt.datetime.now().strftime('%d.%m.%Y %H:%M:%S')} Exception depot manager purchase normal: {row.Index} {row.symbol}")
             logging.error(err, stack_info=True, exc_info=True)
         
     # 2.4. shift stocks to better options
@@ -184,7 +184,7 @@ def main():
                 message += f.add_to_message("buy opt", df_temp)
             except Exception as err:
                 print("error handler", row.symbol, err)
-                logging.info(f"{dt.datetime.now().strftime("%d.%m.%Y %H:%M:%S")} Exception depot manager stock shift: {row.Index} {row.symbol}")
+                logging.info(f"{dt.datetime.now().strftime('%d.%m.%Y %H:%M:%S')} Exception depot manager stock shift: {row.Index} {row.symbol}")
                 logging.error(err, stack_info=True, exc_info=True)
 
     # 3. set new stop loss
