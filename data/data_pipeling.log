@@ -190,3 +190,7 @@ ERROR:yfinance:$LLYVA: possibly delisted; no price data found  (period=2y)
 ERROR:yfinance:$RCWLY: possibly delisted; no price data found  (period=2y)
 ERROR:yfinance:$RCWLY: possibly delisted; no price data found  (period=5d)
 ERROR:yfinance:$RCWLY: possibly delisted; no price data found  (1d 1926-06-06 -> 2025-05-12)
+ERROR:yfinance:$RCWLY: possibly delisted; no price data found  (period=2y)
+ERROR:yfinance:$RCWLY: possibly delisted; no price data found  (period=5d)
+ERROR:yfinance:$RCWLY: possibly delisted; no price data found  (1d 1926-06-07 -> 2025-05-13)
+ERROR:yfinance:Failed to get ticker '2105.HK' reason: Failed to perform, curl: (16) Recv failure: Connection reset by peer. See https://curl.se/libcurl/c/libcurl-errors.html first for more details.
