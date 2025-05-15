@@ -197,3 +197,4 @@ ERROR:yfinance:Failed to get ticker '2105.HK' reason: Failed to perform, curl: (
 ERROR:yfinance:$RCWLY: possibly delisted; no price data found  (period=2y)
 ERROR:yfinance:$RCWLY: possibly delisted; no price data found  (period=5d)
 ERROR:yfinance:$RCWLY: possibly delisted; no price data found  (1d 1926-06-08 -> 2025-05-14)
+ERROR:yfinance:Failed to get ticker 'M5Z.F' reason: Failed to perform, curl: (16) . See https://curl.se/libcurl/c/libcurl-errors.html first for more details.
