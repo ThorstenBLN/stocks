@@ -201,3 +201,4 @@ ERROR:yfinance:Failed to get ticker 'M5Z.F' reason: Failed to perform, curl: (16
 ERROR:yfinance:$RCWLY: possibly delisted; no price data found  (period=2y)
 ERROR:yfinance:$RCWLY: possibly delisted; no price data found  (period=5d)
 ERROR:yfinance:$RCWLY: possibly delisted; no price data found  (1d 1926-06-09 -> 2025-05-15)
+ERROR:yfinance:$GSBD: possibly delisted; no price data found  (period=2y)
