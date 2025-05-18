@@ -34,7 +34,7 @@ def main():
             print(row.Index, row.symbol)
         # kgv_est = kgv_est + f.scrape_finanzen_kgv_est(row.isin, row.kgv_est_url, REL_YEARS_EST)
         kgv_est += fin_handler.scrape_kgv_est(row.isin, row.kgv_est_url, REL_YEARS_EST, row.name_finanzen)
-        time.sleep(np.random.uniform(0.3, 0.8))
+        time.sleep(np.random.uniform(0.2, 0.6))
     df_kgv_est = pd.DataFrame(kgv_est)
     df_kgv_est['kgv'] = np.where(df_kgv_est['kgv'] == "-", np.nan, df_kgv_est['kgv'])
     df_kgv_est['kgv'] = df_kgv_est['kgv'].str.replace(".","").str.replace(",", ".").astype(float)
