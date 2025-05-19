@@ -102,7 +102,7 @@ def main():
         df_temp = f.create_sales_info(df_sales, row, taxes_cum, TRADING_FEE)
         df_transact = pd.concat([df_transact, df_temp])
         # add to telegram message
-        message += f.add_to_message("sell", df_temp)
+        message += f.add_to_message("sell rules", df_temp)
         # delete stocks from depot
         df_depot = df_depot.loc[df_depot['isin'] != row.isin].reset_index(drop=True)
 
@@ -125,7 +125,7 @@ def main():
             # set in depot variable to 1
             df_pur_opt.at[row.Index, 'in_dpt'] = 1
             # add to telegram message
-            message += f.add_to_message("buy", df_temp)
+            message += f.add_to_message("buy rules", df_temp)
         except Exception as err:
             print("1", row.symbol, err)
             logging.info(f"{dt.datetime.now().strftime('%d.%m.%Y %H:%M:%S')} Exception depot manager purchase normal: {row.Index} {row.symbol}")
