@@ -218,3 +218,11 @@ ERROR:yfinance:$GGG-H.V: possibly delisted; no price data found  (period=2y) (Ya
 ERROR:yfinance:$GGG-H.V: possibly delisted; no price data found  (period=5d) (Yahoo error = "No data found, symbol may be delisted")
 ERROR:yfinance:$CNE100002BG6.SG: possibly delisted; no price data found  (period=5d) (Yahoo error = "No data found, symbol may be delisted")
 ERROR:yfinance:Failed to get ticker 'VAU.V' reason: Failed to perform, curl: (16) . See https://curl.se/libcurl/c/libcurl-errors.html first for more details.
+ERROR:yfinance:Failed to get ticker 'WTRG' reason: Failed to perform, curl: (16) . See https://curl.se/libcurl/c/libcurl-errors.html first for more details.
+ERROR:yfinance:$CA57383V1085.SG: possibly delisted; no price data found  (period=5d) (Yahoo error = "No data found, symbol may be delisted")
+ERROR:yfinance:Failed to get ticker 'TOELY' reason: Failed to perform, curl: (16) . See https://curl.se/libcurl/c/libcurl-errors.html first for more details.
+ERROR:yfinance:Failed to get ticker 'OMAB.MX' reason: Failed to perform, curl: (28) Operation timed out after 10003 milliseconds with 0 bytes received. See https://curl.se/libcurl/c/libcurl-errors.html first for more details.
+ERROR:yfinance:$RCWLY: possibly delisted; no price data found  (period=2y)
+ERROR:yfinance:$RCWLY: possibly delisted; no price data found  (period=5d)
+ERROR:yfinance:$RCWLY: possibly delisted; no price data found  (1d 1926-06-14 -> 2025-05-20)
+ERROR:yfinance:Failed to get ticker 'TK' reason: Failed to perform, curl: (16) . See https://curl.se/libcurl/c/libcurl-errors.html first for more details.
