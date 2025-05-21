@@ -235,3 +235,51 @@ ERROR:yfinance:$CNE100002BG6.SG: possibly delisted; no price data found  (period
 ERROR:yfinance:$RCWLY: possibly delisted; no price data found  (period=2y)
 ERROR:yfinance:$RCWLY: possibly delisted; no price data found  (period=5d)
 ERROR:yfinance:$RCWLY: possibly delisted; no price data found  (1d 1926-06-15 -> 2025-05-21)
+INFO:root:Exception depot manager update data: 4 GF.MI
+ERROR:root:Failed to perform, curl: (28) Operation timed out after 30002 milliseconds with 0 bytes received. See https://curl.se/libcurl/c/libcurl-errors.html first for more details.
+Traceback (most recent call last):
+  File "/opt/hostedtoolcache/Python/3.9.22/x64/lib/python3.9/site-packages/curl_cffi/requests/session.py", line 600, in request
+    c.perform()
+  File "/opt/hostedtoolcache/Python/3.9.22/x64/lib/python3.9/site-packages/curl_cffi/curl.py", line 329, in perform
+    self._check_error(ret, "perform")
+  File "/opt/hostedtoolcache/Python/3.9.22/x64/lib/python3.9/site-packages/curl_cffi/curl.py", line 154, in _check_error
+    raise error
+curl_cffi.curl.CurlError: Failed to perform, curl: (28) Operation timed out after 30002 milliseconds with 0 bytes received. See https://curl.se/libcurl/c/libcurl-errors.html first for more details.
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/home/runner/work/stocks/stocks/depot_mgt.py", line 72, in main
+    f.update_depot(df_depot, row, cur_time, cur_exr)
+  File "/home/runner/work/stocks/stocks/functions.py", line 572, in update_depot
+    cur_info = yf.Ticker(row.symbol).info
+  File "/opt/hostedtoolcache/Python/3.9.22/x64/lib/python3.9/site-packages/yfinance/ticker.py", line 159, in info
+    return self.get_info()
+  File "/opt/hostedtoolcache/Python/3.9.22/x64/lib/python3.9/site-packages/yfinance/base.py", line 289, in get_info
+    data = self._quote.info
+  File "/opt/hostedtoolcache/Python/3.9.22/x64/lib/python3.9/site-packages/yfinance/scrapers/quote.py", line 511, in info
+    self._fetch_info()
+  File "/opt/hostedtoolcache/Python/3.9.22/x64/lib/python3.9/site-packages/yfinance/scrapers/quote.py", line 612, in _fetch_info
+    result = self._fetch(modules=modules)
+  File "/opt/hostedtoolcache/Python/3.9.22/x64/lib/python3.9/site-packages/yfinance/scrapers/quote.py", line 590, in _fetch
+    result = self._data.get_raw_json(_QUOTE_SUMMARY_URL_ + f"/{self._symbol}", user_agent_headers=self._data.user_agent_headers, params=params_dict)
+  File "/opt/hostedtoolcache/Python/3.9.22/x64/lib/python3.9/site-packages/yfinance/data.py", line 404, in get_raw_json
+    response = self.get(url, user_agent_headers=user_agent_headers, params=params, timeout=timeout)
+  File "/opt/hostedtoolcache/Python/3.9.22/x64/lib/python3.9/site-packages/yfinance/utils.py", line 102, in wrapper
+    result = func(*args, **kwargs)
+  File "/opt/hostedtoolcache/Python/3.9.22/x64/lib/python3.9/site-packages/yfinance/data.py", line 341, in get
+    return self._make_request(url, request_method = self._session.get, user_agent_headers=user_agent_headers, params=params, timeout=timeout)
+  File "/opt/hostedtoolcache/Python/3.9.22/x64/lib/python3.9/site-packages/yfinance/utils.py", line 102, in wrapper
+    result = func(*args, **kwargs)
+  File "/opt/hostedtoolcache/Python/3.9.22/x64/lib/python3.9/site-packages/yfinance/data.py", line 378, in _make_request
+    response = request_method(**request_args)
+  File "/opt/hostedtoolcache/Python/3.9.22/x64/lib/python3.9/site-packages/curl_cffi/requests/session.py", line 617, in get
+    return self.request(method="GET", url=url, **kwargs)
+  File "/opt/hostedtoolcache/Python/3.9.22/x64/lib/python3.9/site-packages/curl_cffi/requests/session.py", line 605, in request
+    raise error(str(e), e.code, rsp) from e
+curl_cffi.requests.exceptions.Timeout: Failed to perform, curl: (28) Operation timed out after 30002 milliseconds with 0 bytes received. See https://curl.se/libcurl/c/libcurl-errors.html first for more details.
+Stack (most recent call last):
+  File "/home/runner/work/stocks/stocks/depot_mgt.py", line 211, in <module>
+    main()
+  File "/home/runner/work/stocks/stocks/depot_mgt.py", line 76, in main
+    logging.error(err, stack_info=True, exc_info=True)
