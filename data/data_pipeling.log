@@ -301,3 +301,10 @@ ERROR:yfinance:$MLBMD.PA: possibly delisted; no price data found  (1d 1926-06-16
 ERROR:yfinance:$GGG-H.V: possibly delisted; no price data found  (period=2y) (Yahoo error = "No data found, symbol may be delisted")
 ERROR:yfinance:$GGG-H.V: possibly delisted; no price data found  (period=5d) (Yahoo error = "No data found, symbol may be delisted")
 ERROR:yfinance:$CNE100002BG6.SG: possibly delisted; no price data found  (period=5d) (Yahoo error = "No data found, symbol may be delisted")
+ERROR:yfinance:Failed to get ticker 'CA68707R1038.SG' reason: Failed to perform, curl: (16) . See https://curl.se/libcurl/c/libcurl-errors.html first for more details.
+ERROR:yfinance:$CA57383V1085.SG: possibly delisted; no price data found  (period=5d) (Yahoo error = "No data found, symbol may be delisted")
+ERROR:yfinance:$YTT.IL: possibly delisted; no price data found  (period=2y) (Yahoo error = "No data found, symbol may be delisted")
+ERROR:yfinance:$YTT.IL: possibly delisted; no price data found  (period=5d) (Yahoo error = "No data found, symbol may be delisted")
+ERROR:yfinance:$RCWLY: possibly delisted; no price data found  (period=2y)
+ERROR:yfinance:$RCWLY: possibly delisted; no price data found  (period=5d)
+ERROR:yfinance:$RCWLY: possibly delisted; no price data found  (1d 1926-06-17 -> 2025-05-23)
