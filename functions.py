@@ -9,90 +9,6 @@ import re
 import janitor
 import os
 
-
-user_agent_list = [
-        "Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.1 (KHTML, like Gecko) Chrome/22.0.1207.1 Safari/537.1",
-        "Mozilla/5.0 (X11; CrOS i686 2268.111.0) AppleWebKit/536.11 (KHTML, like Gecko) Chrome/20.0.1132.57 Safari/536.11",
-        "Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/536.6 (KHTML, like Gecko) Chrome/20.0.1092.0 Safari/536.6",
-        "Mozilla/5.0 (Windows NT 6.2) AppleWebKit/536.6 (KHTML, like Gecko) Chrome/20.0.1090.0 Safari/536.6",
-        "Mozilla/5.0 (Windows NT 6.2; WOW64) AppleWebKit/537.1 (KHTML, like Gecko) Chrome/19.77.34.5 Safari/537.1",
-        "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/536.5 (KHTML, like Gecko) Chrome/19.0.1084.9 Safari/536.5",
-        "Mozilla/5.0 (Windows NT 6.0) AppleWebKit/536.5 (KHTML, like Gecko) Chrome/19.0.1084.36 Safari/536.5",
-        "Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/536.3 (KHTML, like Gecko) Chrome/19.0.1063.0 Safari/536.3",
-        "Mozilla/5.0 (Windows NT 5.1) AppleWebKit/536.3 (KHTML, like Gecko) Chrome/19.0.1063.0 Safari/536.3",
-        "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_8_0) AppleWebKit/536.3 (KHTML, like Gecko) Chrome/19.0.1063.0 Safari/536.3",
-        "Mozilla/5.0 (Windows NT 6.2) AppleWebKit/536.3 (KHTML, like Gecko) Chrome/19.0.1062.0 Safari/536.3",
-        "Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/536.3 (KHTML, like Gecko) Chrome/19.0.1062.0 Safari/536.3",
-        "Mozilla/5.0 (Windows NT 6.2) AppleWebKit/536.3 (KHTML, like Gecko) Chrome/19.0.1061.1 Safari/536.3",
-        "Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/536.3 (KHTML, like Gecko) Chrome/19.0.1061.1 Safari/536.3",
-        "Mozilla/5.0 (Windows NT 6.1) AppleWebKit/536.3 (KHTML, like Gecko) Chrome/19.0.1061.1 Safari/536.3",
-        "Mozilla/5.0 (Windows NT 6.2) AppleWebKit/536.3 (KHTML, like Gecko) Chrome/19.0.1061.0 Safari/536.3",
-        "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/535.24 (KHTML, like Gecko) Chrome/19.0.1055.1 Safari/535.24",
-        "Mozilla/5.0 (Windows NT 6.2; WOW64) AppleWebKit/535.24 (KHTML, like Gecko) Chrome/19.0.1055.1 Safari/535.24",
-        "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/86.0.4240.111 Safari/537.36",
-        "Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:135.0) Gecko/20100101 Firefox/135.0"
-    ]
-
-
-def scrape_yahoo_url(url):
-    cookies = {"Cookie": "A1=d=AQABBEiFp2cCEFCzb_m_-DndGR1baoxeXu0FEgABCAHSqGfaZ-A9b2UBAiAAAAcIRYWnZztNAcA&S=AQAAArexugCmp9Gf7XSFWHqNQtg; GUC=AQABCAFnqNJn2kIc-QQs&s=AQAAANF8CSel&g=Z6eFUg; A3=d=AQABBEiFp2cCEFCzb_m_-DndGR1baoxeXu0FEgABCAHSqGfaZ-A9b2UBAiAAAAcIRYWnZztNAcA&S=AQAAArexugCmp9Gf7XSFWHqNQtg; cmp=t=1739809550&j=1&u=1---&v=67; PRF=t%3DDBK.DE%252BBAS.F%252BPNE3.DE%252BEOAN.DE%252BDR0.DE%252BNEM.DE%252BPSG.DE%252BVOW3.DE%252BMED.DE%252BPSG.F%252BNXU.DE%252BWAC.DE%252BSIE.DE%252BMUX.DE%252BBIKE.F; dflow=418; A1S=d=AQABBEiFp2cCEFCzb_m_-DndGR1baoxeXu0FEgABCAHSqGfaZ-A9b2UBAiAAAAcIRYWnZztNAcA&S=AQAAArexugCmp9Gf7XSFWHqNQtg; EuConsent=CQMgjEAQMgjEAAOACKDEBdFgAAAAAAAAACiQAAAAAAAA"}
-    headers = {
-    "Accept": "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8",
-    "Accept-Encoding": "gzip, deflate, br, zstd",
-    "Accept-Language": "en-US,en;q=0.5",
-    "Sec-Fetch-Dest": "empty",
-    "Sec-Fetch-Mode": "cors",
-    "Sec-Fetch-Site": "same-origin",    
-    "User-Agent": random.choice(user_agent_list),
-    # "Referer": referer
-    }
-    num_retries = 16
-    for x in range(0, num_retries):
-        try:
-            page = requests.get(url, headers=headers, cookies=cookies)
-            soup = BeautifulSoup(page.content, 'html.parser', from_encoding="utf-8")
-            str_error = None
-
-        except Exception as e:
-            str_error = str(e)
-            print("error", str_error, " trying again for the ", x+1, " time")
-        if str_error:
-                time.sleep(0.8 + random.random())
-        else:
-            break
-    return soup
-
-
-def scrape_finanzen_url(url):
-    cookies = {"Cookie": "A1=d=AQABBEiFp2cCEFCzb_m_-DndGR1baoxeXu0FEgABCAHSqGfaZ-A9b2UBAiAAAAcIRYWnZztNAcA&S=AQAAArexugCmp9Gf7XSFWHqNQtg; GUC=AQABCAFnqNJn2kIc-QQs&s=AQAAANF8CSel&g=Z6eFUg; A3=d=AQABBEiFp2cCEFCzb_m_-DndGR1baoxeXu0FEgABCAHSqGfaZ-A9b2UBAiAAAAcIRYWnZztNAcA&S=AQAAArexugCmp9Gf7XSFWHqNQtg; cmp=t=1739809550&j=1&u=1---&v=67; PRF=t%3DDBK.DE%252BBAS.F%252BPNE3.DE%252BEOAN.DE%252BDR0.DE%252BNEM.DE%252BPSG.DE%252BVOW3.DE%252BMED.DE%252BPSG.F%252BNXU.DE%252BWAC.DE%252BSIE.DE%252BMUX.DE%252BBIKE.F; dflow=418; A1S=d=AQABBEiFp2cCEFCzb_m_-DndGR1baoxeXu0FEgABCAHSqGfaZ-A9b2UBAiAAAAcIRYWnZztNAcA&S=AQAAArexugCmp9Gf7XSFWHqNQtg; EuConsent=CQMgjEAQMgjEAAOACKDEBdFgAAAAAAAAACiQAAAAAAAA"}
-    headers = {
-    "Accept": "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8",
-    "Accept-Encoding": "gzip, deflate, br, zstd",
-    "Accept-Language": "en-US,en;q=0.5",
-    "Connection": "keep-alive",
-    "Sec-Fetch-Dest": "empty",
-    "Sec-Fetch-Mode": "cors",
-    "Sec-Fetch-Site": "same-origin",    
-    "User-Agent": random.choice(user_agent_list),
-    # "Referer": "https://www.finanzen.net/"
-    }
-    num_retries = 16
-    for x in range(0, num_retries):
-        try:
-            page = requests.get(url, headers=headers)# , cookies=cookies)
-            soup = BeautifulSoup(page.content, 'html.parser', from_encoding="utf-8")
-            str_error = None
-
-        except Exception as e:
-            str_error = str(e)
-            print("error", str_error, " trying again for the ", x+1, " time")
-        if str_error:
-                time.sleep(0.8 + random.random())
-        else:
-            break
-    return soup
-
-
 # functions
 def get_hist_prices(data: pd.DataFrame, dates:dict):
     # get historic prices of the date (try except if there was no trade day)
@@ -321,130 +237,6 @@ def add_levermann_score(df_data, na_penalty):
     df_valid['lev_score'] = df_valid.iloc[:, score_start:].sum(axis=1)
     return df_valid
 
-def get_url_finanzen(symbol, name, market):
-    '''scrapes the finanzen page to get the url for termine and the name used by finanzen for the given symbol'''
-    BASE_URL = f"https://www.finanzen.net/"
-    df_dates = pd.DataFrame()
-    # find the website by symbol
-    url = f"https://www.finanzen.net/suchergebnis.asp?_search={symbol}"
-    soup = scrape_finanzen_url(url)
-    # for isin search (Frankfurt stocks): try to get directly the url from isin
-    if market == "XFRA":
-        try:
-            soup2 = soup.find("head")
-            stock_url = soup2.find('link', href=lambda href: href and "www.finanzen.net/aktien/" in href)['href']
-        except:
-            print('error 4: no isin match')
-            return {'symbol': symbol, 'name': name, 'symbol_finanzen':np.nan, 'name_finanzen':np.nan, 'stock_url':np.nan, 'termine_url':np.nan}
-    # for symbol search (us stocks): try to find stock url from search menu
-    else:
-        try:
-            stock_menu_url = BASE_URL + soup.find("a", 'tab__item', string=lambda text: text and "Aktien" in text)['href']    
-        except:
-            print("error 1: no stock menu")
-            return {'symbol': symbol, 'name': name, 'symbol_finanzen':np.nan, 'name_finanzen':np.nan, 'stock_url':np.nan, 'termine_url':np.nan}
-        soup_2 = scrape_finanzen_url(stock_menu_url)
-        try:
-            # verify if the name of the company appears similarily in finanzen.net
-            check_name = re.sub('[!-,\'&.\\/]', ' ', name.lower()).split()
-            if check_name[0] == "the" and len(check_name) > 1:
-                check_name = check_name[1]
-            else: 
-                check_name = check_name[0]
-            stock_url = BASE_URL + soup_2.find(attrs={'class':"horizontal-scrolling"}).find('a', href=True, string=lambda text: text and check_name in text.lower())['href']
-        except:
-            print("error 2: no name matching")
-            return {'symbol': symbol, 'name': name, 'symbol_finanzen':np.nan, 'name_finanzen':np.nan, 'stock_url':np.nan, 'termine_url':np.nan}
-    # get the termine website from menu
-    soup_3 = scrape_finanzen_url(stock_url)
-    try:
-        termine_url = BASE_URL + soup_3.find("a", "details-navigation__item-label", string="Termine", href=True)['href']
-    except:
-        print("error 3: no termine url")
-        return {'symbol': symbol, 'name': name, 'symbol_finanzen':np.nan, 'name_finanzen':np.nan, 'stock_url':stock_url, 'termine_url':np.nan}
-    name_finanzen = termine_url.replace("https://www.finanzen.net//termine/", "")    
-    # get the symbol of finanzen
-    try:
-        symbol_finanzen = soup_3.find("em", "badge__key", string="Symbol").find_next_sibling("span").text 
-    except:
-        return {'symbol': symbol, 'name': name, 'symbol_finanzen':np.nan, 'name_finanzen':name_finanzen, 'stock_url':stock_url, 'termine_url':termine_url}
-    return {'symbol': symbol, 'name': name, 'symbol_finanzen':symbol_finanzen, 'name_finanzen':name_finanzen, 'stock_url':stock_url, 'termine_url':termine_url}
-
-def scrape_finanzen_termine(isin_code, termine_url):
-    '''scrapes the termine table of finanzen'''
-    soup = scrape_finanzen_url(termine_url)
-    try:
-        dates_table = soup.find_all("tbody")[2] #, "page-content__item page-content__item--space"
-    except:
-        print("error 1: no tabel")
-        return [{'isin': isin_code, 'termine_url':termine_url, 'type':np.nan, 'info':np.nan, 'date':np.nan}]
-    if "keine" in dates_table.text.lower().strip():
-        print("error 2: no dates")
-        return [{'isin': isin_code, 'termine_url':termine_url, 'type':np.nan, 'info':np.nan, 'date':np.nan}]
-    else:
-        count = 0
-        dates = []
-        # if there is table scrape the first 5 dates
-        for tr in dates_table.find_all('tr')[0:5]:
-            count += 1
-            date = tr.find_all('td')
-            dates = dates + [{'isin': isin_code, 'termine_url':termine_url, 'type':date[0].text.strip(), 'info':date[2].text.strip(), 'date':date[3].text.strip()}]
-        return dates
-    
-def scrape_finanzen_kgv_real(isin_code, kgv_old_url, rel_years):
-    '''finds table of Unternehmenskennzahlen and scrapes th unverwässerte kgv for rel_years'''
-    kgv_real = []
-    soup_kgv = scrape_finanzen_url(kgv_old_url)
-    try:
-        table = soup_kgv.find("h2", string=lambda text: text and "unternehmenskennzahlen" in text.lower()).parent
-        years = table.find_all("th")
-        cur_kgv = table.find("label", "checkbox__label", string=lambda text: text and "kgv" in text.lower() and "unver" in text.lower()).parent.parent#, string=lambda text: text and "kgv" in text.lower())
-    except:
-        print("error 1: no Unternehmenskennzahlen Tabelle or KGV KPI")
-        return [{'isin':isin_code, 'year':np.nan, 'kgv':np.nan}]
-    for year in years:
-        if year.text in rel_years:
-            kgv_real.append({'isin':isin_code, 'year':year.text, 'kgv':cur_kgv.text})
-        cur_kgv = cur_kgv.next_sibling
-    return kgv_real
-
-def scrape_finanzen_kgv_est(isin_code, kgv_est_url, rel_years):
-    '''finds table of Unternehmenskennzahlen and scrapes the estimate kgv for rel_years'''
-    kgv_est = []
-    soup_kgv = scrape_finanzen_url(kgv_est_url)
-    try:
-        table = soup_kgv.find("h1", string=lambda text: text and "schätzungen* zu" in text.lower()).parent
-        years = table.find_all("th")
-        cur_kgv = table.find("td", "table__td", string=lambda text: text and "kgv" in text.lower())
-    except:
-        print("error 1: no Unternehmenskennzahlen Tabelle or KGV KPI")
-        return [{'isin':isin_code, 'year':rel_years[0], 'kgv':np.nan}]
-        # get how many years to scrape (2023 and 2024)
-    for year in years:
-        if year.text in rel_years:
-            kgv_est.append({'isin':isin_code, 'year':year.text, 'kgv':cur_kgv.text})
-        cur_kgv = cur_kgv.next_sibling
-    return kgv_est
-
-def scrape_dates(df):
-    '''scrapes all the past dates from finanzen.net for a certain symbol and termine_url given in a dataframe'''
-    dates = []
-    for row in df.itertuples():
-        if row.Index % 100 == 0:
-            print(row.Index, row.isin)
-        dates += scrape_finanzen_termine(row.isin, row.termine_url)
-        time.sleep(np.random.uniform(0.3, 0.8))
-    df_dates = pd.DataFrame(dates)
-    df_dates = pd.concat([df_dates.drop(columns=['date'].copy()), df_dates['date'].str.split(n=2, expand=True)], axis= 1)
-    if 1 in df_dates.columns:
-        df_dates.rename(columns={0:'date', 1:'estimate'}, inplace=True)
-    else:
-        df_dates.rename(columns={0:'date'}, inplace=True)
-        df_dates['estimate'] = np.nan
-    df_dates['date'] = pd.to_datetime(df_dates['date'], format="%d.%m.%Y")
-    df_dates['estimate'] = np.where(df_dates['estimate'].isna(), 0, 1)
-    print("code termine finished successfully")
-    return df_dates
 
 def get_xetra_symbol_file():
     '''downloads the csv file from deutsche Börese homepage and stores it to data'''
@@ -476,35 +268,6 @@ def yf_xetra_data_available(index, isin_code):
         print("0", index, isin_code, err)
         return np.nan
     
-def get_url_finanzen_xetra(isin_code, name):
-    '''scrapes the finanzen page to get the url for termine and the name used by finanzen for the given symbol'''
-    BASE_URL = f"https://www.finanzen.net/"
-    df_dates = pd.DataFrame()
-    # find the website by symbol
-    url = f"https://www.finanzen.net/suchergebnis.asp?_search={isin_code}"
-    soup = scrape_finanzen_url(url)
-    # for isin search (Frankfurt stocks): try to get directly the url from isin
-    try:
-        soup2 = soup.find("head")
-        stock_url = soup2.find('link', href=lambda href: href and "www.finanzen.net/aktien/" in href)['href']
-    except:
-        print('error 4: no isin match')
-        return {'isin': isin_code, 'name': name, 'symbol_finanzen':np.nan, 'name_finanzen':np.nan, 'stock_url':np.nan, 'termine_url':np.nan}
-    # get the termine website from menu
-    soup_3 = scrape_finanzen_url(stock_url)
-    try:
-        termine_url = BASE_URL + soup_3.find("a", "details-navigation__item-label", string="Termine", href=True)['href']
-    except:
-        print("error 3: no termine url")
-        return {'isin': isin_code, 'name': name, 'symbol_finanzen':np.nan, 'name_finanzen':np.nan, 'stock_url':stock_url, 'termine_url':np.nan}
-    name_finanzen = termine_url.replace("https://www.finanzen.net//termine/", "")    
-    # get the symbol of finanzen
-    try:
-        symbol_finanzen = soup_3.find("em", "badge__key", string="Symbol").find_next_sibling("span").text 
-    except:
-        return {'isin': isin_code, 'name': name, 'symbol_finanzen':np.nan, 'name_finanzen':name_finanzen, 'stock_url':stock_url, 'termine_url':termine_url}
-    return {'isin': isin_code, 'name': name, 'symbol_finanzen':symbol_finanzen, 'name_finanzen':name_finanzen, 'stock_url':stock_url, 'termine_url':termine_url}
-
 def update_bank_and_taxes(df_depot, row, tax_rate, fee):
     '''calculates tax of sales and deducts it from account or adds it to tax_cum (taxshield for losses)'''
     gain = (row.price_cur_eur - row.price_buy_eur) * row.amount
@@ -592,3 +355,17 @@ def define_invest_value(bank_funds, INVEST_VALUE, MIN_INVEST_VALUE, TRADING_FEE)
     else:
         value = None 
     return value
+
+def get_historic_data(row):
+    '''get at max 5 years data from all stocks for lstm training'''
+    dat = yf.Ticker(row.symbol)
+    try:
+        df_hist = dat.history(period="5y").reset_index()
+    except:
+        try:
+            df_hist = dat.history(period=dat.get_history_metadata()['validRanges'][-1]).reset_index()
+        except:
+            return pd.DataFrame()
+    df_hist['isin'] = row.isin
+    df_hist['symbol'] = row.symbol
+    return df_hist
