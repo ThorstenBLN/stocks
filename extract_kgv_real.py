@@ -33,7 +33,7 @@ def main():
             print(row.Index, row.symbol)
         # kgv_real = kgv_real + f.scrape_finanzen_kgv_real(row.isin, row.kgv_old_url, REL_YEARS_REAL)
         kgv_real += fin_handler.scrape_kgv_real(row.isin, row.kgv_old_url, REL_YEARS_REAL, row.name_finanzen)
-        time.sleep(np.random.uniform(0.2, 0.6))
+        time.sleep(np.random.uniform(0.125, 0.45))
     df_kgv_real = pd.DataFrame(kgv_real)
     df_kgv_real['kgv'] = np.where(df_kgv_real['kgv'] == '-', np.nan, df_kgv_real['kgv'])
     df_kgv_real['kgv'] = df_kgv_real['kgv'].str.replace(".","").str.replace(",", ".").astype(float)
