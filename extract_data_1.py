@@ -7,6 +7,7 @@ import openpyxl
 import datetime as dt
 import warnings
 import functions as f
+import finhandler
 import re
 import logging
 import sys
@@ -45,7 +46,8 @@ def main():
         df_dates_renew = df_result_cur.loc[mask_renew][['isin']]
         df_dates_renew = df_base.merge(df_dates_renew, on='isin', how='inner')
         # 2.2 renew the dates for selected symbols
-        df_dates_new = f.scrape_dates(df_dates_renew)
+        fin_handler = finhandler.Finhandler()
+        df_dates_new = fin_handler.get_all_dates(df_dates_renew)
         df_dates_new['check'] = 1
         # 2.3 add the new dates to datesfiles and save file
         df_dates_update = df_dates.merge(df_dates_new[['isin', 'check']], how='left') # mark the isins for which an update is available
