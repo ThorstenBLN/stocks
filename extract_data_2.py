@@ -76,7 +76,7 @@ def main():
         qrt_date = df_dates_qrt_rel.loc[df_dates_qrt_rel['isin'] == row.isin]['date']
         jv_date = df_dates_jv_rel.loc[df_dates_jv_rel['isin'] == row.isin]['date']
         data.append(f.get_levermann_data(row, df_index_hist, df_index_prices, DATES, qrt_date, jv_date))
-        time.sleep(np.random.uniform(0.8, 1.2))
+        time.sleep(np.random.uniform(0.6, 1.0))
     df_data = pd.DataFrame(data)
     print("code data levermann finished successfully")
     df_data['data_date'] = pd.to_datetime(df_data['data_date']).dt.date
