@@ -67,7 +67,7 @@ def main():
     df_dates_jv = df_dates.loc[(df_dates['type'] == 'Hauptversammlung') & (df_dates['time_delta'] <= 0)].copy() 
     df_dates_jv_rel = df_dates_jv.sort_values(['time_delta'], ascending=False).groupby(['isin']).head(1).reset_index()
     # download data
-    DATA_PC = 0.5
+    DATA_PC = 0.45
     end = int(df_base.shape[0] * DATA_PC)
     data = []
     for row in df_base.iloc[end:].itertuples():

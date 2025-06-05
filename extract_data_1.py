@@ -90,7 +90,7 @@ def main():
 
     # download data
     data = []
-    DATA_PC = 0.5
+    DATA_PC = 0.45
     end = int(df_base.shape[0] * DATA_PC)
     for row in df_base.iloc[:end].itertuples():
         if row.Index % 100 == 0:
