@@ -12,6 +12,7 @@ import sys
 import finhandler
 
 def main():
+    time_1 = time.time()
     warnings.simplefilter('ignore', 'FutureWarning')
     logging.basicConfig(filename='./data/data_pipeling.log', level=logging.INFO)
 
@@ -50,6 +51,8 @@ def main():
     df_xetra['symbol'] = np.nan
     df_xetra['status'] = "xetra_ver"
     df_xetra['data_yf'] = 0
+    time_2 = time.time()
+    print(f"loading xetra file: {np.round((time_2 - time_1)/60, 2).item()} minutes")
 
     COLUMNS_XETRA = ['symbol', 'isin', 'name', 'price', 'type', 'status','data_yf']
     df_xetra = df_xetra[COLUMNS_XETRA].reset_index(drop=True)
@@ -98,6 +101,9 @@ def main():
     print("all data collected")
     df_xetra_check['symbol'] = symbols_yf
     df_xetra_check['data_yf'] = np.where(df_xetra_check['symbol'].isna(), 0, 1)
+    time_1 = time.time()
+    print(f"check yf data: {np.round((time_1 - time_2)/60, 2).item()} minutes")
+
 
     # 3. check valid symbols at finanzen.net (ca. 1h for each 1000 sybols)
     fin_handler = finhandler.Finhandler()
@@ -118,6 +124,8 @@ def main():
     # df_fin_links['kgv_est_url'] = BASE_URL + "schaetzungen/" + df_fin_links['name_finanzen']
     df_fin_links['kgv_old_url'] = fin_handler.base_url + "bilanz_guv/" + df_fin_links['name_finanzen']
     df_fin_links['kgv_est_url'] = fin_handler.base_url + "schaetzungen/" + df_fin_links['name_finanzen']
+    time_2 = time.time()
+    print(f"load links: {np.round((time_2 - time_1)/60, 2).item()} minutes")
 
     # 4. merge all data and save final list
     df_check_final = df_xetra_check.merge(df_fin_links[['isin', 'name_finanzen', 'symbol_finanzen', 'stock_url', 'termine_url', 'kgv_old_url', 'kgv_est_url']], on='isin', how='left')
@@ -138,6 +146,8 @@ def main():
         df_check_final['exclude'] = df_check_final['exclude'].fillna(0)
         df_check_final.loc[(df_check_final['data_all'] == 1) & (df_check_final['exclude'] == 0)].to_excel(PATH + FILE, index=False)
         df_check_final.loc[df_check_final['data_all'] == 0].to_excel(PATH + FILE_SYM_DEL, index=False)
+    time_1 = time.time()
+    print(f"save data: {np.round((time_1 - time_2)/60, 2).item()} minutes")
 
 if __name__ == "__main__":
     try:
