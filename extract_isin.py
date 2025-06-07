@@ -139,7 +139,7 @@ def main():
         df_exclude = pd.read_csv("./data/exclude_isin.csv")
         df_used_final = df_used_final.merge(df_exclude, on='isin', how='left')
         df_used_final['exclude'] = df_used_final['exclude'].fillna(0)
-        df_used_final.loc[(df_used_final['data_all'] == 1) / (df_used_final['exclude'] == 0)].to_excel(PATH + FILE, index=False)
+        df_used_final.loc[(df_used_final['data_all'] == 1) & (df_used_final['exclude'] == 0)].to_excel(PATH + FILE, index=False)
     else:
         df_exclude = pd.read_csv("./data/exclude_isin.csv")
         df_check_final = df_check_final.merge(df_exclude, on='isin', how='left')
