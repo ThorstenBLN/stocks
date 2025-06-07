@@ -41,7 +41,7 @@ def main():
     df_dates = pd.read_excel(PATH + FILE_DATES)
     
     time_2 = time.time()
-    print(f"loading files: {np.round((time_2 - time_1)/60, 2)} minutes")
+    print(f"loading files: {np.round((time_2 - time_1)/60, 2).item()} minutes")
     # 2. refresh financial dates ###########################################################
     # 2.1 filter on symbols where last reporting date is older then x days (ca. 25 min / 1000 symbols)
     if not df_result_cur.empty:
@@ -58,7 +58,7 @@ def main():
         df_dates_update.drop(columns='check').to_excel(PATH + FILE_DATES, index=False)
 
     time_1 = time.time()
-    print(f"update dates: {np.round((time_1 - time_2)/60, 2)} minutes")
+    print(f"update dates: {np.round((time_1 - time_2)/60, 2).item()} minutes")
     # 3. load data for levermann formual part 1
     # 3.1 base data index and relevant dates #######################################################
     dat_index = yf.Ticker(INDEX_SYMBOL)
@@ -86,7 +86,7 @@ def main():
     df_dates_jv = df_dates.loc[(df_dates['type'] == 'Hauptversammlung') & (df_dates['time_delta'] <= 0)].copy() 
     df_dates_jv_rel = df_dates_jv.sort_values(['time_delta'], ascending=False).groupby(['isin']).head(1).reset_index()
     time_2 = time.time()
-    print(f"download indices and prepare dates: {np.round((time_2 - time_1)/60, 2)} minutes")
+    print(f"download indices and prepare dates: {np.round((time_2 - time_1)/60, 2).item()} minutes")
 
     # download data
     data = []
@@ -105,7 +105,7 @@ def main():
     df_data.to_excel(PATH + FILE_DATA_1, index=False)
     print("code data levermann finished successfully")
     time_1 = time.time()
-    print(f"download lev-data: {(np.round(time_1 - time_2)/60, 2)} minutes")
+    print(f"download lev-data: {(np.round(time_1 - time_2)/60, 2).item()} minutes")
 
 if __name__ == "__main__":
     try:

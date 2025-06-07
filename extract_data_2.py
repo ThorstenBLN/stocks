@@ -29,6 +29,7 @@ def main():
     DAYS_THRES = 85
 
     # 1. load base data ####################################################################
+    time_1 = time.time()
     if not os.path.exists(PATH + FILE_RESULT_DAY): # for the first time there is no result file
         df_result_cur = pd.DataFrame()
         df_result_hist = pd.DataFrame()
@@ -66,6 +67,8 @@ def main():
     df_dates_qrt_rel = df_dates_qrt.sort_values(['time_delta'], ascending=False).groupby(['isin']).head(1).reset_index()
     df_dates_jv = df_dates.loc[(df_dates['type'] == 'Hauptversammlung') & (df_dates['time_delta'] <= 0)].copy() 
     df_dates_jv_rel = df_dates_jv.sort_values(['time_delta'], ascending=False).groupby(['isin']).head(1).reset_index()
+    time_2 = time.time()
+    print(f"loading files and prepare dates data: {np.round((time_2 - time_1)/60, 2).item()} minutes")
     # download data
     DATA_PC = 0.45
     end = int(df_base.shape[0] * DATA_PC)
@@ -83,7 +86,8 @@ def main():
     df_data_1 = pd.read_excel(PATH + FILE_DATA_1)
     df_data = pd.concat([df_data_1, df_data])
     df_data.to_excel(PATH + FILE_DATA, index=False)
-
+    time_1 = time.time()
+    print(f"extract ldata: {np.round((time_1 - time_2)/60, 2).item()} minutes")
     # 4. calculate levermann score #############################################################
     df_kgv = pd.read_excel(PATH + FILE_KGV)
     # df_data = pd.read_excel(PATH + FILE_DATA)
@@ -94,6 +98,8 @@ def main():
     df_result.to_excel(PATH + FILE_RESULT_DAY, index=False)
     df_result_tot = pd.concat([df_result_hist, df_result], axis=0).reset_index(drop=True)
     df_result_tot.to_csv(PATH + FILE_RESULT, index=False)
+    time_2 = time.time()
+    print(f"merge and save data: {np.round((time_2 - time_1)/60, 2).item()} minutes")
 
 if __name__ == "__main__":
     try:

@@ -123,7 +123,7 @@ class Finhandler():
             if row.Index % 100 == 0:
                 print(row.Index, row.isin, row.name_finanzen)
             dates += self.scrape_termine(row.isin, row.termine_url, row.name_finanzen)
-            time.sleep(np.random.uniform(0.2, 0.5))
+            time.sleep(np.random.uniform(0.125, 0.45))
         df_dates = pd.DataFrame(dates)
         df_dates = pd.concat([df_dates.drop(columns=['date'].copy()), df_dates['date'].str.split(n=2, expand=True)], axis= 1)
         if 1 in df_dates.columns:
