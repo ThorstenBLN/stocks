@@ -112,8 +112,23 @@ df_all['no_moves'] = df_all.groupby('isin')['no_moves'].transform('max')
 # 4.4. calculate no of trading days
 df_all['n_days'] = df_all.groupby('isin')['close'].transform('count')
 df_all['few_days'] = np.where(df_all['n_days'] < THRES_MIN_DAYS, 1, 0)
-# 4.5. exclude stocks
-df_all['exclude'] = np.where(df_all['mini_stock'] + df_all['no_moves'] + df_all['few_days'] < 1, 0, 1)
+# 4.6 stocks with less than 2 orders in a month movement in current year
+df_all['year'] = df_all['date'].dt.year
+REL_YEAR = [(dt.datetime.today().year)]
+MIN_SALES_MONTH = 2
+months = dt.datetime.today().month
+if dt.datetime.today().month < 3:
+    REL_YEAR.append(dt.datetime.today().year - 1)
+    months += 12
+df_vol = df_all.loc[df_all['year'].isin(REL_YEAR)].groupby(['isin', 'year']).agg(vol_mean=('volume', 'mean'), vol_sum=('volume', 'sum')).reset_index()
+df_vol = df_vol.loc[df_vol['vol_sum'] < months * MIN_SALES_MONTH]
+df_vol['low_volume'] = 1 
+df_all = df_all.merge(df_vol[['isin', 'low_volume']], on='isin', how='left')
+df_all['low_volume'] = df_all['low_volume'].fillna(0)
+# 4.7. exclude stocks
+df_all['exclude'] = np.where(df_all['mini_stock'] + df_all['no_moves'] + df_all['few_days'] + df_all['low_volume'] < 1, 0, 1)
+df_exclude = df_all.loc[df_all['exclude'] == 1][['isin', 'exclude']].drop_duplicates()
+df_exclude.to_csv("./data/exclude_isin.csv", index=False)
 # sort by columns for latter grouping indices
 df_all = df_all.loc[df_all['exclude'] == 0][BASE_COLS + X_FEATURES + Y_FEATURES].sort_values(['isin', 'date']).dropna().reset_index(drop=True)
 
