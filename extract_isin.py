@@ -128,9 +128,15 @@ def main():
         df_del = pd.concat([df_check_final.loc[df_check_final['data_all'] == 0], df_del]).drop_duplicates(subset='isin')
         df_del.to_excel(PATH + FILE_SYM_DEL, index=False)
         df_used_final = pd.concat([df_check_final.loc[df_check_final['data_all'] == 1], df_used]).drop_duplicates(subset='isin')
-        df_used_final.loc[df_used_final['data_all'] == 1].to_excel(PATH + FILE, index=False)
+        df_exclude = pd.read_csv("./data/exclude_isin.csv")
+        df_used_final = df_used_final.merge(df_exclude, on='isin', how='left')
+        df_used_final['exclude'] = df_used_final['exclude'].fillna(0)
+        df_used_final.loc[(df_used_final['data_all'] == 1) / (df_used_final['exclude'] == 0)].to_excel(PATH + FILE, index=False)
     else:
-        df_check_final.loc[df_check_final['data_all'] == 1].to_excel(PATH + FILE, index=False)
+        df_exclude = pd.read_csv("./data/exclude_isin.csv")
+        df_check_final = df_check_final.merge(df_exclude, on='isin', how='left')
+        df_check_final['exclude'] = df_check_final['exclude'].fillna(0)
+        df_check_final.loc[(df_check_final['data_all'] == 1) & (df_check_final['exclude'] == 0)].to_excel(PATH + FILE, index=False)
         df_check_final.loc[df_check_final['data_all'] == 0].to_excel(PATH + FILE_SYM_DEL, index=False)
 
 if __name__ == "__main__":
