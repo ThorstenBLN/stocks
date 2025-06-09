@@ -105,7 +105,7 @@ def main():
     df_data.to_excel(PATH + FILE_DATA_1, index=False)
     print("code data levermann finished successfully")
     time_1 = time.time()
-    print(f"download lev-data: {(np.round(time_1 - time_2)/60, 2).item()} minutes")
+    print(f"download ldata: {np.round((time_1 - time_2)/60, 2).item()} minutes")
 
 if __name__ == "__main__":
     try:
