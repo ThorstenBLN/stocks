@@ -29,10 +29,9 @@ FIRST_YEAR = 2020
 df_all = pd.read_csv(PATH_DATA + FILE_HIST).clean_names(strip_underscores=True)
 df_all['date'] = df_all['date'].astype(str).str[:11]
 df_all['date'] = pd.to_datetime(df_all['date'])
-df_all = df_all.loc[df_all['date'].dt.year >= FIRST_YEAR][['data_date', 'symbol', 'isin', 'date', 'close', 'volume']]
+df_all = df_all.loc[df_all['date'].dt.year >= FIRST_YEAR][['data_date', 'symbol', 'isin', 'date', 'close', 'volume']].sort_values(['isin', 'date'])
 
 # 2. calculate the class for each timeframe (following 4 weeks development of price)
-
 # 2.1 calculate the individual classes
 THRES_MAX = [0.05, 0, -0.05]
 THRES_MEAN = [0.025, 0, -0.025]
@@ -125,8 +124,15 @@ df_vol = df_vol.loc[df_vol['vol_sum'] < months * MIN_SALES_MONTH]
 df_vol['low_volume'] = 1 
 df_all = df_all.merge(df_vol[['isin', 'low_volume']], on='isin', how='left')
 df_all['low_volume'] = df_all['low_volume'].fillna(0)
-# 4.7. exclude stocks
-df_all['exclude'] = np.where(df_all['mini_stock'] + df_all['no_moves'] + df_all['few_days'] + df_all['low_volume'] < 1, 0, 1)
+# 4.7 stocks with big data gaps
+THRES_GAP = 10
+df_all['date_shift'] = df_all.groupby('isin')['date'].transform('shift', 1)
+df_all['date_delta'] = df_all['date'] - df_all['date_shift']
+df_all['date_delta_max'] = df_all.groupby('isin')['date_delta'].transform('max')
+df_all['date_gap'] = np.where(df_all['date_delta_max'] >= pd.Timedelta(THRES_GAP, 'days'), 1, 0)
+
+# 4.8. exclude stocks
+df_all['exclude'] = np.where(df_all['mini_stock'] + df_all['no_moves'] + df_all['few_days'] + df_all['low_volume']  + df_all['date_gap'] < 1, 0, 1)
 df_exclude = df_all.loc[df_all['exclude'] == 1][['isin', 'exclude']].drop_duplicates()
 df_exclude.to_csv("./data/exclude_isin.csv", index=False)
 # sort by columns for latter grouping indices
