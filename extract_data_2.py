@@ -30,11 +30,9 @@ def main():
 
     # 1. load base data ####################################################################
     time_1 = time.time()
-    if not os.path.exists(PATH + FILE_RESULT_DAY): # for the first time there is no result file
-        df_result_cur = pd.DataFrame()
+    if not os.path.exists(PATH + FILE_RESULT): # for the first time there is no result file
         df_result_hist = pd.DataFrame()
     else:
-        df_result_cur = pd.read_excel(PATH + FILE_RESULT_DAY)
         df_result_hist = pd.read_csv(PATH + FILE_RESULT)
     df_base_orig = pd.read_excel(PATH + FILE_SYMBOLS)
     mask = (df_base_orig['data_all'] == 1) & (df_base_orig['isin'].notna())

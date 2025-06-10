@@ -176,3 +176,5 @@ cython_debug/
 # project ignores
 backup*.*
 credentials*.*
+/data_lstm
+/history
