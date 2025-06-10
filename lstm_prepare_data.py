@@ -125,7 +125,7 @@ df_vol['low_volume'] = 1
 df_all = df_all.merge(df_vol[['isin', 'low_volume']], on='isin', how='left')
 df_all['low_volume'] = df_all['low_volume'].fillna(0)
 # 4.7 stocks with big data gaps
-THRES_GAP = 10
+THRES_GAP = 8
 df_all['date_shift'] = df_all.groupby('isin')['date'].transform('shift', 1)
 df_all['date_delta'] = df_all['date'] - df_all['date_shift']
 df_all['date_delta_max'] = df_all.groupby('isin')['date_delta'].transform('max')
