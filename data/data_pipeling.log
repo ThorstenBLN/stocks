@@ -384,3 +384,84 @@ ERROR:yfinance:$MUN.WA: possibly delisted; no price data found  (period=2y) (Yah
 ERROR:yfinance:$MUN.WA: possibly delisted; no price data found  (period=5d) (Yahoo error = "No data found, symbol may be delisted")
 ERROR:yfinance:$GGG-H.V: possibly delisted; no price data found  (period=2y) (Yahoo error = "No data found, symbol may be delisted")
 ERROR:yfinance:$GGG-H.V: possibly delisted; no price data found  (period=5d) (Yahoo error = "No data found, symbol may be delisted")
+INFO:root:Exception depot manager update data: 5 MZX.DE
+ERROR:root:HTTP Error 503: 
+Traceback (most recent call last):
+  File "/home/runner/work/stocks/stocks/depot_mgt.py", line 72, in main
+    f.update_depot(df_depot, row, cur_time, cur_exr)
+  File "/home/runner/work/stocks/stocks/functions.py", line 335, in update_depot
+    cur_info = yf.Ticker(row.symbol).info
+  File "/opt/hostedtoolcache/Python/3.9.23/x64/lib/python3.9/site-packages/yfinance/ticker.py", line 159, in info
+    return self.get_info()
+  File "/opt/hostedtoolcache/Python/3.9.23/x64/lib/python3.9/site-packages/yfinance/base.py", line 289, in get_info
+    data = self._quote.info
+  File "/opt/hostedtoolcache/Python/3.9.23/x64/lib/python3.9/site-packages/yfinance/scrapers/quote.py", line 511, in info
+    self._fetch_info()
+  File "/opt/hostedtoolcache/Python/3.9.23/x64/lib/python3.9/site-packages/yfinance/scrapers/quote.py", line 613, in _fetch_info
+    additional_info = self._fetch_additional_info()
+  File "/opt/hostedtoolcache/Python/3.9.23/x64/lib/python3.9/site-packages/yfinance/scrapers/quote.py", line 599, in _fetch_additional_info
+    result = self._data.get_raw_json(f"{_QUERY1_URL_}/v7/finance/quote?",
+  File "/opt/hostedtoolcache/Python/3.9.23/x64/lib/python3.9/site-packages/yfinance/data.py", line 405, in get_raw_json
+    response.raise_for_status()
+  File "/opt/hostedtoolcache/Python/3.9.23/x64/lib/python3.9/site-packages/curl_cffi/requests/models.py", line 167, in raise_for_status
+    raise HTTPError(f"HTTP Error {self.status_code}: {self.reason}", 0, self)
+curl_cffi.requests.exceptions.HTTPError: HTTP Error 503: 
+Stack (most recent call last):
+  File "/home/runner/work/stocks/stocks/depot_mgt.py", line 211, in <module>
+    main()
+  File "/home/runner/work/stocks/stocks/depot_mgt.py", line 76, in main
+    logging.error(err, stack_info=True, exc_info=True)
+INFO:root:Exception depot manager update data: 6 STGO.TO
+ERROR:root:HTTP Error 503: 
+Traceback (most recent call last):
+  File "/home/runner/work/stocks/stocks/depot_mgt.py", line 72, in main
+    f.update_depot(df_depot, row, cur_time, cur_exr)
+  File "/home/runner/work/stocks/stocks/functions.py", line 335, in update_depot
+    cur_info = yf.Ticker(row.symbol).info
+  File "/opt/hostedtoolcache/Python/3.9.23/x64/lib/python3.9/site-packages/yfinance/ticker.py", line 159, in info
+    return self.get_info()
+  File "/opt/hostedtoolcache/Python/3.9.23/x64/lib/python3.9/site-packages/yfinance/base.py", line 289, in get_info
+    data = self._quote.info
+  File "/opt/hostedtoolcache/Python/3.9.23/x64/lib/python3.9/site-packages/yfinance/scrapers/quote.py", line 511, in info
+    self._fetch_info()
+  File "/opt/hostedtoolcache/Python/3.9.23/x64/lib/python3.9/site-packages/yfinance/scrapers/quote.py", line 613, in _fetch_info
+    additional_info = self._fetch_additional_info()
+  File "/opt/hostedtoolcache/Python/3.9.23/x64/lib/python3.9/site-packages/yfinance/scrapers/quote.py", line 599, in _fetch_additional_info
+    result = self._data.get_raw_json(f"{_QUERY1_URL_}/v7/finance/quote?",
+  File "/opt/hostedtoolcache/Python/3.9.23/x64/lib/python3.9/site-packages/yfinance/data.py", line 405, in get_raw_json
+    response.raise_for_status()
+  File "/opt/hostedtoolcache/Python/3.9.23/x64/lib/python3.9/site-packages/curl_cffi/requests/models.py", line 167, in raise_for_status
+    raise HTTPError(f"HTTP Error {self.status_code}: {self.reason}", 0, self)
+curl_cffi.requests.exceptions.HTTPError: HTTP Error 503: 
+Stack (most recent call last):
+  File "/home/runner/work/stocks/stocks/depot_mgt.py", line 211, in <module>
+    main()
+  File "/home/runner/work/stocks/stocks/depot_mgt.py", line 76, in main
+    logging.error(err, stack_info=True, exc_info=True)
+INFO:root:Exception depot manager update data: 7 PREMIA.AT
+ERROR:root:HTTP Error 503: 
+Traceback (most recent call last):
+  File "/home/runner/work/stocks/stocks/depot_mgt.py", line 72, in main
+    f.update_depot(df_depot, row, cur_time, cur_exr)
+  File "/home/runner/work/stocks/stocks/functions.py", line 335, in update_depot
+    cur_info = yf.Ticker(row.symbol).info
+  File "/opt/hostedtoolcache/Python/3.9.23/x64/lib/python3.9/site-packages/yfinance/ticker.py", line 159, in info
+    return self.get_info()
+  File "/opt/hostedtoolcache/Python/3.9.23/x64/lib/python3.9/site-packages/yfinance/base.py", line 289, in get_info
+    data = self._quote.info
+  File "/opt/hostedtoolcache/Python/3.9.23/x64/lib/python3.9/site-packages/yfinance/scrapers/quote.py", line 511, in info
+    self._fetch_info()
+  File "/opt/hostedtoolcache/Python/3.9.23/x64/lib/python3.9/site-packages/yfinance/scrapers/quote.py", line 613, in _fetch_info
+    additional_info = self._fetch_additional_info()
+  File "/opt/hostedtoolcache/Python/3.9.23/x64/lib/python3.9/site-packages/yfinance/scrapers/quote.py", line 599, in _fetch_additional_info
+    result = self._data.get_raw_json(f"{_QUERY1_URL_}/v7/finance/quote?",
+  File "/opt/hostedtoolcache/Python/3.9.23/x64/lib/python3.9/site-packages/yfinance/data.py", line 405, in get_raw_json
+    response.raise_for_status()
+  File "/opt/hostedtoolcache/Python/3.9.23/x64/lib/python3.9/site-packages/curl_cffi/requests/models.py", line 167, in raise_for_status
+    raise HTTPError(f"HTTP Error {self.status_code}: {self.reason}", 0, self)
+curl_cffi.requests.exceptions.HTTPError: HTTP Error 503: 
+Stack (most recent call last):
+  File "/home/runner/work/stocks/stocks/depot_mgt.py", line 211, in <module>
+    main()
+  File "/home/runner/work/stocks/stocks/depot_mgt.py", line 76, in main
+    logging.error(err, stack_info=True, exc_info=True)
