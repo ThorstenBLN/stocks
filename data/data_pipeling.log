@@ -465,3 +465,10 @@ Stack (most recent call last):
     main()
   File "/home/runner/work/stocks/stocks/depot_mgt.py", line 76, in main
     logging.error(err, stack_info=True, exc_info=True)
+ERROR:yfinance:$MLBMD.PA: possibly delisted; no price data found  (period=2y)
+ERROR:yfinance:$MLBMD.PA: possibly delisted; no price data found  (period=5d)
+ERROR:yfinance:$MLBMD.PA: possibly delisted; no price data found  (1d 1926-07-06 -> 2025-06-11)
+ERROR:yfinance:$MUN.WA: possibly delisted; no price data found  (period=2y) (Yahoo error = "No data found, symbol may be delisted")
+ERROR:yfinance:$MUN.WA: possibly delisted; no price data found  (period=5d) (Yahoo error = "No data found, symbol may be delisted")
+ERROR:yfinance:$GGG-H.V: possibly delisted; no price data found  (period=2y) (Yahoo error = "No data found, symbol may be delisted")
+ERROR:yfinance:$GGG-H.V: possibly delisted; no price data found  (period=5d) (Yahoo error = "No data found, symbol may be delisted")
