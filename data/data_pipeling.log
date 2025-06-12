@@ -3355,3 +3355,273 @@ Stack (most recent call last):
     main()
   File "/home/runner/work/stocks/stocks/depot_mgt.py", line 132, in main
     logging.error(err, stack_info=True, exc_info=True)
+INFO:root:Exception depot manager update data: 1 GFI
+ERROR:root:HTTP Error 401: 
+Traceback (most recent call last):
+  File "/home/runner/work/stocks/stocks/depot_mgt.py", line 72, in main
+    f.update_depot(df_depot, row, cur_time, cur_exr)
+  File "/home/runner/work/stocks/stocks/functions.py", line 335, in update_depot
+    cur_info = yf.Ticker(row.symbol).info
+  File "/opt/hostedtoolcache/Python/3.9.23/x64/lib/python3.9/site-packages/yfinance/ticker.py", line 159, in info
+    return self.get_info()
+  File "/opt/hostedtoolcache/Python/3.9.23/x64/lib/python3.9/site-packages/yfinance/base.py", line 289, in get_info
+    data = self._quote.info
+  File "/opt/hostedtoolcache/Python/3.9.23/x64/lib/python3.9/site-packages/yfinance/scrapers/quote.py", line 511, in info
+    self._fetch_info()
+  File "/opt/hostedtoolcache/Python/3.9.23/x64/lib/python3.9/site-packages/yfinance/scrapers/quote.py", line 612, in _fetch_info
+    result = self._fetch(modules=modules)
+  File "/opt/hostedtoolcache/Python/3.9.23/x64/lib/python3.9/site-packages/yfinance/scrapers/quote.py", line 590, in _fetch
+    result = self._data.get_raw_json(_QUOTE_SUMMARY_URL_ + f"/{self._symbol}", user_agent_headers=self._data.user_agent_headers, params=params_dict)
+  File "/opt/hostedtoolcache/Python/3.9.23/x64/lib/python3.9/site-packages/yfinance/data.py", line 405, in get_raw_json
+    response.raise_for_status()
+  File "/opt/hostedtoolcache/Python/3.9.23/x64/lib/python3.9/site-packages/curl_cffi/requests/models.py", line 167, in raise_for_status
+    raise HTTPError(f"HTTP Error {self.status_code}: {self.reason}", 0, self)
+curl_cffi.requests.exceptions.HTTPError: HTTP Error 401: 
+Stack (most recent call last):
+  File "/home/runner/work/stocks/stocks/depot_mgt.py", line 211, in <module>
+    main()
+  File "/home/runner/work/stocks/stocks/depot_mgt.py", line 76, in main
+    logging.error(err, stack_info=True, exc_info=True)
+INFO:root:Exception depot manager update data: 2 CPA
+ERROR:root:HTTP Error 401: 
+Traceback (most recent call last):
+  File "/home/runner/work/stocks/stocks/depot_mgt.py", line 72, in main
+    f.update_depot(df_depot, row, cur_time, cur_exr)
+  File "/home/runner/work/stocks/stocks/functions.py", line 335, in update_depot
+    cur_info = yf.Ticker(row.symbol).info
+  File "/opt/hostedtoolcache/Python/3.9.23/x64/lib/python3.9/site-packages/yfinance/ticker.py", line 159, in info
+    return self.get_info()
+  File "/opt/hostedtoolcache/Python/3.9.23/x64/lib/python3.9/site-packages/yfinance/base.py", line 289, in get_info
+    data = self._quote.info
+  File "/opt/hostedtoolcache/Python/3.9.23/x64/lib/python3.9/site-packages/yfinance/scrapers/quote.py", line 511, in info
+    self._fetch_info()
+  File "/opt/hostedtoolcache/Python/3.9.23/x64/lib/python3.9/site-packages/yfinance/scrapers/quote.py", line 612, in _fetch_info
+    result = self._fetch(modules=modules)
+  File "/opt/hostedtoolcache/Python/3.9.23/x64/lib/python3.9/site-packages/yfinance/scrapers/quote.py", line 590, in _fetch
+    result = self._data.get_raw_json(_QUOTE_SUMMARY_URL_ + f"/{self._symbol}", user_agent_headers=self._data.user_agent_headers, params=params_dict)
+  File "/opt/hostedtoolcache/Python/3.9.23/x64/lib/python3.9/site-packages/yfinance/data.py", line 405, in get_raw_json
+    response.raise_for_status()
+  File "/opt/hostedtoolcache/Python/3.9.23/x64/lib/python3.9/site-packages/curl_cffi/requests/models.py", line 167, in raise_for_status
+    raise HTTPError(f"HTTP Error {self.status_code}: {self.reason}", 0, self)
+curl_cffi.requests.exceptions.HTTPError: HTTP Error 401: 
+Stack (most recent call last):
+  File "/home/runner/work/stocks/stocks/depot_mgt.py", line 211, in <module>
+    main()
+  File "/home/runner/work/stocks/stocks/depot_mgt.py", line 76, in main
+    logging.error(err, stack_info=True, exc_info=True)
+INFO:root:12.06.2025 17:32:21 Exception depot manager purchase normal: 284 GMS.L
+ERROR:root:HTTP Error 401: 
+Traceback (most recent call last):
+  File "/home/runner/work/stocks/stocks/depot_mgt.py", line 119, in main
+    df_temp = f.buy_stock(row, value, cur_time, cur_exr, df_depot.at[0, 'tax_cum'], STOP_LOSS_PC, TRADING_FEE)
+  File "/home/runner/work/stocks/stocks/functions.py", line 298, in buy_stock
+    cur_info = yf.Ticker(row.symbol).info
+  File "/opt/hostedtoolcache/Python/3.9.23/x64/lib/python3.9/site-packages/yfinance/ticker.py", line 159, in info
+    return self.get_info()
+  File "/opt/hostedtoolcache/Python/3.9.23/x64/lib/python3.9/site-packages/yfinance/base.py", line 289, in get_info
+    data = self._quote.info
+  File "/opt/hostedtoolcache/Python/3.9.23/x64/lib/python3.9/site-packages/yfinance/scrapers/quote.py", line 511, in info
+    self._fetch_info()
+  File "/opt/hostedtoolcache/Python/3.9.23/x64/lib/python3.9/site-packages/yfinance/scrapers/quote.py", line 612, in _fetch_info
+    result = self._fetch(modules=modules)
+  File "/opt/hostedtoolcache/Python/3.9.23/x64/lib/python3.9/site-packages/yfinance/scrapers/quote.py", line 590, in _fetch
+    result = self._data.get_raw_json(_QUOTE_SUMMARY_URL_ + f"/{self._symbol}", user_agent_headers=self._data.user_agent_headers, params=params_dict)
+  File "/opt/hostedtoolcache/Python/3.9.23/x64/lib/python3.9/site-packages/yfinance/data.py", line 405, in get_raw_json
+    response.raise_for_status()
+  File "/opt/hostedtoolcache/Python/3.9.23/x64/lib/python3.9/site-packages/curl_cffi/requests/models.py", line 167, in raise_for_status
+    raise HTTPError(f"HTTP Error {self.status_code}: {self.reason}", 0, self)
+curl_cffi.requests.exceptions.HTTPError: HTTP Error 401: 
+Stack (most recent call last):
+  File "/home/runner/work/stocks/stocks/depot_mgt.py", line 211, in <module>
+    main()
+  File "/home/runner/work/stocks/stocks/depot_mgt.py", line 132, in main
+    logging.error(err, stack_info=True, exc_info=True)
+INFO:root:12.06.2025 17:32:22 Exception depot manager purchase normal: 1481 ALU.L
+ERROR:root:HTTP Error 401: 
+Traceback (most recent call last):
+  File "/home/runner/work/stocks/stocks/depot_mgt.py", line 119, in main
+    df_temp = f.buy_stock(row, value, cur_time, cur_exr, df_depot.at[0, 'tax_cum'], STOP_LOSS_PC, TRADING_FEE)
+  File "/home/runner/work/stocks/stocks/functions.py", line 298, in buy_stock
+    cur_info = yf.Ticker(row.symbol).info
+  File "/opt/hostedtoolcache/Python/3.9.23/x64/lib/python3.9/site-packages/yfinance/ticker.py", line 159, in info
+    return self.get_info()
+  File "/opt/hostedtoolcache/Python/3.9.23/x64/lib/python3.9/site-packages/yfinance/base.py", line 289, in get_info
+    data = self._quote.info
+  File "/opt/hostedtoolcache/Python/3.9.23/x64/lib/python3.9/site-packages/yfinance/scrapers/quote.py", line 511, in info
+    self._fetch_info()
+  File "/opt/hostedtoolcache/Python/3.9.23/x64/lib/python3.9/site-packages/yfinance/scrapers/quote.py", line 612, in _fetch_info
+    result = self._fetch(modules=modules)
+  File "/opt/hostedtoolcache/Python/3.9.23/x64/lib/python3.9/site-packages/yfinance/scrapers/quote.py", line 590, in _fetch
+    result = self._data.get_raw_json(_QUOTE_SUMMARY_URL_ + f"/{self._symbol}", user_agent_headers=self._data.user_agent_headers, params=params_dict)
+  File "/opt/hostedtoolcache/Python/3.9.23/x64/lib/python3.9/site-packages/yfinance/data.py", line 405, in get_raw_json
+    response.raise_for_status()
+  File "/opt/hostedtoolcache/Python/3.9.23/x64/lib/python3.9/site-packages/curl_cffi/requests/models.py", line 167, in raise_for_status
+    raise HTTPError(f"HTTP Error {self.status_code}: {self.reason}", 0, self)
+curl_cffi.requests.exceptions.HTTPError: HTTP Error 401: 
+Stack (most recent call last):
+  File "/home/runner/work/stocks/stocks/depot_mgt.py", line 211, in <module>
+    main()
+  File "/home/runner/work/stocks/stocks/depot_mgt.py", line 132, in main
+    logging.error(err, stack_info=True, exc_info=True)
+INFO:root:12.06.2025 17:32:23 Exception depot manager purchase normal: 2186 0956.HK
+ERROR:root:HTTP Error 401: 
+Traceback (most recent call last):
+  File "/home/runner/work/stocks/stocks/depot_mgt.py", line 119, in main
+    df_temp = f.buy_stock(row, value, cur_time, cur_exr, df_depot.at[0, 'tax_cum'], STOP_LOSS_PC, TRADING_FEE)
+  File "/home/runner/work/stocks/stocks/functions.py", line 298, in buy_stock
+    cur_info = yf.Ticker(row.symbol).info
+  File "/opt/hostedtoolcache/Python/3.9.23/x64/lib/python3.9/site-packages/yfinance/ticker.py", line 159, in info
+    return self.get_info()
+  File "/opt/hostedtoolcache/Python/3.9.23/x64/lib/python3.9/site-packages/yfinance/base.py", line 289, in get_info
+    data = self._quote.info
+  File "/opt/hostedtoolcache/Python/3.9.23/x64/lib/python3.9/site-packages/yfinance/scrapers/quote.py", line 511, in info
+    self._fetch_info()
+  File "/opt/hostedtoolcache/Python/3.9.23/x64/lib/python3.9/site-packages/yfinance/scrapers/quote.py", line 612, in _fetch_info
+    result = self._fetch(modules=modules)
+  File "/opt/hostedtoolcache/Python/3.9.23/x64/lib/python3.9/site-packages/yfinance/scrapers/quote.py", line 590, in _fetch
+    result = self._data.get_raw_json(_QUOTE_SUMMARY_URL_ + f"/{self._symbol}", user_agent_headers=self._data.user_agent_headers, params=params_dict)
+  File "/opt/hostedtoolcache/Python/3.9.23/x64/lib/python3.9/site-packages/yfinance/data.py", line 405, in get_raw_json
+    response.raise_for_status()
+  File "/opt/hostedtoolcache/Python/3.9.23/x64/lib/python3.9/site-packages/curl_cffi/requests/models.py", line 167, in raise_for_status
+    raise HTTPError(f"HTTP Error {self.status_code}: {self.reason}", 0, self)
+curl_cffi.requests.exceptions.HTTPError: HTTP Error 401: 
+Stack (most recent call last):
+  File "/home/runner/work/stocks/stocks/depot_mgt.py", line 211, in <module>
+    main()
+  File "/home/runner/work/stocks/stocks/depot_mgt.py", line 132, in main
+    logging.error(err, stack_info=True, exc_info=True)
+INFO:root:12.06.2025 17:32:23 Exception depot manager purchase normal: 19 HMY
+ERROR:root:HTTP Error 401: 
+Traceback (most recent call last):
+  File "/home/runner/work/stocks/stocks/depot_mgt.py", line 119, in main
+    df_temp = f.buy_stock(row, value, cur_time, cur_exr, df_depot.at[0, 'tax_cum'], STOP_LOSS_PC, TRADING_FEE)
+  File "/home/runner/work/stocks/stocks/functions.py", line 298, in buy_stock
+    cur_info = yf.Ticker(row.symbol).info
+  File "/opt/hostedtoolcache/Python/3.9.23/x64/lib/python3.9/site-packages/yfinance/ticker.py", line 159, in info
+    return self.get_info()
+  File "/opt/hostedtoolcache/Python/3.9.23/x64/lib/python3.9/site-packages/yfinance/base.py", line 289, in get_info
+    data = self._quote.info
+  File "/opt/hostedtoolcache/Python/3.9.23/x64/lib/python3.9/site-packages/yfinance/scrapers/quote.py", line 511, in info
+    self._fetch_info()
+  File "/opt/hostedtoolcache/Python/3.9.23/x64/lib/python3.9/site-packages/yfinance/scrapers/quote.py", line 612, in _fetch_info
+    result = self._fetch(modules=modules)
+  File "/opt/hostedtoolcache/Python/3.9.23/x64/lib/python3.9/site-packages/yfinance/scrapers/quote.py", line 590, in _fetch
+    result = self._data.get_raw_json(_QUOTE_SUMMARY_URL_ + f"/{self._symbol}", user_agent_headers=self._data.user_agent_headers, params=params_dict)
+  File "/opt/hostedtoolcache/Python/3.9.23/x64/lib/python3.9/site-packages/yfinance/data.py", line 405, in get_raw_json
+    response.raise_for_status()
+  File "/opt/hostedtoolcache/Python/3.9.23/x64/lib/python3.9/site-packages/curl_cffi/requests/models.py", line 167, in raise_for_status
+    raise HTTPError(f"HTTP Error {self.status_code}: {self.reason}", 0, self)
+curl_cffi.requests.exceptions.HTTPError: HTTP Error 401: 
+Stack (most recent call last):
+  File "/home/runner/work/stocks/stocks/depot_mgt.py", line 211, in <module>
+    main()
+  File "/home/runner/work/stocks/stocks/depot_mgt.py", line 132, in main
+    logging.error(err, stack_info=True, exc_info=True)
+INFO:root:12.06.2025 17:32:24 Exception depot manager purchase normal: 1339 SEM.LS
+ERROR:root:HTTP Error 401: 
+Traceback (most recent call last):
+  File "/home/runner/work/stocks/stocks/depot_mgt.py", line 119, in main
+    df_temp = f.buy_stock(row, value, cur_time, cur_exr, df_depot.at[0, 'tax_cum'], STOP_LOSS_PC, TRADING_FEE)
+  File "/home/runner/work/stocks/stocks/functions.py", line 298, in buy_stock
+    cur_info = yf.Ticker(row.symbol).info
+  File "/opt/hostedtoolcache/Python/3.9.23/x64/lib/python3.9/site-packages/yfinance/ticker.py", line 159, in info
+    return self.get_info()
+  File "/opt/hostedtoolcache/Python/3.9.23/x64/lib/python3.9/site-packages/yfinance/base.py", line 289, in get_info
+    data = self._quote.info
+  File "/opt/hostedtoolcache/Python/3.9.23/x64/lib/python3.9/site-packages/yfinance/scrapers/quote.py", line 511, in info
+    self._fetch_info()
+  File "/opt/hostedtoolcache/Python/3.9.23/x64/lib/python3.9/site-packages/yfinance/scrapers/quote.py", line 612, in _fetch_info
+    result = self._fetch(modules=modules)
+  File "/opt/hostedtoolcache/Python/3.9.23/x64/lib/python3.9/site-packages/yfinance/scrapers/quote.py", line 590, in _fetch
+    result = self._data.get_raw_json(_QUOTE_SUMMARY_URL_ + f"/{self._symbol}", user_agent_headers=self._data.user_agent_headers, params=params_dict)
+  File "/opt/hostedtoolcache/Python/3.9.23/x64/lib/python3.9/site-packages/yfinance/data.py", line 405, in get_raw_json
+    response.raise_for_status()
+  File "/opt/hostedtoolcache/Python/3.9.23/x64/lib/python3.9/site-packages/curl_cffi/requests/models.py", line 167, in raise_for_status
+    raise HTTPError(f"HTTP Error {self.status_code}: {self.reason}", 0, self)
+curl_cffi.requests.exceptions.HTTPError: HTTP Error 401: 
+Stack (most recent call last):
+  File "/home/runner/work/stocks/stocks/depot_mgt.py", line 211, in <module>
+    main()
+  File "/home/runner/work/stocks/stocks/depot_mgt.py", line 132, in main
+    logging.error(err, stack_info=True, exc_info=True)
+INFO:root:12.06.2025 17:32:25 Exception depot manager purchase normal: 348 SGF.MI
+ERROR:root:HTTP Error 401: 
+Traceback (most recent call last):
+  File "/home/runner/work/stocks/stocks/depot_mgt.py", line 119, in main
+    df_temp = f.buy_stock(row, value, cur_time, cur_exr, df_depot.at[0, 'tax_cum'], STOP_LOSS_PC, TRADING_FEE)
+  File "/home/runner/work/stocks/stocks/functions.py", line 298, in buy_stock
+    cur_info = yf.Ticker(row.symbol).info
+  File "/opt/hostedtoolcache/Python/3.9.23/x64/lib/python3.9/site-packages/yfinance/ticker.py", line 159, in info
+    return self.get_info()
+  File "/opt/hostedtoolcache/Python/3.9.23/x64/lib/python3.9/site-packages/yfinance/base.py", line 289, in get_info
+    data = self._quote.info
+  File "/opt/hostedtoolcache/Python/3.9.23/x64/lib/python3.9/site-packages/yfinance/scrapers/quote.py", line 511, in info
+    self._fetch_info()
+  File "/opt/hostedtoolcache/Python/3.9.23/x64/lib/python3.9/site-packages/yfinance/scrapers/quote.py", line 612, in _fetch_info
+    result = self._fetch(modules=modules)
+  File "/opt/hostedtoolcache/Python/3.9.23/x64/lib/python3.9/site-packages/yfinance/scrapers/quote.py", line 590, in _fetch
+    result = self._data.get_raw_json(_QUOTE_SUMMARY_URL_ + f"/{self._symbol}", user_agent_headers=self._data.user_agent_headers, params=params_dict)
+  File "/opt/hostedtoolcache/Python/3.9.23/x64/lib/python3.9/site-packages/yfinance/data.py", line 405, in get_raw_json
+    response.raise_for_status()
+  File "/opt/hostedtoolcache/Python/3.9.23/x64/lib/python3.9/site-packages/curl_cffi/requests/models.py", line 167, in raise_for_status
+    raise HTTPError(f"HTTP Error {self.status_code}: {self.reason}", 0, self)
+curl_cffi.requests.exceptions.HTTPError: HTTP Error 401: 
+Stack (most recent call last):
+  File "/home/runner/work/stocks/stocks/depot_mgt.py", line 211, in <module>
+    main()
+  File "/home/runner/work/stocks/stocks/depot_mgt.py", line 132, in main
+    logging.error(err, stack_info=True, exc_info=True)
+INFO:root:12.06.2025 17:32:26 Exception depot manager purchase normal: 2919 GF.MI
+ERROR:root:HTTP Error 401: 
+Traceback (most recent call last):
+  File "/home/runner/work/stocks/stocks/depot_mgt.py", line 119, in main
+    df_temp = f.buy_stock(row, value, cur_time, cur_exr, df_depot.at[0, 'tax_cum'], STOP_LOSS_PC, TRADING_FEE)
+  File "/home/runner/work/stocks/stocks/functions.py", line 298, in buy_stock
+    cur_info = yf.Ticker(row.symbol).info
+  File "/opt/hostedtoolcache/Python/3.9.23/x64/lib/python3.9/site-packages/yfinance/ticker.py", line 159, in info
+    return self.get_info()
+  File "/opt/hostedtoolcache/Python/3.9.23/x64/lib/python3.9/site-packages/yfinance/base.py", line 289, in get_info
+    data = self._quote.info
+  File "/opt/hostedtoolcache/Python/3.9.23/x64/lib/python3.9/site-packages/yfinance/scrapers/quote.py", line 511, in info
+    self._fetch_info()
+  File "/opt/hostedtoolcache/Python/3.9.23/x64/lib/python3.9/site-packages/yfinance/scrapers/quote.py", line 612, in _fetch_info
+    result = self._fetch(modules=modules)
+  File "/opt/hostedtoolcache/Python/3.9.23/x64/lib/python3.9/site-packages/yfinance/scrapers/quote.py", line 590, in _fetch
+    result = self._data.get_raw_json(_QUOTE_SUMMARY_URL_ + f"/{self._symbol}", user_agent_headers=self._data.user_agent_headers, params=params_dict)
+  File "/opt/hostedtoolcache/Python/3.9.23/x64/lib/python3.9/site-packages/yfinance/data.py", line 405, in get_raw_json
+    response.raise_for_status()
+  File "/opt/hostedtoolcache/Python/3.9.23/x64/lib/python3.9/site-packages/curl_cffi/requests/models.py", line 167, in raise_for_status
+    raise HTTPError(f"HTTP Error {self.status_code}: {self.reason}", 0, self)
+curl_cffi.requests.exceptions.HTTPError: HTTP Error 401: 
+Stack (most recent call last):
+  File "/home/runner/work/stocks/stocks/depot_mgt.py", line 211, in <module>
+    main()
+  File "/home/runner/work/stocks/stocks/depot_mgt.py", line 132, in main
+    logging.error(err, stack_info=True, exc_info=True)
+INFO:root:12.06.2025 17:32:26 Exception depot manager purchase normal: 1625 SRB.L
+ERROR:root:HTTP Error 401: 
+Traceback (most recent call last):
+  File "/home/runner/work/stocks/stocks/depot_mgt.py", line 119, in main
+    df_temp = f.buy_stock(row, value, cur_time, cur_exr, df_depot.at[0, 'tax_cum'], STOP_LOSS_PC, TRADING_FEE)
+  File "/home/runner/work/stocks/stocks/functions.py", line 298, in buy_stock
+    cur_info = yf.Ticker(row.symbol).info
+  File "/opt/hostedtoolcache/Python/3.9.23/x64/lib/python3.9/site-packages/yfinance/ticker.py", line 159, in info
+    return self.get_info()
+  File "/opt/hostedtoolcache/Python/3.9.23/x64/lib/python3.9/site-packages/yfinance/base.py", line 289, in get_info
+    data = self._quote.info
+  File "/opt/hostedtoolcache/Python/3.9.23/x64/lib/python3.9/site-packages/yfinance/scrapers/quote.py", line 511, in info
+    self._fetch_info()
+  File "/opt/hostedtoolcache/Python/3.9.23/x64/lib/python3.9/site-packages/yfinance/scrapers/quote.py", line 612, in _fetch_info
+    result = self._fetch(modules=modules)
+  File "/opt/hostedtoolcache/Python/3.9.23/x64/lib/python3.9/site-packages/yfinance/scrapers/quote.py", line 590, in _fetch
+    result = self._data.get_raw_json(_QUOTE_SUMMARY_URL_ + f"/{self._symbol}", user_agent_headers=self._data.user_agent_headers, params=params_dict)
+  File "/opt/hostedtoolcache/Python/3.9.23/x64/lib/python3.9/site-packages/yfinance/data.py", line 405, in get_raw_json
+    response.raise_for_status()
+  File "/opt/hostedtoolcache/Python/3.9.23/x64/lib/python3.9/site-packages/curl_cffi/requests/models.py", line 167, in raise_for_status
+    raise HTTPError(f"HTTP Error {self.status_code}: {self.reason}", 0, self)
+curl_cffi.requests.exceptions.HTTPError: HTTP Error 401: 
+Stack (most recent call last):
+  File "/home/runner/work/stocks/stocks/depot_mgt.py", line 211, in <module>
+    main()
+  File "/home/runner/work/stocks/stocks/depot_mgt.py", line 132, in main
+    logging.error(err, stack_info=True, exc_info=True)
