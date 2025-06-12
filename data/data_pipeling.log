@@ -481,3 +481,26 @@ ERROR:yfinance:$MLBMD.PA: possibly delisted; no price data found  (period=5d)
 ERROR:yfinance:$MLBMD.PA: possibly delisted; no price data found  (1d 1926-07-07 -> 2025-06-12)
 ERROR:yfinance:$GGG-H.V: possibly delisted; no price data found  (period=2y) (Yahoo error = "No data found, symbol may be delisted")
 ERROR:yfinance:$GGG-H.V: possibly delisted; no price data found  (period=5d) (Yahoo error = "No data found, symbol may be delisted")
+ERROR:yfinance:$CA57383V1085.SG: possibly delisted; no price data found  (period=2y) (Yahoo error = "No data found, symbol may be delisted")
+ERROR:yfinance:$CA57383V1085.SG: possibly delisted; no price data found  (period=5d) (Yahoo error = "No data found, symbol may be delisted")
+ERROR:yfinance:$YTT.IL: possibly delisted; no price data found  (period=2y) (Yahoo error = "No data found, symbol may be delisted")
+ERROR:yfinance:$YTT.IL: possibly delisted; no price data found  (period=5d) (Yahoo error = "No data found, symbol may be delisted")
+ERROR:yfinance:Failed to get ticker 'ACO-Y.TO' reason: Failed to perform, curl: (28) Operation timed out after 30002 milliseconds with 0 bytes received. See https://curl.se/libcurl/c/libcurl-errors.html first for more details.
+ERROR:yfinance:$ACO-Y.TO: possibly delisted; no price data found  (period=2y)
+ERROR:yfinance:$ACO-Y.TO: possibly delisted; no price data found  (period=5d)
+ERROR:yfinance:Failed to get ticker 'ORKA' reason: Failed to perform, curl: (28) Operation timed out after 30002 milliseconds with 0 bytes received. See https://curl.se/libcurl/c/libcurl-errors.html first for more details.
+ERROR:yfinance:$ORKA: possibly delisted; no price data found  (period=2y)
+ERROR:yfinance:$ORKA: possibly delisted; no price data found  (period=5d)
+ERROR:yfinance:Failed to get ticker 'SBIO.V' reason: Failed to perform, curl: (28) Operation timed out after 30002 milliseconds with 0 bytes received. See https://curl.se/libcurl/c/libcurl-errors.html first for more details.
+ERROR:yfinance:$SBIO.V: possibly delisted; no price data found  (period=2y)
+ERROR:yfinance:$SBIO.V: possibly delisted; no price data found  (period=5d)
+ERROR:yfinance:Failed to get ticker 'RNWH.L' reason: Failed to perform, curl: (28) Operation timed out after 30002 milliseconds with 0 bytes received. See https://curl.se/libcurl/c/libcurl-errors.html first for more details.
+ERROR:yfinance:$RNWH.L: possibly delisted; no price data found  (period=2y)
+ERROR:yfinance:$RNWH.L: possibly delisted; no price data found  (period=5d)
+ERROR:yfinance:Failed to get ticker 'MSAB-B.ST' reason: Failed to perform, curl: (28) Operation timed out after 30002 milliseconds with 0 bytes received. See https://curl.se/libcurl/c/libcurl-errors.html first for more details.
+ERROR:yfinance:$MSAB-B.ST: possibly delisted; no price data found  (period=2y)
+ERROR:yfinance:$MSAB-B.ST: possibly delisted; no price data found  (period=5d)
+ERROR:yfinance:Failed to get ticker 'K2A-B.ST' reason: Failed to perform, curl: (28) Operation timed out after 30002 milliseconds with 0 bytes received. See https://curl.se/libcurl/c/libcurl-errors.html first for more details.
+ERROR:yfinance:$K2A-B.ST: possibly delisted; no price data found  (period=2y)
+ERROR:yfinance:$K2A-B.ST: possibly delisted; no price data found  (period=5d)
+ERROR:yfinance:Failed to get ticker 'BIRD' reason: Failed to perform, curl: (16) . See https://curl.se/libcurl/c/libcurl-errors.html first for more details.
