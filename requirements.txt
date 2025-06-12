@@ -3,6 +3,6 @@ openpyxl==3.1.5
 pandas==2.2.3
 pyjanitor==0.30.0
 requests==2.32.3
-yfinance==0.2.58
+yfinance==0.2.63
 beautifulsoup4==4.12.3
 
