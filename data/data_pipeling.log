@@ -476,3 +476,8 @@ ERROR:yfinance:$CA57383V1085.SG: possibly delisted; no price data found  (period
 ERROR:yfinance:$CA57383V1085.SG: possibly delisted; no price data found  (period=5d) (Yahoo error = "No data found, symbol may be delisted")
 ERROR:yfinance:$YTT.IL: possibly delisted; no price data found  (period=2y) (Yahoo error = "No data found, symbol may be delisted")
 ERROR:yfinance:$YTT.IL: possibly delisted; no price data found  (period=5d) (Yahoo error = "No data found, symbol may be delisted")
+ERROR:yfinance:$MLBMD.PA: possibly delisted; no price data found  (period=2y)
+ERROR:yfinance:$MLBMD.PA: possibly delisted; no price data found  (period=5d)
+ERROR:yfinance:$MLBMD.PA: possibly delisted; no price data found  (1d 1926-07-07 -> 2025-06-12)
+ERROR:yfinance:$GGG-H.V: possibly delisted; no price data found  (period=2y) (Yahoo error = "No data found, symbol may be delisted")
+ERROR:yfinance:$GGG-H.V: possibly delisted; no price data found  (period=5d) (Yahoo error = "No data found, symbol may be delisted")
