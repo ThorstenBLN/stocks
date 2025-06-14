@@ -356,11 +356,11 @@ def define_invest_value(bank_funds, INVEST_VALUE, MIN_INVEST_VALUE, TRADING_FEE)
         value = None 
     return value
 
-def get_historic_data(row):
+def get_historic_data(row, per="5y"):
     '''get at max 5 years data from all stocks for lstm training'''
     dat = yf.Ticker(row.symbol)
     try:
-        df_hist = dat.history(period="5y").reset_index()
+        df_hist = dat.history(period=per).reset_index()
     except:
         try:
             df_hist = dat.history(period=dat.get_history_metadata()['validRanges'][-1]).reset_index()
@@ -369,3 +369,27 @@ def get_historic_data(row):
     df_hist['isin'] = row.isin
     df_hist['symbol'] = row.symbol
     return df_hist
+
+def get_pred_arrays(indices_dict, np_all, win_len, norm_col):
+    '''iterate over grouped indices. last column must be y column
+    creates x and y arrays. normalizes x array by last value of norm-col'''
+    pred_indices = {}
+    X_pred = []
+    index = 0
+    for i, entry in enumerate(indices_dict.items()):
+        X_pred_isin =  []
+        pred_ind = []
+        for start in entry[1][:-win_len + 1]:
+            last = start + win_len - 1 # correct window
+            x = np_all[start:last + 1, :].copy()
+            # normalize data
+            x[:, :norm_col[1]] = x[:, :norm_col[1]] / np_all[last, norm_col[0]]
+            x[:, norm_col[1]:norm_col[2]] = x[:, norm_col[1]:norm_col[2]] / np_all[last, norm_col[1]]
+            x[:, norm_col[2]:] = x[:, norm_col[2]:] / np_all[last, norm_col[2]]
+            X_pred_isin.append(x)
+            pred_ind.append((index, start.item(), last.item()))
+            index += 1
+        X_pred.extend(np.array(X_pred_isin))
+        pred_indices[entry[0]] = pred_ind
+    print(np.array(X_pred).shape)
+    return np.array(X_pred), pred_indices

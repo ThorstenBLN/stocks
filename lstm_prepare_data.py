@@ -29,7 +29,10 @@ FIRST_YEAR = 2020
 df_all = pd.read_csv(PATH_DATA + FILE_HIST).clean_names(strip_underscores=True)
 df_all['date'] = df_all['date'].astype(str).str[:11]
 df_all['date'] = pd.to_datetime(df_all['date'])
-df_all = df_all.loc[df_all['date'].dt.year >= FIRST_YEAR][['data_date', 'symbol', 'isin', 'date', 'close', 'volume']].sort_values(['isin', 'date'])
+df_all = df_all.loc[df_all['date'].dt.year >= FIRST_YEAR][['data_date', 'symbol', 'isin', 
+                                                           'date', 'close', 'volume', 'open', 
+                                                           'high', 'low', 'dividends', 'stock_splits', 
+                                                           'adj_close', 'capital_gains']].sort_values(['isin', 'date'])
 
 # 2. calculate the class for each timeframe (following 4 weeks development of price)
 # 2.1 calculate the individual classes
@@ -84,7 +87,7 @@ df_all.to_csv(PATH_DATA + FILE_CLASS, index=False)
 
 # 4. exclude strange stocks
 BASE_COLS = ['date', 'isin']
-X_FEATURES = ['close', 'pre_mean_30', 'pre_mean_15', 'pre_mean_10', 'pre_mean_5', 'pre_mean_2', 'volume']
+X_FEATURES = ['close', 'open', 'high', 'low', 'dividends', 'pre_mean_30', 'pre_mean_15', 'pre_mean_10', 'pre_mean_5', 'pre_mean_2', 'volume']
 X_FEATURES_INDICES = ['dax_close', 'dax_mean_5', 'dax_mean_10', 'msci_close', 'msci_mean_5', 'msci_mean_10']
 Y_FEATURES = ['class']
 THRES_MINI_STOCKS = 0.1 # mean price in qrt
@@ -157,7 +160,9 @@ df_all[X_FEATURES_INDICES] = df_all.groupby('isin')[X_FEATURES_INDICES].transfor
 print(df_all.shape[0])
 # 6. save final dataframe
 # 6.1 cast dtypes to save RAM
-df_all = df_all.astype({'date':'datetime64[ns]', 'isin':'str', 'close':'float32', 'pre_mean_30':'float32', 
+df_all = df_all.astype({'date':'datetime64[ns]', 'isin':'str', 'close':'float32', 
+                        'open':'float32', 'high':'float32', 'low':'float32', 
+                        'dividends':'float32', 'pre_mean_30':'float32', 
                         'pre_mean_15':'float32', 'pre_mean_10':'float32', 'pre_mean_5':'float32', 
                         'pre_mean_2':'float32', 'volume':'float32', 'class':'int8', 'dax_close':'float32', 'msci_close':'float32', 
                         'dax_mean_10':'float32', 'msci_mean_10':'float32', 'dax_mean_5':'float32', 
