@@ -19,7 +19,6 @@ def main():
     FILE_SYMBOLS = "symbols.xlsx"
     FILE_DATES = "dates.xlsx"
     FILE_KGV = "kgv_5y.xlsx"
-    FILE_RESULT = "result_hist.csv"
     FILE_DATA = "data_all.xlsx"
     FILE_DATA_1 = "data_all_1.xlsx"
     FILE_RESULT_DAY  = "result.xlsx"
@@ -30,10 +29,6 @@ def main():
 
     # 1. load base data ####################################################################
     time_1 = time.time()
-    if not os.path.exists(PATH + FILE_RESULT): # for the first time there is no result file
-        df_result_hist = pd.DataFrame()
-    else:
-        df_result_hist = pd.read_csv(PATH + FILE_RESULT)
     df_base_orig = pd.read_excel(PATH + FILE_SYMBOLS)
     mask = (df_base_orig['data_all'] == 1) & (df_base_orig['isin'].notna())
     df_base = df_base_orig.loc[mask].copy().reset_index()
@@ -94,8 +89,6 @@ def main():
     print("data merge finished successfully")
     df_result = f.add_levermann_score(df_data_complete, NA_PENALTY)
     df_result.to_excel(PATH + FILE_RESULT_DAY, index=False)
-    df_result_tot = pd.concat([df_result_hist, df_result], axis=0).reset_index(drop=True)
-    df_result_tot.to_csv(PATH + FILE_RESULT, index=False)
     time_2 = time.time()
     print(f"merge and save data: {np.round((time_2 - time_1)/60, 2).item()} minutes")
 

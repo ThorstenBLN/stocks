@@ -23,10 +23,13 @@ def main():
     FILE_TRANSACTIONS = "transactions.xlsx"
 
     L_SCORE_BUY = 9
+    TOT_SCORE_BUY = 11
     
     MIN_L_SCORE = 7
+    MIN_TOT_SCORE = 9 
     STOP_LOSS_PC = 0.9
     THRES_LEV_BETTER = 3
+    THRES_TOT_BETTER = 3.5
     GOOD_WEEKLY_PERFORMANCE = 0.01
     LEV_LOSS_PC = 0.2
     
@@ -43,14 +46,15 @@ def main():
     message = ""
 
     # 0. load relevant files
+    cur_time = pd.Timestamp.now() 
     df_result = pd.read_excel(PATH + FILE_RESULT_DAY)
     if not os.path.exists(PATH + FILE_DEPOT):
         # initialize bank account
         df_depot = pd.DataFrame({'isin':'bank', "symbol":'bank', 'symbol_finanzen':'bank','name':'account', 'buy_date':'2025-03-16',
                                 'price_buy':1.00, 'cur':'EUR', 'exr_hist':1, 'price_buy_eur':1,'amount':1, 'lev_buy':100,
-                                'cur_date':'2025-03-17', 'price_cur':1.00, 'cur2':'EUR', 'exr_cur':1, 
-                                "price_cur_eur":1, 'value_org':0, 'value_eur':10000, 'stop_loss_eur':0.00,
-                                    'rendite_org':0.00001, 'rendite_eur':0.00001, 'lev_score': 100.00, 'tax_cum':0.00}, index=[0])
+                                'mean_top_buy':100, 'score_tot_buy':100, 'cur_date':cur_time, 'price_cur':1.00, 'cur2':'EUR', 'exr_cur':1, 
+                                "price_cur_eur":1, 'value_org':0, 'value_eur':10000, 'stop_loss_eur':0.00,'rendite_org':0.00001, 
+                                'rendite_eur':0.00001, 'lev_score': 100.00, 'mean_top':100, 'score_tot':100, 'tax_cum':0.00}, index=[0])
     else:
         df_depot = pd.read_excel(PATH + FILE_DEPOT)
     if not os.path.exists(PATH + FILE_TRANSACTIONS):
@@ -65,7 +69,6 @@ def main():
     # 1. update the current values of the stocks
     cur_exr = {'EUR':1}
     df_depot.reset_index(drop=True, inplace=True)
-    cur_time = pd.Timestamp.now() 
     mask_bank = df_depot['isin'] == 'bank'
     for row in df_depot.loc[~mask_bank].itertuples():
         try:
@@ -74,23 +77,26 @@ def main():
             print("0", row.symbol, err)
             logging.info(f"Exception depot manager update data: {row.Index} {row.symbol}")
             logging.error(err, stack_info=True, exc_info=True)
-    df_depot = df_depot.drop(columns='lev_score').merge(df_result[['isin', 'lev_score']], on='isin', how='left')
+    df_depot = df_depot.drop(columns=['lev_score', 'mean_top', 'score_tot']).merge(df_result[['isin', 'lev_score', 'mean_top', 'score_tot']], on='isin', how='left')
     df_depot.at[0, "cur_date"] = cur_time # pd.time.strftime("%Y-%m-%d")
     df_depot.at[0, 'lev_score'] = 100
+    df_depot.at[0, 'mean_top'] = 100
+    df_depot.at[0, 'score_tot'] = 100
 
     # 2. buy/sell stocks 
     # 2.1 create purchase options df
-    df_pur_opt = df_result.loc[df_result['lev_score'] >= L_SCORE_BUY].sort_values(['lev_score', 'market_cap'], ascending=[False, False]).copy()
+    df_pur_opt = df_result.loc[(df_result['lev_score'] >= L_SCORE_BUY) & (df_result['score_tot'] >= TOT_SCORE_BUY)].sort_values(['tot_score', 'lev_score'], ascending=[False, False]).copy()
     df_pur_opt['in_dpt'] = np.where(df_pur_opt['isin'].isin(df_depot['isin'].unique()), 1, 0)
     df_pur_opt['sold'] = 0
 
     # 2.2 sell based on fixed values
     mask_1 = df_depot['lev_score'] <= MIN_L_SCORE
-    mask_2 = df_depot['price_cur_eur'] <= df_depot['stop_loss_eur']
-    mask_3 = df_depot['lev_score'] <= df_depot['lev_buy'] * (1 - LEV_LOSS_PC)
-    df_sales = df_depot.loc[mask_1 | mask_2 | mask_3].copy().reset_index(drop=True)
+    mask_2 = df_depot['tot_score'] <= MIN_TOT_SCORE
+    mask_3 = df_depot['price_cur_eur'] <= df_depot['stop_loss_eur']
+    mask_4 = df_depot['lev_score'] <= df_depot['lev_buy'] * (1 - LEV_LOSS_PC)
+    df_sales = df_depot.loc[mask_1 | mask_2 | mask_3 | mask_4].copy().reset_index(drop=True)
     for row in df_sales.itertuples():
-        # do not sales a stock you would directly rebuy:
+        # do not sell a stock you would directly rebuy:
         if row.isin in df_pur_opt['isin'].unique():
             df_pur_opt.at[df_pur_opt.loc[df_pur_opt['isin'] == row.isin].index[0], 'in_dpt'] = 0
         if df_pur_opt.loc[df_pur_opt['in_dpt'] == 0].head(1)['isin'].values[0] == row.isin:
@@ -134,13 +140,13 @@ def main():
     # 2.4. shift stocks to better options
     # prepare depot dataframe
     mask_bank = df_depot['isin'] == 'bank'
-    df_sales = df_depot.loc[~mask_bank].sort_values(['lev_score', 'rendite_eur']).copy().reset_index(drop=True)
+    df_sales = df_depot.loc[~mask_bank].sort_values(['score_tot', 'rendite_eur']).copy().reset_index(drop=True)
     for i, row in enumerate(df_sales.itertuples()):
         print(i)
         # get possible stocks
         mask_cur = df_result['isin'].isin(df_depot['isin'].unique())
-        mask_shift_stocks = df_result['lev_score'] >= df_depot['lev_score'].min() + THRES_LEV_BETTER
-        df_buy_opt = df_result.loc[mask_shift_stocks & ~mask_cur].sort_values(['lev_score', 'market_cap'], ascending=[False, False]).reset_index(drop=True)
+        mask_shift_stocks = df_result['score_tot'] >= df_depot['score_tot'].min() + THRES_TOT_BETTER
+        df_buy_opt = df_result.loc[mask_shift_stocks & ~mask_cur].sort_values(['score_tot', 'lev_score'], ascending=[False, False]).reset_index(drop=True)
         # stop if no more options available
         if df_buy_opt.empty:
             print("switch: no - no more options available")
@@ -152,7 +158,7 @@ def main():
             print(f'switch: no - {row.symbol} bought today')
             continue
         weekly_performance = row.rendite_eur / holding_weeks
-        if row.lev_score + THRES_LEV_BETTER < df_buy_opt.at[0, 'lev_score'] \
+        if row.score_tot + THRES_TOT_BETTER < df_buy_opt.at[0, 'score_tot'] \
         and weekly_performance < GOOD_WEEKLY_PERFORMANCE: 
             try: 
                 # check if bank account after sales is high enough for switch

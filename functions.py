@@ -304,12 +304,13 @@ def buy_stock(row, value, cur_time, cur_exr, tax_cum, stop_loss_pc, fee):
                             'name': row.name,'buy_date':cur_time, 
                             'price_buy':cur_price, 'cur':cur_cur, 'exr_hist':cur_exr[cur_cur], 
                             'price_buy_eur':cur_price / cur_exr[cur_cur], 'amount':amount,'lev_buy':row.lev_score, 
-                            'cur_date':cur_time, 'price_cur':cur_price, 'cur2':cur_cur, 
+                            'mean_top_buy':row.mean_top, 'score_tot_buy': row.score_tot, 'cur_date':cur_time, 'price_cur':cur_price, 'cur2':cur_cur, 
                             'exr_cur':cur_exr[cur_cur], "price_cur_eur":cur_price/cur_exr[cur_cur], 
                             'value_org':cur_price * amount, 
                             'value_eur':cur_price / cur_exr[cur_cur] * amount , 
                             'stop_loss_eur':cur_price / cur_exr[cur_cur] * stop_loss_pc, 
                             'rendite_org':0.0, 'rendite_eur':0.0, 'lev_score': row.lev_score,
+                            'mean_top':row.mean_top, 'score_tot': row.score_tot, 
                             'tax_cum':tax_cum, 'fee':fee}, index=[0]) 
     return df_temp
 
@@ -373,12 +374,10 @@ def get_historic_data(row, per="5y"):
 def get_pred_arrays(indices_dict, np_all, win_len, norm_col):
     '''iterate over grouped indices. last column must be y column
     creates x and y arrays. normalizes x array by last value of norm-col'''
-    pred_indices = {}
+    pred_isin, pred_ind, pred_start, pred_end = [], [], [], []
     X_pred = []
-    index = 0
     for i, entry in enumerate(indices_dict.items()):
         X_pred_isin =  []
-        pred_ind = []
         for start in entry[1][:-win_len + 1]:
             last = start + win_len - 1 # correct window
             x = np_all[start:last + 1, :].copy()
@@ -387,9 +386,9 @@ def get_pred_arrays(indices_dict, np_all, win_len, norm_col):
             x[:, norm_col[1]:norm_col[2]] = x[:, norm_col[1]:norm_col[2]] / np_all[last, norm_col[1]]
             x[:, norm_col[2]:] = x[:, norm_col[2]:] / np_all[last, norm_col[2]]
             X_pred_isin.append(x)
-            pred_ind.append((index, start.item(), last.item()))
-            index += 1
+            pred_isin.append(entry[0])
+            pred_start.append(start.item())
+            pred_end.append(last.item())
         X_pred.extend(np.array(X_pred_isin))
-        pred_indices[entry[0]] = pred_ind
     print(np.array(X_pred).shape)
-    return np.array(X_pred), pred_indices
+    return np.array(X_pred), pd.DataFrame({'isin':pred_isin, 'start_df': pred_start, 'end_df':pred_end})

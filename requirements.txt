@@ -5,4 +5,5 @@ pyjanitor==0.30.0
 requests==2.32.3
 yfinance==0.2.63
 beautifulsoup4==4.12.3
-
+tensorflow==2.19.0
+keras==3.10.0
