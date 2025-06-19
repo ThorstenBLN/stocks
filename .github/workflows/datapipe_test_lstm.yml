@@ -1,4 +1,4 @@
-name: data-pipeline-dates-ldat
+name: data-pipeline-lstm
 
 on:
   workflow_dispatch:
