@@ -85,13 +85,13 @@ def main():
 
     # 2. buy/sell stocks 
     # 2.1 create purchase options df
-    df_pur_opt = df_result.loc[(df_result['lev_score'] >= L_SCORE_BUY) & (df_result['score_tot'] >= TOT_SCORE_BUY)].sort_values(['tot_score', 'lev_score'], ascending=[False, False]).copy()
+    df_pur_opt = df_result.loc[(df_result['lev_score'] >= L_SCORE_BUY) & (df_result['score_tot'] >= TOT_SCORE_BUY)].sort_values(['score_tot', 'lev_score'], ascending=[False, False]).copy()
     df_pur_opt['in_dpt'] = np.where(df_pur_opt['isin'].isin(df_depot['isin'].unique()), 1, 0)
     df_pur_opt['sold'] = 0
 
     # 2.2 sell based on fixed values
     mask_1 = df_depot['lev_score'] <= MIN_L_SCORE
-    mask_2 = df_depot['tot_score'] <= MIN_TOT_SCORE
+    mask_2 = df_depot['score_tot'] <= MIN_TOT_SCORE
     mask_3 = df_depot['price_cur_eur'] <= df_depot['stop_loss_eur']
     mask_4 = df_depot['lev_score'] <= df_depot['lev_buy'] * (1 - LEV_LOSS_PC)
     df_sales = df_depot.loc[mask_1 | mask_2 | mask_3 | mask_4].copy().reset_index(drop=True)
