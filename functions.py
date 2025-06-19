@@ -359,6 +359,7 @@ def define_invest_value(bank_funds, INVEST_VALUE, MIN_INVEST_VALUE, TRADING_FEE)
 
 def get_historic_data(row, per="5y"):
     '''get at max 5 years data from all stocks for lstm training'''
+    print("error: before Ticker")
     dat = yf.Ticker(row.symbol)
     print("error: after Ticker")
     try:
