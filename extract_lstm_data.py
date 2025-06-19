@@ -6,7 +6,7 @@ import os
 import openpyxl
 import datetime as dt
 import warnings
-import functions as f
+import functions
 import re
 import logging
 import sys
@@ -48,7 +48,7 @@ def main():
         if row.Index % 100 == 0:
             print(row.Index, row.symbol)
         print(row.Index, row.symbol)
-        data.append(f.get_historic_data(row, per='6mo'))
+        data.append(functions.get_historic_data(row, per='6mo'))
         print("error: after data")
         time.sleep(np.random.uniform(0.8, 1.2))
     df_data = pd.concat(data).clean_names(strip_underscores=True)
@@ -63,7 +63,7 @@ def main():
     for row in df_indices.iloc[:].itertuples():
         if row.Index % 100 == 0:
             print(row.Index, row.symbol)
-        data_ind.append(f.get_historic_data(row, per='6mo'))
+        data_ind.append(functions.get_historic_data(row, per='6mo'))
         time.sleep(np.random.uniform(0.8, 1.2))
     df_ind = pd.concat(data_ind).clean_names(strip_underscores=True)
     df_ind['date'] = df_ind['date'].astype(str).str[:11]
@@ -112,7 +112,7 @@ def main():
     indices_dict = df_all.iloc[:].groupby('isin').indices
     np_all = df_all[X_FEATURES_LSTM].iloc[:].to_numpy()
     win_len = 40
-    X_pred, df_pred = f.get_pred_arrays(indices_dict, np_all, win_len, [0, 6, 8])
+    X_pred, df_pred = functions.get_pred_arrays(indices_dict, np_all, win_len, [0, 6, 8])
     time_2 = time.time()
     print(f"prepare lstm arrays: {np.round((time_2 - time_1)/60, 2).item()} minutes")
 
