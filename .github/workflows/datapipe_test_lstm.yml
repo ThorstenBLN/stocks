@@ -7,9 +7,6 @@ jobs:
   run-lstm-data:
     runs-on: ubuntu-latest # 1. create an ubuntu instance
     steps:
-      - name: Sleep for 60 seconds
-        run: sleep 60s
-        shell: bash
       - name: Checkout repo content # 2. pull all code from github repo
         uses: actions/checkout@v4 
         with: 

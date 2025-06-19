@@ -360,15 +360,20 @@ def define_invest_value(bank_funds, INVEST_VALUE, MIN_INVEST_VALUE, TRADING_FEE)
 def get_historic_data(row, per="5y"):
     '''get at max 5 years data from all stocks for lstm training'''
     dat = yf.Ticker(row.symbol)
+    print("error: after Ticker")
     try:
         df_hist = dat.history(period=per).reset_index()
+        print("error: after hist 1")
     except:
         try:
             df_hist = dat.history(period=dat.get_history_metadata()['validRanges'][-1]).reset_index()
+            print("error: after hist 2")
         except:
+            print("exception call")
             return pd.DataFrame()
     df_hist['isin'] = row.isin
     df_hist['symbol'] = row.symbol
+    print("error: after add isin/symbol")
     return df_hist
 
 def get_pred_arrays(indices_dict, np_all, win_len, norm_col):
