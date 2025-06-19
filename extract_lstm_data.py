@@ -49,7 +49,6 @@ def main():
             print(row.Index, row.symbol)
         print(row.Index, row.symbol)
         data.append(functions.get_historic_data(row, per='6mo'))
-        print("error: after data")
         time.sleep(np.random.uniform(0.8, 1.2))
     df_data = pd.concat(data).clean_names(strip_underscores=True)
     df_data['date'] = df_data['date'].astype(str).str[:11]
