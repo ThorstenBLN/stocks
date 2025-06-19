@@ -47,6 +47,7 @@ def main():
     for row in df_isin.iloc[:].itertuples():
         if row.Index % 100 == 0:
             print(row.Index, row.symbol)
+        print(row.Index, row.symbol)
         data.append(f.get_historic_data(row, per='6mo'))
         time.sleep(np.random.uniform(0.8, 1.2))
     df_data = pd.concat(data).clean_names(strip_underscores=True)
