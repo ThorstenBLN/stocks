@@ -21,7 +21,7 @@ def main():
     FILE_RESULT = "result_hist.csv"
     FILE_DEPOT = "depot.xisx"
     FILE_MODEL = "bi_lstm_model.pickle"
-    MIN_BUY_SCORE = 8
+    MIN_LEV_SCORE = 5
 
     MIN_TOP = 0.45
     MIN_GOOD = 0.5
@@ -37,7 +37,7 @@ def main():
     else:
         df_result_hist = pd.read_csv(PATH + FILE_RESULT)
     df_result = pd.read_excel(PATH + FILE_RESULT_DAY)
-    df_isin = df_result.loc[df_result['lev_score'] >= MIN_BUY_SCORE][['isin','symbol']]
+    df_isin = df_result.loc[df_result['lev_score'] >= MIN_LEV_SCORE][['isin','symbol']]
     df_isin = pd.concat([df_isin, df_depot]).drop_duplicates().reset_index(drop=True)
     time_2 = time.time()
     print(f"loading files: {np.round((time_2 - time_1)/60, 2).item()} minutes")
