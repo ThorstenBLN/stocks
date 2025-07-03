@@ -76,8 +76,7 @@ def main():
             f.update_depot(df_depot, row, cur_time, cur_exr)
         except Exception as err:
             print("0", row.symbol, err)
-            logging.info(f"Exception depot manager update data: {row.Index} {row.symbol}")
-            logging.error(err, stack_info=True, exc_info=True)
+            traceback.print_exc(limit=None, file=None, chain=True)
     df_depot = df_depot.drop(columns=['lev_score', 'mean_top', 'score_tot']).merge(df_result[['isin', 'lev_score', 'mean_top', 'score_tot']], on='isin', how='left')
     df_depot.at[0, "cur_date"] = cur_time # pd.time.strftime("%Y-%m-%d")
     df_depot.at[0, 'lev_score'] = 100
@@ -138,8 +137,7 @@ def main():
             message += f.add_to_message("buy rules", df_temp)
         except Exception as err:
             print("1", row.symbol, err)
-            logging.info(f"{dt.datetime.now().strftime('%d.%m.%Y %H:%M:%S')} Exception depot manager purchase normal: {row.Index} {row.symbol}")
-            logging.error(err, stack_info=True, exc_info=True)
+            traceback.print_exc(limit=None, file=None, chain=True)
         
     # 2.4. shift stocks to better options
     # prepare depot dataframe
@@ -194,8 +192,7 @@ def main():
                 message += f.add_to_message("buy opt", df_temp)
             except Exception as err:
                 print("error handler", row.symbol, err)
-                logging.info(f"{dt.datetime.now().strftime('%d.%m.%Y %H:%M:%S')} Exception depot manager stock shift: {row.Index} {row.symbol}")
-                logging.error(err, stack_info=True, exc_info=True)
+                traceback.print_exc(limit=None, file=None, chain=True)
 
     # 3. set new stop loss
     df_depot['stop_loss_eur'] = np.where(df_depot['price_cur_eur'] * STOP_LOSS_PC > df_depot['stop_loss_eur'], 
