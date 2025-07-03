@@ -10,6 +10,7 @@ import requests
 import logging
 import sys
 import finhandler
+import traceback
 
 def main():
     time_1 = time.time()
@@ -90,8 +91,6 @@ def main():
         df_xetra_check = df_xetra.copy().reset_index(drop=True)
         
     # 1.3. check if xetra data in yfinance (ca. 9 min for 1000 symb) ###########################################
-    # session = requests.Session()
-    # session.headers.update({'User-Agent': 'stocks_tjo'})
     symbols_yf = []
     for row in df_xetra_check.iloc[:].itertuples(): #6109: 10005
         if row.Index % 100 == 0:
@@ -108,20 +107,15 @@ def main():
     # 3. check valid symbols at finanzen.net (ca. 1h for each 1000 sybols)
     fin_handler = finhandler.Finhandler()
     # 3.1 get all relevnt links 
-    # BASE_URL = f"https://www.finanzen.net/"
     fin_links = []
     for row in df_xetra_check.loc[df_xetra_check['data_yf'] == 1].iloc[:].itertuples():
         if row.Index % 100 == 0:
             print(row.Index, row.isin)
-        # fin_links.append(f.get_url_finanzen(row.isin, row.name, "XFRA"))
-        # fin_links.append(f.get_url_finanzen_xetra(row.isin, row.name))
         fin_links.append(fin_handler.get_links(row.isin, row.name))
         time.sleep(np.random.uniform(0.3, 0.8))
     df_fin_links = pd.DataFrame(fin_links)
     df_fin_links.rename(columns={'symbol':'isin'}, inplace=True)
     # add links and check if symbols are identical 
-    # df_fin_links['kgv_old_url'] = BASE_URL + "bilanz_guv/" + df_fin_links['name_finanzen']
-    # df_fin_links['kgv_est_url'] = BASE_URL + "schaetzungen/" + df_fin_links['name_finanzen']
     df_fin_links['kgv_old_url'] = fin_handler.base_url + "bilanz_guv/" + df_fin_links['name_finanzen']
     df_fin_links['kgv_est_url'] = fin_handler.base_url + "schaetzungen/" + df_fin_links['name_finanzen']
     time_2 = time.time()
@@ -153,7 +147,7 @@ if __name__ == "__main__":
     try:
         main()
     except Exception as err:
-        logging.info(f"{dt.datetime.now().strftime('%d.%m.%Y %H:%M:%S')} Exception extract_isin main")
-        logging.error(err, stack_info=True, exc_info=True)
-        print(err)
+        # logging.info(f"{dt.datetime.now().strftime('%d.%m.%Y %H:%M:%S')} Exception extract_isin main")
+        # logging.error(err, stack_info=True, exc_info=True)
+        traceback.print_exc(limit=None, file=None, chain=True)
         sys.exit(1)
