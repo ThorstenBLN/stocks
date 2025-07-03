@@ -97,7 +97,10 @@ def main():
     mask_4 = df_depot['lev_score'] <= df_depot['lev_buy'] * (1 - LEV_LOSS_PC)
     df_sales = df_depot.loc[mask_1 | mask_2 | mask_3 | mask_4].copy().reset_index(drop=True)
     for row in df_sales.itertuples():
-        # do not sell a stock you would directly rebuy:
+        # if all purchase options are already in depot -> break
+        if len(df_pur_opt['in_dpt'].unique()) == 1 and df_pur_opt['in_dpt'].unique() == 1:
+            break
+        # do not sell a stock you would directly rebuy (because it is the best option   ):
         if row.isin in df_pur_opt['isin'].unique():
             df_pur_opt.at[df_pur_opt.loc[df_pur_opt['isin'] == row.isin].index[0], 'in_dpt'] = 0
         if df_pur_opt.loc[df_pur_opt['in_dpt'] == 0].head(1)['isin'].values[0] == row.isin:
