@@ -11,6 +11,7 @@ import re
 import logging
 import sys
 import pickle
+import traceback
 
 def main():
     warnings.simplefilter('ignore', 'FutureWarning')
@@ -156,8 +157,6 @@ if __name__ == "__main__":
     try:
         main()
     except Exception as err:
-        logging.info(f"{dt.datetime.now().strftime('%d.%m.%Y %H:%M:%S')} Exception extract_lstm_data main")
-        logging.error(err, stack_info=True, exc_info=True)
-        print(err)
+        traceback.print_exc(limit=None, file=None, chain=True)
         sys.exit(1)
 
