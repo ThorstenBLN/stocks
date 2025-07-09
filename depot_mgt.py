@@ -103,7 +103,7 @@ def main():
         if row.isin in df_pur_opt['isin'].unique():
             df_pur_opt.at[df_pur_opt.loc[df_pur_opt['isin'] == row.isin].index[0], 'in_dpt'] = 0
         # if df_pur_opt.loc[df_pur_opt['in_dpt'] == 0].head(1)['isin'].values[0] == row.isin:
-        if df_pur_opt.loc[df_pur_opt['in_dpt'] == 0].reset_index().at[0, 'isin'] == row.isin:
+        if not df_pur_opt.empty and df_pur_opt.loc[df_pur_opt['in_dpt'] == 0].reset_index().at[0, 'isin'] == row.isin:
             df_pur_opt.at[df_pur_opt.loc[df_pur_opt['isin'] == row.isin].index[0], 'in_dpt'] = 1
             print("no rebuy sales!")
             continue
