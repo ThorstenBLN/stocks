@@ -21,6 +21,7 @@ def main():
     FILE = "symbols.xlsx"
     FILE_GER = "symbols_xetra.csv"
     FILE_SYM_DEL = "sym_deleted.xlsx"
+    FILE_EXCLUDE = "exclude_isin.csv"
     THRES_RECHECK_OLD = 0.10
     THRES_RECHECK_DEL = 0.50
 
@@ -130,15 +131,15 @@ def main():
         df_del = pd.concat([df_check_final.loc[df_check_final['data_all'] == 0], df_del]).drop_duplicates(subset='isin')
         df_del.to_excel(PATH + FILE_SYM_DEL, index=False)
         df_used_final = pd.concat([df_check_final.loc[df_check_final['data_all'] == 1], df_used]).drop_duplicates(subset='isin')
-        df_exclude = pd.read_csv("./data/exclude_isin.csv")
+        df_exclude = pd.read_csv(PATH + FILE_EXCLUDE)
         df_used_final = df_used_final.merge(df_exclude, on='isin', how='left')
-        df_used_final['exclude'] = df_used_final['exclude'].fillna(0)
-        df_used_final.loc[(df_used_final['data_all'] == 1) & (df_used_final['exclude'] == 0)].to_excel(PATH + FILE, index=False)
+        df_used_final['exclude_lstm'] = df_used_final['exclude_lstm'].fillna(0)
+        df_used_final.loc[(df_used_final['data_all'] == 1) & (df_used_final['exclude_lstm'] == 0)].to_excel(PATH + FILE, index=False)
     else:
-        df_exclude = pd.read_csv("./data/exclude_isin.csv")
+        df_exclude = pd.read_csv(PATH + FILE_EXCLUDE)
         df_check_final = df_check_final.merge(df_exclude, on='isin', how='left')
-        df_check_final['exclude'] = df_check_final['exclude'].fillna(0)
-        df_check_final.loc[(df_check_final['data_all'] == 1) & (df_check_final['exclude'] == 0)].to_excel(PATH + FILE, index=False)
+        df_check_final['exclude_lstm'] = df_check_final['exclude_lstm'].fillna(0)
+        df_check_final.loc[(df_check_final['data_all'] == 1) & (df_check_final['exclude_lstm'] == 0)].to_excel(PATH + FILE, index=False)
         df_check_final.loc[df_check_final['data_all'] == 0].to_excel(PATH + FILE_SYM_DEL, index=False)
     time_1 = time.time()
     print(f"save data: {np.round((time_1 - time_2)/60, 2).item()} minutes")

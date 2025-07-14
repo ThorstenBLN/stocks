@@ -18,11 +18,13 @@ import pickle
 plt.rcParams['figure.dpi'] = 600
 
 PATH_DATA = "./data_lstm/"
+PATH_DATA_BASE = "./data/"
 FILE_HIST = "prices_historic.csv"
 FILE_CLASS =  "prices_class.csv"
 FILE_FINAL = "data_lstm.csv"
 FILE_FINAL_IND = "data_lstm_ind_4_classes.csv"
 FILE_INDICES = "prices_historic_indices.csv"
+FILE_EXCLUDE = "exclude_isin.csv"
 FIRST_YEAR = 2020
 
 # 1. load all data
@@ -135,11 +137,11 @@ df_all['date_delta_max'] = df_all.groupby('isin')['date_delta'].transform('max')
 df_all['date_gap'] = np.where(df_all['date_delta_max'] >= pd.Timedelta(THRES_GAP, 'days'), 1, 0)
 
 # 4.8. exclude stocks
-df_all['exclude'] = np.where(df_all['mini_stock'] + df_all['no_moves'] + df_all['few_days'] + df_all['low_volume']  + df_all['date_gap'] < 1, 0, 1)
-df_exclude = df_all.loc[df_all['exclude'] == 1][['isin', 'exclude']].drop_duplicates()
-df_exclude.to_csv("./data/exclude_isin.csv", index=False)
+df_all['exclude_lstm'] = np.where(df_all['mini_stock'] + df_all['no_moves'] + df_all['few_days'] + df_all['low_volume']  + df_all['date_gap'] < 1, 0, 1)
+df_exclude = df_all.loc[df_all['exclude_lstm'] == 1][['isin', 'exclude_lstm']].drop_duplicates()
+df_exclude.to_csv(PATH_DATA_BASE + FILE_EXCLUDE, index=False)
 # sort by columns for latter grouping indices
-df_all = df_all.loc[df_all['exclude'] == 0][BASE_COLS + X_FEATURES + Y_FEATURES].sort_values(['isin', 'date']).dropna().reset_index(drop=True)
+df_all = df_all.loc[df_all['exclude_lstm'] == 0][BASE_COLS + X_FEATURES + Y_FEATURES].sort_values(['isin', 'date']).dropna().reset_index(drop=True)
 
 # 5. add the indices columns
 # 5.1 load data
