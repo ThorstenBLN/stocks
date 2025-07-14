@@ -24,7 +24,7 @@ def main():
     FILE_MODEL = "bi_lstm_model.pickle"
     MIN_LEV_SCORE = 5
 
-    MIN_TOP = 0.45
+    MIN_TOP = 0.3
     MIN_GOOD = 0.5
     
     # 1. load base data ####################################################################
