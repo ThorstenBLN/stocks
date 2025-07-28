@@ -26471,3 +26471,4 @@ ERROR:yfinance:$MYTE: possibly delisted; no price data found  (period=2y) (Yahoo
 ERROR:yfinance:$MYTE: possibly delisted; no price data found  (period=5d) (Yahoo error = "No data found, symbol may be delisted")
 ERROR:yfinance:HTTP Error 404: 
 ERROR:yfinance:Failed to perform, curl: (16) . See https://curl.se/libcurl/c/libcurl-errors.html first for more details.
+ERROR:yfinance:$WWIB.OL: possibly delisted; no price data found  (period=6mo)
