@@ -68,7 +68,7 @@ def main():
     end = int(df_base.shape[0] * DATA_PC)
     data = []
     for row in df_base.iloc[end:].itertuples():
-        if row.Index % 100 == 0:
+        if row.Index % 100 == 0 or row.Index > 10200:
             print(row.Index, row.symbol)
         qrt_date = df_dates_qrt_rel.loc[df_dates_qrt_rel['isin'] == row.isin]['date']
         jv_date = df_dates_jv_rel.loc[df_dates_jv_rel['isin'] == row.isin]['date']
@@ -97,6 +97,9 @@ if __name__ == "__main__":
     try:
         main()
     except Exception as err:
+        traceback.print_exc(limit=None, file=None, chain=True)
+        sys.exit(1)
+    except BaseException:
         traceback.print_exc(limit=None, file=None, chain=True)
         sys.exit(1)
 
