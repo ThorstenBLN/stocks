@@ -26,6 +26,7 @@ def main():
 
     MIN_TOP = 0.3
     MIN_GOOD = 0.5
+    CAP_SIZE_SCORE = {'big':2, 'mid':1, 'small':0, np.nan:0}
     
     # 1. load base data ####################################################################
     time_1 = time.time()
@@ -144,7 +145,9 @@ def main():
     # 8. add to result file and save file
     df_result = df_result.merge(df_pred, on='isin', how='left')
     df_result['score'] = df_result['score'].fillna(-2)
-    df_result['score_tot'] = df_result['lev_score'] + df_result['score']
+    df_result['score_cap_size'] = df_result['cap_size'].apply(lambda x: CAP_SIZE_SCORE[x])
+    df_result['score_tot'] = df_result['lev_score'] + df_result['score'] + df_result['score_cap_size'] 
+
     df_result.to_excel(PATH + FILE_RESULT_DAY, index=False)
 
     df_result_tot = pd.concat([df_result_hist, df_result], axis=0).reset_index(drop=True)
