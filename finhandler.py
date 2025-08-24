@@ -8,6 +8,7 @@ import numpy as np
 class Finhandler():
     def __init__(self, n_retries=16):
         self.base_url = "https://www.finanzen.net/"
+        self.base_url_start = "https://www.google.com/"
         self.search_url = "https://www.finanzen.net/suchergebnis.asp?_search="
         self.n_retries = n_retries
         self.user_agent_list = [
@@ -46,7 +47,9 @@ class Finhandler():
         '''assigns user-agent randomally and defines referrer based on type of request'''
         self.headers["User-Agent"] = random.choice(self.user_agent_list)
         if name_stock is None:
-            self.headers["Referer"] = self.base_url 
+            self.headers["Referer"] = self.base_url
+        elif name_stock == "first_entry":
+            self.headers["Referer"] = self.base_url_start 
         else:
             self.headers["Referer"] = self.base_url + "aktien/" + name_stock + "-aktie"
 
@@ -60,6 +63,7 @@ class Finhandler():
                 if page.status_code == 200:
                     soup = BeautifulSoup(page.content, 'html.parser', from_encoding="utf-8")
                     break
+                # print(page.status_code,page.content)
             except Exception as e:
                 print("error", str(e), " trying again for the ", x+1, " time")
             time.sleep(0.8 + random.random())
@@ -70,7 +74,7 @@ class Finhandler():
         '''scrapes the finanzen page to get the url for termine and the name used by finanzen for the given isin
         returns: dictionairy with linls'''
         # find the website by symbol
-        soup = self.scrape_url(self.search_url + isin_code)
+        soup = self.scrape_url(self.search_url + isin_code, "first_entry")
         # for isin search (Frankfurt stocks): try to get directly the url from isin
         try:
             soup2 = soup.find("head")

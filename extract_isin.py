@@ -20,10 +20,7 @@ def main():
     PATH = "./data/"
     FILE = "symbols.xlsx"
     FILE_GER = "symbols_xetra.csv"
-    FILE_SYM_DEL = "sym_deleted.xlsx"
     FILE_EXCLUDE = "exclude_isin.csv"
-    THRES_RECHECK_OLD = 0.10
-    THRES_RECHECK_DEL = 0.50
 
     if not os.path.exists(PATH):
         os.makedirs(PATH)
@@ -33,10 +30,6 @@ def main():
         df_used = pd.read_excel(PATH + FILE).clean_names(strip_underscores = True)
     else:
         df_used = None
-    if os.path.exists(PATH + FILE_SYM_DEL):
-        df_del = pd.read_excel(PATH + FILE_SYM_DEL).clean_names(strip_underscores = True)
-    else:
-        df_del = None
 
     # 1. XETRA STOCKS UPDATE #####################################################################
     # 1.1. download Xetra symbols
@@ -59,40 +52,25 @@ def main():
     COLUMNS_XETRA = ['symbol', 'isin', 'name', 'price', 'type', 'status','data_yf']
     df_xetra = df_xetra[COLUMNS_XETRA].reset_index(drop=True)
     # 1.2. check for new xetra symbols and for the current and deleted ones to recheck
-    if df_used is not None and df_del is not None:
+    if df_used is not None:
         # 1. define current xetra symbols to delete if not in xetra file anymore
-        df_xetra['check'] = 1
-        df_used = df_used.merge(df_xetra[['isin', 'check']], on='isin', how='left')
-        df_used['delete'] = np.where((df_used['check'].isna()), 1, 0)
-        # 2. define deleted xetra ones which are not in xetra file anymore
-        df_del = df_del.merge(df_xetra[['isin', 'check']], on='isin', how='left')
-        df_del['delete'] = np.where((df_del['check'].isna()), 1, 0)
-        df_xetra.drop(columns=['check'], inplace=True)
-        # 3. check for new symbols in xetra file
-        df_old = pd.concat([df_used, df_del])
-        df_old['check'] = 1
-        df_new = df_xetra.merge(df_old[['isin', 'check']], on='isin', how='left')
-        df_new = df_new.loc[df_new['check'].isna()]
-        df_new.drop(columns=['check'], inplace=True)
-        df_old.drop(columns=['check'], inplace=True)
-        # 4. define the stocks to recheck (only stocks, which are still in the xetra csv)
-        df_old['recheck'] = df_old['delete'].apply(lambda x: np.random.uniform(0, 1))
-        mask_not_del = df_old['delete'] == 0
-        mask_stoch_old = (df_old['recheck'] <= THRES_RECHECK_OLD) & (df_old['data_all'] == 1)
-        mask_stoch_del = (df_old['recheck'] <= THRES_RECHECK_DEL) & (df_old['data_all'] == 0)
-        df_recheck = df_old.loc[mask_not_del & (mask_stoch_old | mask_stoch_del)].copy()
-        # 5. combine df for check
-        df_xetra_check = pd.concat([df_new, df_recheck[df_new.columns]]).reset_index(drop=True)
-        # 6. delete unnecessary data from df_used and df_del
+        df_xetra['exists_already'] = 1
+        df_used = df_used.merge(df_xetra[['isin', 'exists_already']], on='isin', how='left')
+        df_used['delete'] = np.where((df_used['exists_already'].isna()), 1, 0)
+        # 2. check for new symbols in xetra file
+        df_new = df_xetra.drop(columns=['exists_already']).merge(df_used[['isin', 'exists_already']], on='isin', how='left')
+        df_new = df_new.loc[df_new['exists_already'].isna()]
+        # 3. define the stocks to recheck (only stocks, which are still in the xetra csv)
+        df_xetra_check = df_new.drop(columns=['exists_already']).reset_index(drop=True)
+        # 4. delete unnecessary data from df_used and df_del
         df_used = df_used.loc[df_used['delete'] != 1]
-        df_used.drop(columns=['delete', 'check'], inplace=True)
-        df_del = df_del.loc[df_del['delete'] != 1]
-        df_del.drop(columns=['delete', 'check'], inplace=True)
+        df_used.drop(columns=['delete', 'exists_already'], inplace=True)
     else:
         df_xetra_check = df_xetra.copy().reset_index(drop=True)
         
-    # 1.3. check if xetra data in yfinance (ca. 9 min for 1000 symb) ###########################################
+    # 1.3. check if xetra data in yfinance (ca. 18 min for 1000 symb) ###########################################
     symbols_yf = []
+    # df_xetra_check = df_xetra_check.iloc[:10].copy()
     for row in df_xetra_check.iloc[:].itertuples(): #6109: 10005
         if row.Index % 100 == 0:
             print((row.Index, row.isin))
@@ -127,9 +105,7 @@ def main():
     mask = (df_check_final['data_yf'] == 1) & (~df_check_final['name_finanzen'].isna())
     df_check_final['data_all'] = np.where(mask, 1, 0)
     # save final files (updated symbol file and deleted file)
-    if df_used is not None and df_del is not None:
-        df_del = pd.concat([df_check_final.loc[df_check_final['data_all'] == 0], df_del]).drop_duplicates(subset='isin')
-        df_del.to_excel(PATH + FILE_SYM_DEL, index=False)
+    if df_used is not None:
         df_used_final = pd.concat([df_check_final.loc[df_check_final['data_all'] == 1], df_used]).drop_duplicates(subset='isin')
         df_exclude = pd.read_csv(PATH + FILE_EXCLUDE)
         df_used_final = df_used_final.merge(df_exclude, on='isin', how='left')
@@ -140,7 +116,6 @@ def main():
         df_check_final = df_check_final.merge(df_exclude, on='isin', how='left')
         df_check_final['exclude_lstm'] = df_check_final['exclude_lstm'].fillna(0)
         df_check_final.loc[(df_check_final['data_all'] == 1) & (df_check_final['exclude_lstm'] == 0)].to_excel(PATH + FILE, index=False)
-        df_check_final.loc[df_check_final['data_all'] == 0].to_excel(PATH + FILE_SYM_DEL, index=False)
     time_1 = time.time()
     print(f"save data: {np.round((time_1 - time_2)/60, 2).item()} minutes")
 
