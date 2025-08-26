@@ -58,7 +58,7 @@ def get_levermann_data(row, df_dax_hist, df_dax_prices, dates, qrt_date, jv_date
             result_temp['rel_financials_date'] = result_temp['qrt_date']
         else:
             result_temp['rel_financials_date'] = max(result_temp['qrt_date'], result_temp['jv_date'])
-    if  result_temp['rel_financials_date']:
+    if result_temp['rel_financials_date']:
         result_temp['days_passed'] = (pd.to_datetime("today") - pd.to_datetime(result_temp['rel_financials_date'])).days
     # setup rest of dict
     for key in FIELDS:
@@ -146,16 +146,17 @@ def get_levermann_data(row, df_dax_hist, df_dax_prices, dates, qrt_date, jv_date
         df_hist['date_diff'] = (pd.to_datetime(df_hist['Date']) - pd.to_datetime(result_temp['rel_financials_date'])).dt.days
         df_dax_hist['date_diff'] = (pd.to_datetime(df_dax_hist['Date']) - pd.to_datetime(result_temp['rel_financials_date'])).dt.days
         # check if there is a the window of +/- 1 day in the data 
-        # (1. qrt date way too old, 2. all data newer or same day as qrt date (so no day before), 3. qrt date newer than any data or same day
+        # (1. qrt date way too old, 2. all data newer or same day as qrt date (so no day before), 3. qrt date newer than any data
         if df_hist['date_diff'].max() > MAX_QRT_DAY_DISTANCE or df_hist['date_diff'].min() >= 0 or df_hist['date_diff'].max() < 0:
             result_temp['reaktion_qrt'] = np.nan
             print("no valid qrt_date / or data before the qrt date")
         else:
             # print(df_hist['date_diff'].max())
             # calculate the values for dax
-            min_later_dax = df_dax_hist.loc[df_dax_hist['date_diff'] > 0]['date_diff'].min()
             if df_dax_hist['date_diff'].max() == 0: # on the day of the qrt release, take this day
                 min_later_dax = df_dax_hist.loc[df_dax_hist['date_diff'] == 0]['date_diff'].min()
+            else: # take the day directly after the qtr
+                min_later_dax = df_dax_hist.loc[df_dax_hist['date_diff'] > 0]['date_diff'].min()
             price_dax_next = df_dax_hist.loc[df_dax_hist['date_diff'] == min_later_dax]['Close'].values[0]
             min_before_dax = df_dax_hist.loc[df_dax_hist['date_diff'] < 0]['date_diff'].max()
             price_dax_before = df_dax_hist.loc[df_dax_hist['date_diff'] == min_before_dax]['Close'].values[0]
