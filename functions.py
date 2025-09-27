@@ -252,11 +252,13 @@ def get_xetra_symbol_file():
         soup = BeautifulSoup(page.content, 'html.parser', from_encoding="utf-8")
         link = soup.find('a', href=lambda href: href and "allTradableInstruments.csv" in href)
         if link:
-            response =  requests.get("https://www.deutsche-boerse-cash-market.com/" + link['href'])
-            with open("./data/symbols_xetra.csv", "wb") as file:
-                file.write(response.content)
-        else:
-            print("no file found")
+            # response =  requests.get("https://www.deutsche-boerse-cash-market.com/" + link['href'])
+            response =  requests.get(link['href'])
+            if response.status_code == 200:
+                with open("./data/symbols_xetra.csv", "wb") as file:
+                    file.write(response.content)
+                return
+    print("no file found")
 
 def update_exr(exr_dict, cur_currency):
     '''checks if currency exchangerate is present or adds it if not'''
