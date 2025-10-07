@@ -114,7 +114,7 @@ def main():
     df_exclude = pd.read_csv(PATH + FILE_EXCLUDE)
     exclude_cols = [col for col in df_used_final.columns if "exclude" in col]
     if len(exclude_cols) > 0:
-        df_used_final.drop(columns=exclude_cols, inplace=True)
+        df_used_final.drop(columns=exclude_cols, inplace=True) # delete exclude column to merge new excludes
     df_used_final = df_used_final.merge(df_exclude, on='isin', how='left')
     df_used_final['exclude_lstm'] = df_used_final['exclude_lstm'].fillna(0)
     df_used_final.loc[(df_used_final['data_all'] == 1) & (df_used_final['exclude_lstm'] == 0)].to_excel(PATH + FILE_SYM, index=False)
