@@ -36331,3 +36331,4 @@ ERROR:yfinance:HTTP Error 404:
 ERROR:yfinance:$MYTE: possibly delisted; no price data found  (period=2y) (Yahoo error = "No data found, symbol may be delisted")
 ERROR:yfinance:$MYTE: possibly delisted; no price data found  (period=5d) (Yahoo error = "No data found, symbol may be delisted")
 ERROR:yfinance:HTTP Error 404: 
+ERROR:yfinance:HTTP Error 500: 
