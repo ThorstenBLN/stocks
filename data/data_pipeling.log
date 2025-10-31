@@ -38824,3 +38824,115 @@ ERROR:yfinance:HTTP Error 404:
 ERROR:yfinance:$GGG-H.V: possibly delisted; no price data found  (period=2y) (Yahoo error = "No data found, symbol may be delisted")
 ERROR:yfinance:$GGG-H.V: possibly delisted; no price data found  (period=5d) (Yahoo error = "No data found, symbol may be delisted")
 ERROR:yfinance:HTTP Error 404: 
+ERROR:yfinance:HTTP Error 404: 
+ERROR:yfinance:$LANC: possibly delisted; no price data found  (period=2y) (Yahoo error = "No data found, symbol may be delisted")
+ERROR:yfinance:$LANC: possibly delisted; no price data found  (period=5d) (Yahoo error = "No data found, symbol may be delisted")
+ERROR:yfinance:HTTP Error 404: 
+ERROR:yfinance:HTTP Error 404: 
+ERROR:yfinance:$USM: possibly delisted; no price data found  (period=2y) (Yahoo error = "No data found, symbol may be delisted")
+ERROR:yfinance:$USM: possibly delisted; no price data found  (period=5d) (Yahoo error = "No data found, symbol may be delisted")
+ERROR:yfinance:HTTP Error 404: 
+ERROR:yfinance:HTTP Error 404: 
+ERROR:yfinance:$TLIK.DE: possibly delisted; no price data found  (period=2y) (Yahoo error = "No data found, symbol may be delisted")
+ERROR:yfinance:$TLIK.DE: possibly delisted; no price data found  (period=5d) (Yahoo error = "No data found, symbol may be delisted")
+ERROR:yfinance:HTTP Error 404: 
+ERROR:yfinance:HTTP Error 404: 
+ERROR:yfinance:HTTP Error 404: 
+ERROR:yfinance:HTTP Error 404: 
+ERROR:yfinance:$MXCT.L: possibly delisted; no price data found  (period=2y) (Yahoo error = "No data found, symbol may be delisted")
+ERROR:yfinance:$MXCT.L: possibly delisted; no price data found  (period=5d) (Yahoo error = "No data found, symbol may be delisted")
+ERROR:yfinance:HTTP Error 404: 
+ERROR:yfinance:HTTP Error 404: 
+ERROR:yfinance:HTTP Error 404: 
+ERROR:yfinance:$GRFX: possibly delisted; no price data found  (period=2y) (Yahoo error = "No data found, symbol may be delisted")
+ERROR:yfinance:$GRFX: possibly delisted; no price data found  (period=5d) (Yahoo error = "No data found, symbol may be delisted")
+ERROR:yfinance:HTTP Error 404: 
+ERROR:yfinance:$SNMCD: possibly delisted; no price data found  (period=2y) (Yahoo error = "No data found, symbol may be delisted")
+ERROR:yfinance:$SNMCD: possibly delisted; no price data found  (period=5d) (Yahoo error = "No data found, symbol may be delisted")
+ERROR:yfinance:HTTP Error 404: 
+ERROR:yfinance:$CNE100002BG6.SG: possibly delisted; no price data found  (period=2y) (Yahoo error = "No data found, symbol may be delisted")
+ERROR:yfinance:$CNE100002BG6.SG: possibly delisted; no price data found  (period=5d) (Yahoo error = "No data found, symbol may be delisted")
+ERROR:yfinance:HTTP Error 404: 
+ERROR:yfinance:HTTP Error 404: 
+ERROR:yfinance:$CATG.PA: possibly delisted; no price data found  (period=2y) (Yahoo error = "No data found, symbol may be delisted")
+ERROR:yfinance:$CATG.PA: possibly delisted; no price data found  (period=5d) (Yahoo error = "No data found, symbol may be delisted")
+ERROR:yfinance:HTTP Error 404: 
+ERROR:yfinance:$PWG.PA: possibly delisted; no price data found  (period=2y) (Yahoo error = "No data found, symbol may be delisted")
+ERROR:yfinance:$PWG.PA: possibly delisted; no price data found  (period=5d) (Yahoo error = "No data found, symbol may be delisted")
+ERROR:yfinance:HTTP Error 404: 
+ERROR:yfinance:$AROC.ST: possibly delisted; no price data found  (period=2y) (Yahoo error = "No data found, symbol may be delisted")
+ERROR:yfinance:$AROC.ST: possibly delisted; no price data found  (period=5d) (Yahoo error = "No data found, symbol may be delisted")
+ERROR:yfinance:HTTP Error 404: 
+ERROR:yfinance:HTTP Error 404: 
+ERROR:yfinance:$SAB1L.VS: possibly delisted; no price data found  (period=2y) (Yahoo error = "No data found, symbol may be delisted")
+ERROR:yfinance:$SAB1L.VS: possibly delisted; no price data found  (period=5d) (Yahoo error = "No data found, symbol may be delisted")
+ERROR:yfinance:HTTP Error 404: 
+ERROR:yfinance:Failed to perform, curl: (16) . See https://curl.se/libcurl/c/libcurl-errors.html first for more details.
+ERROR:yfinance:HTTP Error 404: 
+ERROR:yfinance:HTTP Error 404: 
+ERROR:yfinance:HTTP Error 404: 
+ERROR:yfinance:HTTP Error 404: 
+ERROR:yfinance:$G2MNO.OL: possibly delisted; no price data found  (period=2y) (Yahoo error = "No data found, symbol may be delisted")
+ERROR:yfinance:$G2MNO.OL: possibly delisted; no price data found  (period=5d) (Yahoo error = "No data found, symbol may be delisted")
+ERROR:yfinance:HTTP Error 404: 
+ERROR:yfinance:HTTP Error 404: 
+ERROR:yfinance:$RMBL: possibly delisted; no price data found  (period=2y) (Yahoo error = "No data found, symbol may be delisted")
+ERROR:yfinance:$RMBL: possibly delisted; no price data found  (period=5d) (Yahoo error = "No data found, symbol may be delisted")
+ERROR:yfinance:HTTP Error 404: 
+ERROR:yfinance:HTTP Error 404: 
+ERROR:yfinance:HTTP Error 404: 
+ERROR:yfinance:$BIGC: possibly delisted; no price data found  (period=2y) (Yahoo error = "No data found, symbol may be delisted")
+ERROR:yfinance:$BIGC: possibly delisted; no price data found  (period=5d) (Yahoo error = "No data found, symbol may be delisted")
+ERROR:yfinance:HTTP Error 404: 
+ERROR:yfinance:$EXN.TO: possibly delisted; no price data found  (period=2y) (Yahoo error = "No data found, symbol may be delisted")
+ERROR:yfinance:$EXN.TO: possibly delisted; no price data found  (period=5d) (Yahoo error = "No data found, symbol may be delisted")
+ERROR:yfinance:HTTP Error 404: 
+ERROR:yfinance:HTTP Error 404: 
+ERROR:yfinance:$SAE.L: possibly delisted; no price data found  (period=2y) (Yahoo error = "No data found, symbol may be delisted")
+ERROR:yfinance:$SAE.L: possibly delisted; no price data found  (period=5d) (Yahoo error = "No data found, symbol may be delisted")
+ERROR:yfinance:HTTP Error 404: 
+ERROR:yfinance:$CA57383V1085.SG: possibly delisted; no price data found  (period=2y) (Yahoo error = "No data found, symbol may be delisted")
+ERROR:yfinance:$CA57383V1085.SG: possibly delisted; no price data found  (period=5d) (Yahoo error = "No data found, symbol may be delisted")
+ERROR:yfinance:HTTP Error 404: 
+ERROR:yfinance:HTTP Error 404: 
+ERROR:yfinance:HTTP Error 404: 
+ERROR:yfinance:$COMBI.ST: possibly delisted; no price data found  (period=2y) (Yahoo error = "No data found, symbol may be delisted")
+ERROR:yfinance:$COMBI.ST: possibly delisted; no price data found  (period=5d) (Yahoo error = "No data found, symbol may be delisted")
+ERROR:yfinance:HTTP Error 404: 
+ERROR:yfinance:$OB: possibly delisted; no price data found  (period=2y) (Yahoo error = "No data found, symbol may be delisted")
+ERROR:yfinance:$OB: possibly delisted; no price data found  (period=5d) (Yahoo error = "No data found, symbol may be delisted")
+ERROR:yfinance:HTTP Error 404: 
+ERROR:yfinance:$ALBDM.PA: possibly delisted; no price data found  (period=2y) (Yahoo error = "No data found, symbol may be delisted")
+ERROR:yfinance:$ALBDM.PA: possibly delisted; no price data found  (period=5d) (Yahoo error = "No data found, symbol may be delisted")
+ERROR:yfinance:HTTP Error 404: 
+ERROR:yfinance:$INDV.L: possibly delisted; no price data found  (period=2y) (Yahoo error = "No data found, symbol may be delisted")
+ERROR:yfinance:$INDV.L: possibly delisted; no price data found  (period=5d) (Yahoo error = "No data found, symbol may be delisted")
+ERROR:yfinance:HTTP Error 404: 
+ERROR:yfinance:$VULTS.ST: possibly delisted; no price data found  (period=2y) (Yahoo error = "No data found, symbol may be delisted")
+ERROR:yfinance:$VULTS.ST: possibly delisted; no price data found  (period=5d) (Yahoo error = "No data found, symbol may be delisted")
+ERROR:yfinance:HTTP Error 404: 
+ERROR:yfinance:HTTP Error 404: 
+ERROR:yfinance:HTTP Error 404: 
+ERROR:yfinance:$STK.L: possibly delisted; no price data found  (period=2y) (Yahoo error = "No data found, symbol may be delisted")
+ERROR:yfinance:$STK.L: possibly delisted; no price data found  (period=5d) (Yahoo error = "No data found, symbol may be delisted")
+ERROR:yfinance:HTTP Error 404: 
+ERROR:yfinance:$YTT.IL: possibly delisted; no price data found  (period=2y) (Yahoo error = "No data found, symbol may be delisted")
+ERROR:yfinance:$YTT.IL: possibly delisted; no price data found  (period=5d) (Yahoo error = "No data found, symbol may be delisted")
+ERROR:yfinance:HTTP Error 404: 
+ERROR:yfinance:HTTP Error 404: 
+ERROR:yfinance:$BDZ.WA: possibly delisted; no price data found  (period=2y) (Yahoo error = "No data found, symbol may be delisted")
+ERROR:yfinance:$BDZ.WA: possibly delisted; no price data found  (period=5d) (Yahoo error = "No data found, symbol may be delisted")
+ERROR:yfinance:HTTP Error 404: 
+ERROR:yfinance:$MDG1.DE: possibly delisted; no price data found  (period=2y) (Yahoo error = "No data found, symbol may be delisted")
+ERROR:yfinance:$MDG1.DE: possibly delisted; no price data found  (period=5d) (Yahoo error = "No data found, symbol may be delisted")
+ERROR:yfinance:HTTP Error 404: 
+ERROR:yfinance:$TATT.AT: possibly delisted; no price data found  (period=2y) (Yahoo error = "No data found, symbol may be delisted")
+ERROR:yfinance:$TATT.AT: possibly delisted; no price data found  (period=5d) (Yahoo error = "No data found, symbol may be delisted")
+ERROR:yfinance:HTTP Error 404: 
+ERROR:yfinance:$MAU.V: possibly delisted; no price data found  (period=2y) (Yahoo error = "No data found, symbol may be delisted")
+ERROR:yfinance:$MAU.V: possibly delisted; no price data found  (period=5d) (Yahoo error = "No data found, symbol may be delisted")
+ERROR:yfinance:HTTP Error 404: 
+ERROR:yfinance:Failed to perform, curl: (16) . See https://curl.se/libcurl/c/libcurl-errors.html first for more details.
+ERROR:yfinance:$MYTE: possibly delisted; no price data found  (period=2y) (Yahoo error = "No data found, symbol may be delisted")
+ERROR:yfinance:$MYTE: possibly delisted; no price data found  (period=5d) (Yahoo error = "No data found, symbol may be delisted")
+ERROR:yfinance:HTTP Error 404: 
