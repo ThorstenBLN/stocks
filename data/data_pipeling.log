@@ -41710,3 +41710,9 @@ ERROR:yfinance:$MLBMD.PA: possibly delisted; no price data found  (period=5d)
 ERROR:yfinance:$MLBMD.PA: possibly delisted; no price data found  (1d 1926-12-18 -> 2025-11-23)
 ERROR:yfinance:HTTP Error 404: 
 ERROR:yfinance:HTTP Error 404: 
+ERROR:yfinance:$KTN.DE: possibly delisted; no price data found  (period=2y)
+ERROR:yfinance:HTTP Error 404: 
+ERROR:yfinance:HTTP Error 404: 
+ERROR:yfinance:HTTP Error 404: 
+ERROR:yfinance:HTTP Error 404: 
+ERROR:yfinance:HTTP Error 404: 
