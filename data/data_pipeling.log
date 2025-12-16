@@ -41953,3 +41953,13 @@ ERROR:yfinance:HTTP Error 404:
 ERROR:yfinance:HTTP Error 404: 
 ERROR:yfinance:HTTP Error 404: 
 ERROR:yfinance:HTTP Error 404: 
+ERROR:yfinance:HTTP Error 404: 
+ERROR:yfinance:HTTP Error 404: 
+ERROR:yfinance:HTTP Error 404: 
+ERROR:yfinance:HTTP Error 404: 
+ERROR:yfinance:HTTP Error 404: 
+ERROR:yfinance:$MLBMD.PA: possibly delisted; no price data found  (period=2y)
+ERROR:yfinance:$MLBMD.PA: possibly delisted; no price data found  (period=5d)
+ERROR:yfinance:$MLBMD.PA: possibly delisted; no price data found  (1d 1927-01-10 -> 2025-12-16)
+ERROR:yfinance:HTTP Error 404: 
+ERROR:yfinance:HTTP Error 404: 
