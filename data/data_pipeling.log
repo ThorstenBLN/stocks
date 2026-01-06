@@ -42237,3 +42237,12 @@ ERROR:yfinance:$MLBMD.PA: possibly delisted; no price data found  (period=5d)
 ERROR:yfinance:$MLBMD.PA: possibly delisted; no price data found  (1d 1927-01-31 -> 2026-01-06)
 ERROR:yfinance:HTTP Error 404: 
 ERROR:yfinance:HTTP Error 404: 
+ERROR:yfinance:HTTP Error 404: 
+ERROR:yfinance:HTTP Error 404: 
+ERROR:yfinance:$VBX.F: possibly delisted; no price data found  (period=2y) (Yahoo error = "No data found, symbol may be delisted")
+ERROR:yfinance:$VBX.F: possibly delisted; no price data found  (period=5d) (Yahoo error = "No data found, symbol may be delisted")
+ERROR:yfinance:HTTP Error 404: 
+ERROR:yfinance:HTTP Error 404: 
+ERROR:yfinance:HTTP Error 404: 
+ERROR:yfinance:HTTP Error 404: 
+ERROR:yfinance:HTTP Error 404: 
