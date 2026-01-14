@@ -42357,3 +42357,19 @@ ERROR:yfinance:HTTP Error 404:
 ERROR:yfinance:HTTP Error 404: 
 ERROR:yfinance:HTTP Error 404: 
 ERROR:yfinance:HTTP Error 404: 
+ERROR:yfinance:HTTP Error 404: 
+ERROR:yfinance:HTTP Error 404: 
+ERROR:yfinance:$LI1358444548.SG: possibly delisted; no price data found  (period=2y) (Yahoo error = "No data found, symbol may be delisted")
+ERROR:yfinance:$LI1358444548.SG: possibly delisted; no price data found  (period=5d) (Yahoo error = "No data found, symbol may be delisted")
+ERROR:yfinance:HTTP Error 404: 
+ERROR:yfinance:HTTP Error 404: 
+ERROR:yfinance:HTTP Error 404: 
+ERROR:yfinance:$MLBMD.PA: possibly delisted; no price data found  (period=2y)
+ERROR:yfinance:$MLBMD.PA: possibly delisted; no price data found  (period=5d)
+ERROR:yfinance:$MLBMD.PA: possibly delisted; no price data found  (1d 1927-02-08 -> 2026-01-14)
+ERROR:yfinance:HTTP Error 404: 
+ERROR:yfinance:HTTP Error 404: 
+ERROR:yfinance:$FI: possibly delisted; no price data found  (period=2y) (Yahoo error = "No data found, symbol may be delisted")
+ERROR:yfinance:$FI: possibly delisted; no price data found  (period=5d) (Yahoo error = "No data found, symbol may be delisted")
+ERROR:yfinance:HTTP Error 404: 
+ERROR:yfinance:HTTP Error 404: 
