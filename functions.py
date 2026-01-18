@@ -246,7 +246,8 @@ def add_levermann_score(df_data, na_penalty):
 
 def get_xetra_symbol_file():
     '''downloads the csv file from deutsche Börese homepage and stores it to data'''
-    URL = "https://www.deutsche-boerse-cash-market.com/dbcm-de/instrumente-statistiken/alle-handelbaren-instrumente/boersefrankfurt"
+    # URL = "https://www.deutsche-boerse-cash-market.com/dbcm-de/instrumente-statistiken/alle-handelbaren-instrumente/boersefrankfurt"
+    URL = "https://www.cashmarket.deutsche-boerse.com/cash-de/Handel/Handelbare-Werte-Xetra/Downloads/frankfurt-downloads"
     page = requests.get(URL)
     if page.status_code == 200:
         soup = BeautifulSoup(page.content, 'html.parser', from_encoding="utf-8")
