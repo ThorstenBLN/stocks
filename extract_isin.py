@@ -34,7 +34,7 @@ def main():
     # 1. XETRA STOCKS UPDATE #####################################################################
     # 1.1. download Xetra symbols
     # get all xetra symbols
-    f.get_xetra_symbol_file()
+    # f.get_xetra_symbol_file() # currently disabled as file has changed. Use last working file
     rel_cols = list(range(19)) + [61, 62, 66, 132]
     df_xetra = pd.read_csv(PATH + FILE_GER, skiprows=2, sep=";", header=0, engine="python") \
                         .clean_names(strip_underscores=True).iloc[:, rel_cols]
