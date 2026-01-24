@@ -57,19 +57,23 @@ def main():
 
     COLUMNS_XETRA = ['symbol', 'isin', 'name', 'price', 'type', 'status','data_yf']
     df_xetra = df_xetra[COLUMNS_XETRA].reset_index(drop=True)[:] 
+    print(0)
     # 1.2. get already valid and new symbols in csv file
     if df_used is not None:
         # 1. define current xetra symbols to delete if not in xetra file anymore
         df_used['state'] = 1 # 1 = valid
         df_extra = df_xetra.merge(df_used[['isin', 'state']], on='isin', how='left')
+        print(1.1)
         df_used.drop(columns=['state', 'exclude_lstm'], inplace=True)
         df_extra['state'] = np.where((df_xetra['state'].isna()), 2, df_extra['state']) # 2 = new
+        print(1.2)
         # 2. define valid exisiting isin to recheck
         df_extra['recheck'] = np.where(df_xetra['state'] == 1, random.random(), 0)
         df_extra['state'] = np.where(df_extra['recheck'] > 1 - THRES_RECHECK, 3, 0) # 3 = valid to recheck
         df_extra.drop(columns=['recheck'], inplace=True)
         # 3. define the stocks to recheck (new and revalidation stocks)
         df_xetra_check = df_xetra.loc[df_xetra['state'].isin([2, 3])].copy()
+        print(1.3)
     else:
         df_xetra_check = df_xetra.copy().reset_index(drop=True)
     print(1)    
