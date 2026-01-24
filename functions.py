@@ -253,7 +253,8 @@ def get_xetra_symbol_file():
         soup = BeautifulSoup(page.content, 'html.parser', from_encoding="utf-8")
         link = soup.find('a', href=lambda href: href and "allTradableInstruments.csv" in href)
         if link:
-            url = "https://www.cashmarket.deutsche-boerse.com" + link['href']
+            # url = "https://www.cashmarket.deutsche-boerse.com" + link['href']
+            url = link['href'] if link['href'].startswith("https") else "https://www.cashmarket.deutsche-boerse.com" + link['href']
             print("requesting file at: ", url)
             response = requests.get(url)
             if response.status_code == 200:
