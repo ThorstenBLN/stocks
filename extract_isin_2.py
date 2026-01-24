@@ -62,7 +62,9 @@ def main():
     if df_used is not None:
         # 1. define current xetra symbols to delete if not in xetra file anymore
         df_used['state'] = 1 # 1 = valid
+        print(df_extra.columns)
         df_extra = df_xetra.merge(df_used[['isin', 'state']], on='isin', how='left')
+        print(df_extra.columns)
         print(1.1)
         df_used.drop(columns=['state', 'exclude_lstm'], inplace=True)
         print("1.1.1")
