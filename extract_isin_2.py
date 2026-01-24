@@ -62,19 +62,15 @@ def main():
     if df_used is not None:
         # 1. define current xetra symbols to delete if not in xetra file anymore
         df_used['state'] = 1 # 1 = valid
-        df_extra = df_xetra.merge(df_used[['isin', 'state']], on='isin', how='left')
-        print(df_extra.columns)
+        df_xetra = df_xetra.merge(df_used[['isin', 'state']], on='isin', how='left')
         print(1.1)
         df_used.drop(columns=['state', 'exclude_lstm'], inplace=True)
-        print("1.1.1")
-        print(df_extra.columns)
-        print(df_xetra['state'].unique())
-        df_extra['state'] = np.where(df_xetra['state'].isna(), 2, df_extra['state']) # 2 = new
+        df_xetra['state'] = np.where(df_xetra['state'].isna(), 2, df_xetra['state']) # 2 = new
         print(1.2)
         # 2. define valid exisiting isin to recheck
-        df_extra['recheck'] = np.where(df_xetra['state'] == 1, random.random(), 0)
-        df_extra['state'] = np.where(df_extra['recheck'] > 1 - THRES_RECHECK, 3, 0) # 3 = valid to recheck
-        df_extra.drop(columns=['recheck'], inplace=True)
+        df_xetra['recheck'] = np.where(df_xetra['state'] == 1, random.random(), 0)
+        df_xetra['state'] = np.where(df_xetra['recheck'] > 1 - THRES_RECHECK, 3, 0) # 3 = valid to recheck
+        df_xetra.drop(columns=['recheck'], inplace=True)
         # 3. define the stocks to recheck (new and revalidation stocks)
         df_xetra_check = df_xetra.loc[df_xetra['state'].isin([2, 3])].copy()
         print(1.3)
