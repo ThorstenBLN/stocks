@@ -106,6 +106,7 @@ def main():
     # add links and check if symbols are identical 
     df_fin_links['kgv_old_url'] = fin_handler.base_url + "bilanz_guv/" + df_fin_links['name_finanzen'].astype(str)
     df_fin_links['kgv_est_url'] = fin_handler.base_url + "schaetzungen/" + df_fin_links['name_finanzen'].astype(str)
+    print(df_fin_links.columns)
     df_check_final = df_xetra_check.merge(df_fin_links[['isin', 'name_finanzen', 'symbol_finanzen', 'stock_url', 'termine_url', 'kgv_old_url', 'kgv_est_url']], on='isin', how='left')
     time_2 = time.time()
     print(f"load links: {np.round((time_2 - time_1)/60, 2).item()} minutes")
