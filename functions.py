@@ -253,10 +253,15 @@ def get_xetra_symbol_file():
         soup = BeautifulSoup(page.content, 'html.parser', from_encoding="utf-8")
         link = soup.find('a', href=lambda href: href and "allTradableInstruments.csv" in href)
         if link:
-            response = requests.get("https://www.cashmarket.deutsche-boerse.com" + link['href'])
+            url = "https://www.cashmarket.deutsche-boerse.com" + link['href']
+            print("requesting file at: ", url)
+            response = requests.get(url)
             if response.status_code == 200:
+                print("download isin csv successfull")
                 return response.content
-    print("no file found")
+            print("download isin csv error")
+    else:
+        print("no file found")
     return None
 
 def update_exr(exr_dict, cur_currency):
