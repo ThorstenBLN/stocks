@@ -7,6 +7,7 @@ import warnings
 import functions as f
 import os
 import requests
+import random
 import logging
 import sys
 import finhandler
