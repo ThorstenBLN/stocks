@@ -71,6 +71,7 @@ def main():
         df_xetra['recheck'] = np.where(df_xetra['state'] == 1, random.random(), 0)
         df_xetra['state'] = np.where(df_xetra['recheck'] > 1 - THRES_RECHECK, 3, 0) # 3 = valid to recheck
         df_xetra.drop(columns=['recheck'], inplace=True)
+        print(df_xetra['state'].unique())
         # 3. define the stocks to recheck (new and revalidation stocks)
         df_xetra_check = df_xetra.loc[df_xetra['state'].isin([2, 3])].copy()
         print("xetra file shape: ", df_xetra.shape)
