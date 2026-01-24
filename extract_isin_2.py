@@ -69,7 +69,7 @@ def main():
         print("xetra file shape: ", df_xetra.shape)
         print(df_xetra['state'].unique())
         # 2. define valid exisiting isin to recheck
-        df_xetra['recheck'] = np.where(df_xetra['state'] == 1, random.random(), 0)
+        df_xetra['recheck'] = df_xetra['state'].apply(lambda x: random.random(), axis=0)
         df_xetra['state'] = np.where(df_xetra['recheck'] > 1 - THRES_RECHECK, 3, 0) # 3 = valid to recheck
         print(df_xetra['recheck'].describe())
         df_xetra.drop(columns=['recheck'], inplace=True)
