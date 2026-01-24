@@ -66,7 +66,8 @@ def main():
         print(1.1)
         df_used.drop(columns=['state', 'exclude_lstm'], inplace=True)
         print("1.1.1")
-        df_extra['state'] = np.where((df_xetra['state'].isna()), 2, df_extra['state']) # 2 = new
+        print(df_extra.columns)
+        df_extra['state'] = np.where(df_xetra['state'].isna(), 2, df_extra['state']) # 2 = new
         print(1.2)
         # 2. define valid exisiting isin to recheck
         df_extra['recheck'] = np.where(df_xetra['state'] == 1, random.random(), 0)
