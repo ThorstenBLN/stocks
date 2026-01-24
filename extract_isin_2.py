@@ -66,13 +66,14 @@ def main():
         df_xetra = df_xetra.merge(df_used[['isin', 'state']], on='isin', how='left')
         df_used.drop(columns=['state', 'exclude_lstm'], inplace=True)
         df_xetra['state'] = np.where(df_xetra['state'].isna(), 2, df_xetra['state']) # 2 = new
+        print("xetra file shape: ", df_xetra.shape)
         # 2. define valid exisiting isin to recheck
         df_xetra['recheck'] = np.where(df_xetra['state'] == 1, random.random(), 0)
         df_xetra['state'] = np.where(df_xetra['recheck'] > 1 - THRES_RECHECK, 3, 0) # 3 = valid to recheck
         df_xetra.drop(columns=['recheck'], inplace=True)
         # 3. define the stocks to recheck (new and revalidation stocks)
         df_xetra_check = df_xetra.loc[df_xetra['state'].isin([2, 3])].copy()
-        print(1.3, df_xetra_check.shape)
+        print("xetra file shape: ", df_xetra.shape)
     else:
         df_xetra_check = df_xetra.copy().reset_index(drop=True)
     # 1.3. check if xetra data in yfinance (ca. 18 min for 1000 symb) ###########################################
