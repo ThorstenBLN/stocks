@@ -72,7 +72,7 @@ def main():
         df_xetra_check = df_xetra.loc[df_xetra['state'].isin([2, 3])].copy()
     else:
         df_xetra_check = df_xetra.copy().reset_index(drop=True)
-        
+    print(1)    
     # 1.3. check if xetra data in yfinance (ca. 18 min for 1000 symb) ###########################################
     symbols_yf = []
     for row in df_xetra_check.iloc[:].itertuples(): #6109: 10005
@@ -85,7 +85,7 @@ def main():
     df_xetra_check['data_yf'] = np.where(df_xetra_check['symbol'].isna(), 0, 1)
     time_1 = time.time()
     print(f"check yf data: {np.round((time_1 - time_2)/60, 2).item()} minutes")
-
+    print(2)
 
     # 3. check valid symbols at finanzen.net (ca. 1h for each 1000 sybols)
     fin_handler = finhandler.Finhandler()
@@ -104,7 +104,7 @@ def main():
     df_check_final = df_xetra_check.merge(df_fin_links[['isin', 'name_finanzen', 'symbol_finanzen', 'stock_url', 'termine_url', 'kgv_old_url', 'kgv_est_url']], on='isin', how='left')
     time_2 = time.time()
     print(f"load links: {np.round((time_2 - time_1)/60, 2).item()} minutes")
-
+    print(3)
     # 4. merge all data and save final list
     # prepare old file (delete not valid and rechecked ones)
     df_used = df_used.merge(df_xetra[['isin', 'state']], on='isin', how='inner') # deletes already all invalid
@@ -120,6 +120,7 @@ def main():
         # use only new data
         df_used_final = df_check_final.loc[df_check_final['data_all'] == 1].copy() 
     # exclude lstm exclusions
+    print(4)
     df_exclude = pd.read_csv(PATH + FILE_EXCLUDE)
     df_used_final = df_used_final.merge(df_exclude, on='isin', how='left')
     df_used_final['exclude_lstm'] = df_used_final['exclude_lstm'].fillna(0)
