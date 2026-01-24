@@ -74,7 +74,7 @@ def main():
         df_xetra.drop(columns=['recheck'], inplace=True)
         # 3. define the stocks to recheck (new and revalidation stocks)
         df_xetra_check = df_xetra.loc[df_xetra['state'].isin([2, 3])].copy()
-        print(1.3)
+        print(1.3, df_xetra_check.shape)
     else:
         df_xetra_check = df_xetra.copy().reset_index(drop=True)
     print(1)    
