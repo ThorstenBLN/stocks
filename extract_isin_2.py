@@ -70,7 +70,7 @@ def main():
         print(df_xetra['state'].unique())
         # 2. define valid exisiting isin to recheck
         df_xetra['state'] = df_xetra['state'].apply(lambda x: 3 if x == 1 and random.random() < THRES_RECHECK else x) # 3 = valid to recheck
-        print(df_xetra['state'].values_count())
+        print(df_xetra['state'].value_counts())
         # 3. define the stocks to recheck (new and revalidation stocks)
         df_xetra_check = df_xetra.loc[df_xetra['state'].isin([2, 3])].copy()
         print("xetra file shape: ", df_xetra.shape)
