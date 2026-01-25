@@ -69,11 +69,8 @@ def main():
         print("xetra file shape: ", df_xetra.shape)
         print(df_xetra['state'].unique())
         # 2. define valid exisiting isin to recheck
-        df_xetra['recheck'] = df_xetra['state'].apply(lambda x: random.random())
-        df_xetra['state'] = np.where(df_xetra['recheck'] > 1 - THRES_RECHECK, 3, 0) # 3 = valid to recheck
-        print(df_xetra['recheck'].describe())
-        df_xetra.drop(columns=['recheck'], inplace=True)
-        print(df_xetra['state'].unique())
+        df_xetra['state'] = df_xetra['state'].apply(lambda x: 3 if x == 1 and random.random() < THRES_RECHECK else x) # 3 = valid to recheck
+        print(df_xetra['state'].values_count())
         # 3. define the stocks to recheck (new and revalidation stocks)
         df_xetra_check = df_xetra.loc[df_xetra['state'].isin([2, 3])].copy()
         print("xetra file shape: ", df_xetra.shape)
@@ -116,7 +113,7 @@ def main():
     # 4. merge all data and save final list
     # prepare old file (delete not valid and rechecked ones)
     df_used = df_used.merge(df_xetra[['isin', 'state']], on='isin', how='inner') # deletes already all invalid
-    df_used = df_used.loc[df_used['state'] != 3].copy() # delete valid but rechecked ones
+    df_used = df_used.loc[df_used['state'] == 1].copy() # kepp only valid not rechecked ones
     df_used.drop(columns=['state'], inplace=True)
     # concat still valid, rechecked valid and new isin
     df_check_final['data_all'] = np.where((df_check_final['data_yf'] == 1) & (df_check_final['name_finanzen'].notna()), 1, 0)
