@@ -76,6 +76,10 @@ def main():
         print("xetra file shape: ", df_xetra.shape)
     else:
         df_xetra_check = df_xetra.copy().reset_index(drop=True)
+    
+    ##### EXCEPTION TO CATCH UP WITH DATA
+    df_xetra_check = df_xetra_check.reset_index().iloc[0:5000].copy()       
+    
     # 1.3. check if xetra data in yfinance (ca. 18 min for 1000 symb) ###########################################
     symbols_yf = []
     print("xetra check file shape: ", df_xetra_check.shape)
