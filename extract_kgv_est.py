@@ -42,7 +42,7 @@ def main():
     # drop duplicates (sometimes errors on finanzen.net)
     len_org = df_kgv_est.shape[0]
     df_kgv_est.drop_duplicates(inplace=True)
-    df_kgv_est.to_csv(PATH + "df_kgv_est_before_pivot.csv")
+    print("isin:", df_kgv_est.groupby(['isin', 'year'])['kgv'].count.max())
     print(f"KGV est: {len_org - df_kgv_est.shape[0]} duplicates dropped")
     df_kgv_est_wide = df_kgv_est.loc[~df_kgv_est['kgv'].isna()].pivot(index='isin', columns='year', values='kgv').reset_index()
     # df_kgv_est_wide.to_excel(PATH + FILE_KGV_EST, index=False)
