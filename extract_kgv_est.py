@@ -42,15 +42,14 @@ def main():
     # drop duplicates (sometimes errors on finanzen.net)
     len_org = df_kgv_est.shape[0]
     df_kgv_est.drop_duplicates(inplace=True)
-    df_kgv_est = pd.read_excel(PATH + "df_kgv_est_before_pivot.csv")
+    df_kgv_est.to_csv(PATH + "df_kgv_est_before_pivot.csv")
     print(f"KGV est: {len_org - df_kgv_est.shape[0]} duplicates dropped")
     df_kgv_est_wide = df_kgv_est.loc[~df_kgv_est['kgv'].isna()].pivot(index='isin', columns='year', values='kgv').reset_index()
     # df_kgv_est_wide.to_excel(PATH + FILE_KGV_EST, index=False)
     print("code est_kgv finished successfully")
 
-    df_kgv_real_wide = pd.read_excel(PATH + FILE_KGV_REAL)
-
     # 2.4. add both data and calculate 5 years kgv
+    df_kgv_real_wide = pd.read_excel(PATH + FILE_KGV_REAL)
     df_kgv = df_kgv_real_wide.merge(df_kgv_est_wide, on='isin', how='outer')
     prev_year = dt.datetime.now().year - 1
     df_kgv['kgv_5y'] = np.where(df_kgv[str(prev_year)].notna(), df_kgv[[str(year) if year <= prev_year else str(year) + "e" for year in range(prev_year - 2, prev_year + 3)]].mean(axis=1, skipna=True), 
