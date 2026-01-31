@@ -41,6 +41,7 @@ def main():
     df_kgv_est['kgv'] = df_kgv_est['kgv'].str.replace(".","").str.replace(",", ".").astype(float)
     # drop duplicates (sometimes errors on finanzen.net)
     len_org = df_kgv_est.shape[0]
+    df_kgv_est.to_excel(PATH + "check_duplicates.xlsx", index=False)
     df_kgv_est.drop_duplicates(subset=['isin', 'year'], inplace=True)
     print(f"KGV est: {len_org - df_kgv_est.shape[0]} duplicates dropped")
     df_kgv_est_wide = df_kgv_est.loc[~df_kgv_est['kgv'].isna()].pivot(index='isin', columns='year', values='kgv').reset_index()
