@@ -22,7 +22,7 @@ def main():
     FILE_SYM = "symbols.xlsx"
     FILE_GER = "symbols_xetra.csv"
     FILE_EXCLUDE = "exclude_isin.csv"
-    THRES_RECHECK = 0.2
+    THRES_RECHECK = 0.02
 
     if not os.path.exists(PATH):
         os.makedirs(PATH)
@@ -78,7 +78,7 @@ def main():
         df_xetra_check = df_xetra.copy().reset_index(drop=True)
     
     ##### EXCEPTION TO CATCH UP WITH DATA
-    df_xetra_check = df_xetra_check.reset_index(drop=True).iloc[0:5000].copy()       
+    df_xetra_check = df_xetra_check.reset_index(drop=True).iloc[0:4800].copy()       
     
     # 1.3. check if xetra data in yfinance (ca. 18 min for 1000 symb) ###########################################
     symbols_yf = []
