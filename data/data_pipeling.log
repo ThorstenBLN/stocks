@@ -2921,3 +2921,86 @@ ERROR:yfinance:HTTP Error 404:
 ERROR:yfinance:HTTP Error 404: 
 ERROR:yfinance:HTTP Error 404: 
 ERROR:yfinance:HTTP Error 404: 
+ERROR:yfinance:HTTP Error 404: 
+ERROR:yfinance:HTTP Error 404: 
+ERROR:yfinance:HTTP Error 404: 
+ERROR:yfinance:HTTP Error 404: 
+ERROR:yfinance:HTTP Error 404: 
+ERROR:yfinance:HTTP Error 404: 
+ERROR:yfinance:HTTP Error 404: 
+ERROR:yfinance:HTTP Error 404: 
+ERROR:yfinance:HTTP Error 404: 
+ERROR:yfinance:HTTP Error 404: 
+ERROR:yfinance:HTTP Error 404: 
+ERROR:yfinance:HTTP Error 404: 
+ERROR:yfinance:HTTP Error 404: 
+ERROR:yfinance:HTTP Error 404: 
+ERROR:yfinance:HTTP Error 404: 
+ERROR:yfinance:HTTP Error 404: 
+ERROR:yfinance:HTTP Error 404: 
+ERROR:yfinance:HTTP Error 404: 
+ERROR:yfinance:HTTP Error 404: 
+ERROR:yfinance:HTTP Error 404: 
+ERROR:yfinance:HTTP Error 404: 
+ERROR:yfinance:$WLI.WA: possibly delisted; no price data found  (period=2y) (Yahoo error = "No data found, symbol may be delisted")
+ERROR:yfinance:$WLI.WA: possibly delisted; no price data found  (period=5d) (Yahoo error = "No data found, symbol may be delisted")
+ERROR:yfinance:HTTP Error 404: 
+ERROR:yfinance:HTTP Error 404: 
+ERROR:yfinance:HTTP Error 404: 
+ERROR:yfinance:HTTP Error 404: 
+ERROR:yfinance:HTTP Error 404: 
+ERROR:yfinance:HTTP Error 404: 
+ERROR:yfinance:HTTP Error 404: 
+ERROR:yfinance:HTTP Error 500: 
+ERROR:yfinance:HTTP Error 404: 
+ERROR:yfinance:HTTP Error 404: 
+ERROR:yfinance:HTTP Error 404: 
+ERROR:yfinance:HTTP Error 404: 
+ERROR:yfinance:HTTP Error 404: 
+ERROR:yfinance:Failed to perform, curl: (16) . See https://curl.se/libcurl/c/libcurl-errors.html first for more details.
+ERROR:yfinance:HTTP Error 404: 
+ERROR:yfinance:HTTP Error 404: 
+ERROR:yfinance:HTTP Error 404: 
+ERROR:yfinance:HTTP Error 404: 
+ERROR:yfinance:HTTP Error 404: 
+ERROR:yfinance:HTTP Error 404: 
+ERROR:yfinance:HTTP Error 404: 
+ERROR:yfinance:HTTP Error 404: 
+ERROR:yfinance:HTTP Error 404: 
+ERROR:yfinance:Failed to get ticker 'CROX' reason: Failed to perform, curl: (16) . See https://curl.se/libcurl/c/libcurl-errors.html first for more details.
+ERROR:yfinance:HTTP Error 404: 
+ERROR:yfinance:HTTP Error 404: 
+ERROR:yfinance:HTTP Error 404: 
+ERROR:yfinance:HTTP Error 404: 
+ERROR:yfinance:HTTP Error 404: 
+ERROR:yfinance:HTTP Error 404: 
+ERROR:yfinance:HTTP Error 404: 
+ERROR:yfinance:HTTP Error 404: 
+ERROR:yfinance:HTTP Error 404: 
+ERROR:yfinance:HTTP Error 404: 
+ERROR:yfinance:HTTP Error 404: 
+ERROR:yfinance:HTTP Error 404: 
+ERROR:yfinance:HTTP Error 404: 
+ERROR:yfinance:HTTP Error 404: 
+ERROR:yfinance:HTTP Error 404: 
+ERROR:yfinance:HTTP Error 404: 
+ERROR:yfinance:HTTP Error 404: 
+ERROR:yfinance:HTTP Error 404: 
+ERROR:yfinance:HTTP Error 404: 
+ERROR:yfinance:HTTP Error 404: 
+ERROR:yfinance:Failed to get ticker '1905.HK' reason: Failed to perform, curl: (28) Operation timed out after 10002 milliseconds with 0 bytes received. See https://curl.se/libcurl/c/libcurl-errors.html first for more details.
+ERROR:yfinance:$1905.HK: possibly delisted; no price data found  (period=2y)
+ERROR:yfinance:$1905.HK: possibly delisted; no price data found  (period=5d)
+ERROR:yfinance:$KMK.L: possibly delisted; no price data found  (period=2y)
+ERROR:yfinance:HTTP Error 404: 
+ERROR:yfinance:HTTP Error 404: 
+ERROR:yfinance:HTTP Error 404: 
+ERROR:yfinance:HTTP Error 500: 
+ERROR:yfinance:HTTP Error 404: 
+ERROR:yfinance:HTTP Error 500: 
+ERROR:yfinance:HTTP Error 404: 
+ERROR:yfinance:HTTP Error 404: 
+ERROR:yfinance:HTTP Error 404: 
+ERROR:yfinance:HTTP Error 404: 
+ERROR:yfinance:HTTP Error 404: 
+ERROR:yfinance:HTTP Error 404: 
