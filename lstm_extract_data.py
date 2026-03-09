@@ -18,8 +18,8 @@ def main():
     PATH = "./data/"
     PATH_DATA = "./data_lstm/"
     FILE_SYMBOLS = "symbols.xlsx"
-    FILE_HIST = "prices_historic.csv"
-    FILE_HIST_IND = "prices_historic_indices.csv"
+    FILE_HIST = "prices_historic_10.csv"
+    FILE_HIST_IND = "prices_historic_indices_10.csv"
 
     # 1. load base data ####################################################################
     df_symbols = pd.read_excel(PATH + FILE_SYMBOLS)
@@ -31,7 +31,7 @@ def main():
     for row in df_symbols.iloc[:].itertuples():
         if row.Index % 100 == 0:
             print(row.Index, row.symbol)
-        data.append(f.get_historic_data(row))
+        data.append(f.get_historic_data(row, per="10y"))
         time.sleep(np.random.uniform(0.8, 1.2))
     df_data = pd.concat(data)
     df_data['data_date'] = time.strftime("%Y/%m/%d")
@@ -45,7 +45,7 @@ def main():
     for row in df_indices.iloc[:].itertuples():
         if row.Index % 100 == 0:
             print(row.Index, row.symbol)
-        data_ind.append(f.get_historic_data(row))
+        data_ind.append(f.get_historic_data(row, per="10y"))
         time.sleep(np.random.uniform(0.8, 1.2))
     df_data_ind = pd.concat(data_ind)
     df_data_ind['data_date'] = time.strftime("%Y/%m/%d")
