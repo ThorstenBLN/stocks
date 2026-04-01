@@ -135,7 +135,7 @@ class Finhandler():
         else:
             df_dates.rename(columns={0:'date'}, inplace=True)
             df_dates['estimate'] = np.nan
-        df_dates['date'] = pd.to_datetime(df_dates['date'], format="%d.%m.%Y")
+        df_dates['date'] = pd.to_datetime(df_dates['date'], format="%d.%m.%Y", errors='coerce') # coerce as there were errors
         df_dates['estimate'] = np.where(df_dates['estimate'].isna(), 0, 1)
         print("code termine finished successfully")
         return df_dates
