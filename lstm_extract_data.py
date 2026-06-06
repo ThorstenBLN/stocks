@@ -26,7 +26,7 @@ def main():
     mask = (df_symbols['data_all'] == 1) & (df_symbols['isin'].notna())
     df_symbols = df_symbols.loc[mask].reset_index()
 
-    # 2 try to get 5 years of data for each stock
+    # 2 try to get 10 years of data for each stock (ca. 20min/1000 isin)
     data = []
     for row in df_symbols.iloc[:].itertuples():
         if row.Index % 100 == 0:
