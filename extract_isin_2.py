@@ -78,7 +78,7 @@ def main():
         df_xetra_check = df_xetra.copy().reset_index(drop=True)
     
     ##### EXCEPTION TO CATCH UP WITH DATA
-    df_xetra_check = df_xetra_check.reset_index(drop=True).iloc[0:4800].copy()       
+    df_xetra_check = df_xetra_check.reset_index(drop=True).iloc[0:2400].copy()       
     
     # 1.3. check if xetra data in yfinance (ca. 18 min for 1000 symb) ###########################################
     symbols_yf = []
