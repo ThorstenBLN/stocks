@@ -130,12 +130,14 @@ def main():
         df_used_final = df_check_final.loc[df_check_final['data_all'] == 1].copy() 
     # exclude lstm exclusions
     print("final saved file shape: ", df_used_final.shape)
-    df_exclude = pd.read_csv(PATH + FILE_EXCLUDE)
-    print("1")
-    df_used_final = df_used_final.merge(df_exclude, on='isin', how='left')
+    if os.path.isdir(PATH + FILE_EXCLUDE):
+        df_exclude = pd.read_csv(PATH + FILE_EXCLUDE)
+        df_used_final = df_used_final.merge(df_exclude, on='isin', how='left')
+        df_used_final['exclude_lstm'] = df_used_final['exclude_lstm'].fillna(0)
+        
+    else:
+         df_used_final['exclude_lstm'] = 0
     print("2")
-    df_used_final['exclude_lstm'] = df_used_final['exclude_lstm'].fillna(0)
-    print("3")
     df_used_final.loc[(df_used_final['data_all'] == 1) & (df_used_final['exclude_lstm'] == 0)].to_excel(PATH + FILE_SYM, index=False)
     time_1 = time.time()
     print(f"save data: {np.round((time_1 - time_2)/60, 2).item()} minutes")
