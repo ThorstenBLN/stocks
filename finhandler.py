@@ -102,7 +102,7 @@ class Finhandler():
         '''scrapes the termine table of finanzen'''
         soup = self.scrape_url(termine_url, name_stock=name_stock)
         try:
-            dates_table = soup.find_all("tbody")[2] #, "page-content__item page-content__item--space"
+            dates_table = soup.find_all("tbody")[1] #, "page-content__item page-content__item--space"
         except:
             print("error 1: no tabel")
             return [{'isin': isin, 'termine_url':termine_url, 'type':np.nan, 'info':np.nan, 'date':np.nan}]
