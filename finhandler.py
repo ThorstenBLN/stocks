@@ -117,6 +117,7 @@ class Finhandler():
                 count += 1
                 date = tr.find_all('td')
                 dates = dates + [{'isin': isin, 'termine_url':termine_url, 'type':date[0].text.strip(), 'info':date[2].text.strip(), 'date':date[3].text.strip()}]
+            print(isin, count)
             return dates
 
     def get_all_dates(self, df):
@@ -129,7 +130,9 @@ class Finhandler():
             dates += self.scrape_termine(row.isin, row.termine_url, row.name_finanzen)
             time.sleep(np.random.uniform(0.125, 0.45))
         df_dates = pd.DataFrame(dates)
+        
         df_dates = pd.concat([df_dates.drop(columns=['date'].copy()), df_dates['date'].str.split(n=2, expand=True)], axis= 1)
+        
         if 1 in df_dates.columns:
             df_dates.rename(columns={0:'date', 1:'estimate'}, inplace=True)
         else:
