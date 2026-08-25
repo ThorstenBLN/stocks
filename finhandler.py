@@ -117,7 +117,7 @@ class Finhandler():
                 count += 1
                 date = tr.find_all('td')
                 dates = dates + [{'isin': isin, 'termine_url':termine_url, 'type':date[0].text.strip(), 'info':date[2].text.strip(), 'date':date[3].text.strip()}]
-            print(isin, count)
+            # print(isin, count)
             return dates
 
     def get_all_dates(self, df):
