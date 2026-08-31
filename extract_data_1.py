@@ -94,8 +94,8 @@ def main():
     DATA_PC = 0.45
     end = int(df_base.shape[0] * DATA_PC)
     for row in df_base.iloc[:end].itertuples():
-        if row.Index % 100 == 0:
-            print(row.Index, row.symbol)
+        # if row.Index % 100 == 0:
+        print(row.Index, row.symbol)
         qrt_date = df_dates_qrt_rel.loc[df_dates_qrt_rel['isin'] == row.isin]['date']
         jv_date = df_dates_jv_rel.loc[df_dates_jv_rel['isin'] == row.isin]['date']
         data.append(f.get_levermann_data(row, df_index_hist, df_index_prices, DATES, qrt_date, jv_date))
