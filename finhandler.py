@@ -107,7 +107,7 @@ class Finhandler():
             print("error 1: no tabel")
             return [{'isin': isin, 'termine_url':termine_url, 'type':np.nan, 'info':np.nan, 'date':np.nan}]
         if "keine" in dates_table.text.lower().strip():
-            print("error 2: no dates")
+            print(f"error 2: {isin} no dates")
             return [{'isin': isin, 'termine_url':termine_url, 'type':np.nan, 'info':np.nan, 'date':np.nan}]
         else:
             count = 0
