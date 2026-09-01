@@ -64,7 +64,7 @@ def get_levermann_data(row, df_dax_hist, df_dax_prices, dates, qrt_date, jv_date
     for key in FIELDS:
         result_temp[key] = np.nan
     # get stock data
-    dat = yf.Ticker(row.symbol)
+    dat = yf.Ticker(str(row.symbol)) # as there can be a symbol 'NA' which will be converted as np.nan
     # try to get the historic data for 2 years. if not available take max timeframe
     try:
         df_hist = dat.history(period="2y").reset_index()
