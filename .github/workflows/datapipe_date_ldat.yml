@@ -3,7 +3,7 @@ name: data-pipeline-dates-ldat
 on:
   workflow_dispatch:
   schedule:
-    - cron: 0 0 1 12 * # 45 21 * * 0,1,2,3,4 # sunday - thursday 23:45 (approx 8:45h)
+    - cron: 45 21 * * 0,1,2,3,4  # 45 21 * * 0,1,2,3,4 # sunday - thursday 23:45 (approx 8:45h) - never 0 0 1 12 * 
 
 jobs:
   run-dates-data_1:
